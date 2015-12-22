@@ -2,6 +2,7 @@
 /*
  * To include all required files.
  */
+require_once '../_includes/config.php';
 require_once '../_includes/basic.php';
 require_once '../_includes/db.php';
 require_once '../_includes/security.php';
