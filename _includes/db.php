@@ -205,8 +205,9 @@ class Db{
 	static function create_sql_delete($table,$whereData,$condition_concat="AND"){
 		$sql="DELETE FROM `$table` ";
 		if (is_array($whereData) && !empty($whereData)){
+			$sql.="WHERE ";
 			foreach ($whereData as $where=>$value){
-				$sql.="$where ";
+				$sql.="`$where` ";
 				
 				if (is_array($value)){
 					$sql.="IN('".implode("','", $value)."') ";
