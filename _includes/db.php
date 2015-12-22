@@ -177,6 +177,29 @@ class Db{
 		
 		return $sql;
 	}
+	/*
+	 * Function to make multiple insertion/Updation at once.
+	 * @data
+	 * 	array with multiple values in form of associative data example
+	 *  data=array(
+	 *    array(
+	 *    	col1=>val,
+	 *    	col=>val
+	 *    ),
+	 *    array(
+	 *    	col1=>val,
+	 *    	col=>val
+	 *    ),
+	 *    array(
+	 *    	col1=>val,
+	 *    	col=>val
+	 *    ),
+	 *    array(
+	 *    	col1=>val,
+	 *    	col=>val
+	 *    )
+	 *  )
+	 */
 	static function create_sql_insert_multiple($table,$data,$update_existing=null,$db=NULL){
 		$sql="INSERT INTO `$table` ";
 		$sql.=" (`".implode("`, `", array_keys($data[0]))."`) VALUES ";//Geting Columns Name from first array.
@@ -184,7 +207,7 @@ class Db{
 
 			if (!empty($db)){
 				foreach ($row as $key=>$values){
-					$row[$key]=$db->escape($row[$key]);
+					$row[$key]=$db->escape($row[$key]);//escaping values.
 				}
 			}
 			
