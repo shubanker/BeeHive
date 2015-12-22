@@ -60,6 +60,9 @@ class Db{
 		return $data;
 	}
 	static function remove_last_symbol($str,$length_lim=1){
+		if (!is_numeric($length_lim)){
+			$length_lim=strlen($length_lim);
+		}
 		$str=trim($str);
 		return substr($str, 0,strlen($str)-$length_lim)." ";
 	}
@@ -198,6 +201,26 @@ class Db{
 		}
 		
 		return "$sql;";
+	}
+	static function create_sql_delete($table,$whereData,$condition_concat="AND"){
+		$sql="DELETE FROM `$table` ";
+		if (is_array($whereData) && !empty($whereData)){
+			foreach ($whereData as $where=>$value){
+				$sql.="$where ";
+				
+				if (is_array($value)){
+					$sql.="IN('".implode("','", $value)."') ";
+				}else {
+					$sql.="='$value' ";
+				}
+				
+				$sql.="$condition_concat ";
+			}
+			$sql=self::remove_last_symbol($sql,"$condition_concat ");
+		}else {
+			$sql.=$whereData;
+		}
+		return $sql;
 	}
 	function last_insert_id(){
 		return $this->db->insert_id;
