@@ -57,6 +57,12 @@ class User extends Struct{
 	function set_last_name($last_name){
 		$this->set("last_name", $last_name);
 	}
+	function set_email($email){
+		$this->set("email", $email);
+	}
+	function get_email(){
+		return $this->get("email");
+	}
 	function set_password($password){
 		$this->set("password", password::create_password($password));
 	}
