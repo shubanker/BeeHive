@@ -47,6 +47,9 @@ class Db{
 		}
 		return $this->fetch($this->query($sql));
 	}
+	static function qnfetch($sql,$db){
+		return $db->fetch($db->query($sql));
+	}
 	/*
 	 * To fetch a data in form of array with multiple rows.
 	 */
