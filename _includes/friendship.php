@@ -111,4 +111,23 @@ class Friendship{
 		),null,$db);
 		return $db->query($sql)?$db->last_insert_id():false;
 	}
+	/*
+	 * A friendreq is genuine if user_one sends req to uer_two and its status is 2
+	 */
+	static function accept_request($user_one,$user_two,$db){
+		$sql=Db::create_update_sql($db, 'friends', array(
+				"status"=>2
+		), array(
+				"user_one"=>$user_one,
+				"user_two"=>$user_two,
+				"status"=>1
+		),true);
+		return $db->query($sql)?$db->affected_rows():false;
+	}
+	static function unfriend($user_one,$user_two,$db){
+		$sql=Db::create_sql_delete('friends', "((`user_one`='$user_two' AND `user_two`='$user_one') OR 
+				(`user_one`='$user_one' AND `user_two`='$user_two')) AND status=2");
+		return $db->query($sql)?$db->affected_rows():false;
+	}
+	
 }
