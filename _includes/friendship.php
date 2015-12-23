@@ -19,6 +19,8 @@
  */
 class Friendship{
 	
+	private static $table="friends";
+	
 	static function get_friend_ids($user_id,$db){
 		$sql="SELECT
 		CASE
@@ -42,7 +44,7 @@ class Friendship{
 		return Db::fetch_array($db, $sql);
 	}
 	static function get_friend_count($user_id,$db){
-		echo $sql=Db::create_sql("count(*)count", 'friends',"(`user_one`='$user_id' OR `user_two`='$user_id') AND status=2");
+		echo $sql=Db::create_sql("count(*)count", self::$table,"(`user_one`='$user_id' OR `user_two`='$user_id') AND status=2");
 		return Db::qnfetch($sql, $db)['count'];
 	}
 	static function get_mutuals($user_one,$user_two,$db){
@@ -77,14 +79,14 @@ class Friendship{
 		 * 
 		 * Todo:check if both user exist's in first place, a security feature left because no one cares.
 		 */
-		$sql=Db::create_sql('count(*)count', array('friends'),
+		$sql=Db::create_sql('count(*)count', array(self::$table),
 				"((`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')) AND status>0"
 				);
 		if (Db::qnfetch($sql, $db)['count']>0){
 			return false;//Friendship can not be sent because either both are already friends or user is blocked.
 		}
-		$sql=Db::create_sql_insert('friends', array(
+		$sql=Db::create_sql_insert(self::$table, array(
 				"user_one"=>$user_one,
 				"user_two"=>$user_two,
 				"status"=>1,
@@ -114,13 +116,13 @@ class Friendship{
 	 * so instead of checking existance of any just remove all relations and add a blocked one.
 	 */
 	static function block($user_one,$user_two,$db){
-		$sql=Db::create_sql_delete('friends', "(`user_one`='$user_two' AND `user_two`='$user_one') OR 
+		$sql=Db::create_sql_delete(self::$table, "(`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')");
 		$sql.=";";
 		if (!$db->query($sql)){
 			return false;
 		}
-		$sql=Db::create_sql_insert('friends', array(
+		$sql=Db::create_sql_insert(self::$table, array(
 				"user_one"=>$user_one,
 				"user_two"=>$user_two,
 				"status"=>3,
@@ -128,12 +130,21 @@ class Friendship{
 		return $db->query($sql)?$db->affected_rows():false;
 	}
 	static function unblock($user_one,$user_two,$db){
-		$sql=DB::create_sql_delete('friends', array(
+		$sql=DB::create_sql_delete(self::$table, array(
 				"user_one"=>$user_one,
 				"user_two"=>$user_two,
 				"status"=>3,
 		));
 		return $db->query($sql)?$db->affected_rows():false;
 	}
-	
+	static function get_relation($user_one,$user_two,$db){
+		$sql=Db::create_sql('status', self::$table,"(`user_one`='$user_two' AND `user_two`='$user_one') OR 
+				(`user_one`='$user_one' AND `user_two`='$user_two')");
+		$result= $db->qnfetch($sql, $db);
+		
+		return empty($result)?0:$result['status'];
+	}
+	static function is_friend($user_one,$user_two,$db){
+		return self::get_relation($user_one, $user_two, $db)==2;
+	}
 }
