@@ -19,26 +19,6 @@
  */
 class Friendship{
 	
-	private $user_id;
-	private $friend_list;
-	
-	function __construct($user_id=null,$db=null){
-		if ($user_id!=null){
-			$this->user_id=$user_id;
-		}
-		if($user_id!=null&&$db!=null){
-			
-		}
-	}
-	function initialise_by_userid($user_id,$db){
-		$sql="SELECT 
-				CASE 
-				WHEN `user_one` = '$user_id' THEN `user_two`
-				ELSE `user_one`
-				END AS FRIENDS,status
-				FROM `friends` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') AND status=2 ;";
-		$data=Db::fetch_array($db, $sql);
-	}
 	static function get_friend_ids($user_id,$db){
 		$sql="SELECT
 		CASE
