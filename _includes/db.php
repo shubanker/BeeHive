@@ -85,10 +85,13 @@ class Db{
 	 * ]
 	 * 
 	 * @$pk
-	 * primer key or constant variable which can be refered in wheare claus,
+	 * primary key or constant variable which can be refered in where claus,
 	 * value of pk must be included in $data.
+	 * 
+	 * @$modify_pk
+	 * to overwrite previous ruls thus allowing to update any row.
 	 */
-	static function create_update_sql($db,$table,$data,$pk){
+	static function create_update_sql($db,$table,$data,$pk,$modify_pk=FALSE){
 		if (!is_array($pk) && !isset($data[$pk])){
 			return false;
 		}
@@ -98,13 +101,12 @@ class Db{
 		$pkkeys=array_keys($pk);
 		$sql="UPDATE `{$table}` SET ";
 		foreach ($data as $key=>$val){
-			$val=$db->escape($val);
-			if (!in_array($key, $pkkeys)){
+			if ($modify_pk || !in_array($key, $pkkeys)){
+				$val=$db->escape($val);
 				$sql.="`$key`='{$val}',";
 			}
 		}
 		$sql=self::remove_last_symbol($sql);
-		
 		$condition="";
 		foreach ($pk as $key=>$val){
 			if (!empty($db)){
@@ -230,8 +232,10 @@ class Db{
 	}
 	static function create_sql_delete($table,$whereData,$condition_concat="AND"){
 		$sql="DELETE FROM `$table` ";
-		if (is_array($whereData) && !empty($whereData)){
+		if (!empty($whereData)){
 			$sql.="WHERE ";
+		}
+		if (is_array($whereData) && !empty($whereData)){
 			foreach ($whereData as $where=>$value){
 				$sql.="`$where` ";
 				
@@ -251,6 +255,9 @@ class Db{
 	}
 	function last_insert_id(){
 		return $this->db->insert_id;
+	}
+	function affected_rows(){
+		return $this->db->affected_rows;
 	}
 	function dberror(){
 // 		if(isLocal()){
