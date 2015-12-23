@@ -129,5 +129,31 @@ class Friendship{
 				(`user_one`='$user_one' AND `user_two`='$user_two')) AND status=2");
 		return $db->query($sql)?$db->affected_rows():false;
 	}
+	/*
+	 * Since once a user blocks all existing relations between them is over.
+	 * so instead of checking existance of any just remove all relations and add a blocked one.
+	 */
+	static function block($user_one,$user_two,$db){
+		$sql=Db::create_sql_delete('friends', "(`user_one`='$user_two' AND `user_two`='$user_one') OR 
+				(`user_one`='$user_one' AND `user_two`='$user_two')");
+		$sql.=";";
+		if (!$db->query($sql)){
+			return false;
+		}
+		$sql=Db::create_sql_insert('friends', array(
+				"user_one"=>$user_one,
+				"user_two"=>$user_two,
+				"status"=>3,
+		),null,$db);
+		return $db->query($sql)?$db->affected_rows():false;
+	}
+	static function unblock($user_one,$user_two,$db){
+		$sql=DB::create_sql_delete('friends', array(
+				"user_one"=>$user_one,
+				"user_two"=>$user_two,
+				"status"=>3,
+		));
+		return $db->query($sql)?$db->affected_rows():false;
+	}
 	
 }
