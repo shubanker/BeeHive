@@ -161,7 +161,7 @@ class Db{
 		if (!empty($limit)){
 			$sql.="LIMIT $limit ";
 		}
-		return "$sql;";
+		return "$sql";
 	}
 	/*
 	 * $pk here is the auto increment integer value
