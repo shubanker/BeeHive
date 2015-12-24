@@ -32,6 +32,9 @@ class Message{
 	 * then latest messages of them
 	 */
 	static function get_recent_message_list($user_id,$db,$start=0,$no_of_results=10){
+		
+		$start=is_numeric($start)?$start:0;
+		$no_of_results=is_numeric($no_of_results)?$no_of_results:10;
 		/*
 		$inner_sql="SELECT DISTINCT CASE
 			WHEN `user_one` = '$user_id' THEN `user_two`
@@ -94,5 +97,30 @@ class Message{
 	}
 	static function mark_read($message_id,$db){
 		return self::set_status($message_id, 3, $db);
+	}
+	/*
+	 * Get all the messages between 2 users.
+	 * @user_one-logged in user
+	 * user_two-his friend
+	 * start,no_of_results-for navigation
+	 * 
+	 * @after-for getting new messages useful for ajax.
+	 */
+	static function get_messages($user_one,$user_two,$db,$start=NULL,$no_of_results=NULL,$after=NULL){
+		
+		$start=is_numeric($start)?$start:0;
+		$no_of_results=is_numeric($no_of_results)?$no_of_results:10;
+		
+		if (is_numeric($after)){
+			$after=" AND `message_id`>$after ";
+		}
+		
+		echo $sql=Db::create_sql('*', self::$table,"
+				((`user_one`='$user_two' AND `user_two`='$user_one') OR 
+				(`user_one`='$user_one' AND `user_two`='$user_two')) $after",
+				"`message_id` DESC",
+				null,
+				"$start,$no_of_results");
+		return Db::fetch_array($db, $sql);
 	}
 }
