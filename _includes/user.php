@@ -1,6 +1,13 @@
 <?php
-/*
+/**
  * This Class Handles basic details of user.
+ * 
+ * @status
+ * 1-active
+ * 2-deactivated.
+ * 
+ * Caution:A user table is a parent table So do not try to delete any existing user(You wont be able to)
+ * rather deactivate him.
  */
 class User extends Struct{
 	
@@ -86,5 +93,11 @@ class User extends Struct{
 	}
 	function get_status(){
 		return $this->get("status");
+	}
+	function activate_user(){
+		$this->set_status(1);
+	}
+	function deactivate_user(){
+		$this->set_status(2);
 	}
 }
