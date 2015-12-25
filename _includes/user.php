@@ -27,14 +27,7 @@ class User extends Struct{
 				"dob",
 				"status"
 		);
-		if (!empty($user_id) && !empty($db)){
-			$this->initialise_by_id($user_id,$db);
-			
-		}else {
-			foreach ($this->fields as $field){
-				$this->data[$field]=null;//Seting default value to null for all fields.
-			}
-		}
+		$this->initialise_by_id($user_id,$db);
 	}
 	function initialise_by_email($db,$email){
 		$semail=$db->escape($email);

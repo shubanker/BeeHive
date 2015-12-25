@@ -26,7 +26,14 @@ class Struct{
 	 */
 	protected  $pk;
 	
-	protected function initialise_by_id($id,$db){
+	protected function initialise_by_id($id=null,$db=null){
+		
+		// If $id or $db is empty Seting default value to null for all fields.
+		if (empty($id)||empty($db)){
+			foreach ($this->fields as $field){
+				$this->data[$field]=null;
+			}
+		}
 		/*
 		 * Populate fields from db in $data
 		 * 
