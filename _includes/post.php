@@ -6,6 +6,12 @@
  * 1-public
  * 2-friends only
  * 3-only Me
+ * 
+ * @status
+ * 1-active
+ * 0-deleted
+ * Note: Do not detele a post(you can't directly) as its a parent 
+ * rather mark it deleted.
  */
 class Post extends Struct{
 	
@@ -99,7 +105,7 @@ class Post extends Struct{
 				"user_id"=>$user_id,
 				"post_id"=>$post_id,
 				"type"=>$type));
-		$db->query($sql);
+		return $db->query($sql);
 	}
 	static function unlike_post($user_id,$post_id,$db){
 		return self::unlike($user_id, $post_id, 1, $db);
@@ -143,4 +149,50 @@ class Post extends Struct{
 		return self::get_likers($comment_id, 2, $db);
 	}
 	
+	static function add_comment($user_id,$post_id,$comment,$db){
+		$sql=Db::create_sql_insert('comments', array(
+				"user_id"=>$user_id,
+				"post_id"=>$post_id,
+				"comment"=>$comment,
+				"status"=>1
+		),null,$db);
+		return $db->query($sql)?$db->last_insert_id():false;
+	}
+	static function remove_comment($comment_id,$db){
+		$sql=Db::create_sql_delete('comments', array(
+				"comment_id"=>$comment_id
+		));
+		return $db->query($sql)?$db->affected_rows():false;
+	}
+	static function get_comment($comment_id,$db){
+		$scomment_id=$spost_id=$db->escape($comment_id);
+		$sql=Db::create_sql('*', 'comments',"`comment_id`='$scomment_id'");
+	}
+	static function edit_comment($comment_id,$new_comment,$db){
+		$sql=Db::create_update_sql($db, 'comments', array(
+				"comment_id"=>$comment_id,
+				"comment"=>$new_comment
+		), "comment_id");
+		return $db->query($sql)?$db->affected_rows():false;
+	}
+	static function get_post_comments($post_id,$db){
+		$spost_id=$db->escape($post_id);
+		
+		$sql=Db::create_sql(array(
+				"first_name",
+				"last_name",
+				"users.user_id",
+				"comment_id",
+				"comment",
+				"time"
+		), array(
+				"users",
+				"comments"
+		),
+				"`post_id`='$spost_id' AND
+				`users`.`user_id`=`comments`.`user_id` AND
+				`comments`.`status`=1",
+				"`comment_id` DESC");
+		return Db::fetch_array($db, $sql);
+	}
 }

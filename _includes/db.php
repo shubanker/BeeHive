@@ -157,7 +157,7 @@ class Db{
 		}else {
 			$sql.=$whereData;
 		}
-		return $sql;
+		return "$sql ";
 	}
 	static function create_sql($rows,$from,$where=null,$orderby=null,$groupby=null,$limit=null,$distinct=false){
 		
@@ -202,7 +202,8 @@ class Db{
 		$sql.=" (`".implode("`, `", array_keys($data))."`) \n";
 		$sql2= " VALUES ('".implode("', '", $data)."'); ";
 		
-		$sql2=str_replace("''", "null", $sql2);
+// 		$sql2=str_replace(",''", ",null", $sql2);
+		$sql2=preg_replace('/([^\\\\])\'\'/i', '\1null', $sql2); //replacing '' values to null.
 		
 		return $sql.$sql2;
 	}
