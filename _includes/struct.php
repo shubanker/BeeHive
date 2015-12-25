@@ -33,6 +33,7 @@ class Struct{
 			foreach ($this->fields as $field){
 				$this->data[$field]=null;
 			}
+			return false;
 		}
 		/*
 		 * Populate fields from db in $data
@@ -44,7 +45,7 @@ class Struct{
 			$this->data[$field]=$result[$field];
 		}
 		$this->data[$this->pk]=(int)$this->data[$this->pk];
-		$this->is_init=true;
+		return $this->is_init=true;
 	}
 	function set($key,$value){
 		if (in_array($key, $this->fields)){
@@ -66,9 +67,13 @@ class Struct{
 		Db::update($db, $this->table, $this->data, $this->pk);
 	}
 	function create($db){
-		$sql=Db::create_sql_insert($this->table, $this->data,$this->pk);
+		$sql=Db::create_sql_insert($this->table, $this->data,$this->pk,$db);
 		if ($db->query($sql)){
 			return $this->data[$this->pk]=$db->last_insert_id();
 		}else return false;
+	}
+	function delete($db){
+		$sql=Db::create_sql_delete($this->table, "`$this->pk`='{$this->data[$this->pk]}'");
+		return $db->query($sql);
 	}
 }

@@ -12,4 +12,5 @@ require_once '../_includes/auth.php';
 require_once '../_includes/cookie.php';
 require_once '../_includes/friendship.php';
 require_once '../_includes/message.php';
+require_once '../_includes/post.php';
 // require_once '../_includes/basic.php';

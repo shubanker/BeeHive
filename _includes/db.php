@@ -178,9 +178,11 @@ class Db{
 		
 		$sql="INSERT INTO `$table` ";
 		$sql.=" (`".implode("`, `", array_keys($data))."`) \n";
-		$sql .= " VALUES ('".implode("', '", $data)."'); ";
+		$sql2= " VALUES ('".implode("', '", $data)."'); ";
 		
-		return $sql;
+		$sql2=str_replace("''", "null", $sql2);
+		
+		return $sql.$sql2;
 	}
 	/*
 	 * Function to make multiple insertion/Updation at once.
