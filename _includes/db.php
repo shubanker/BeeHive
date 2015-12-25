@@ -135,6 +135,30 @@ class Db{
 		}
 		return $arr;
 	}
+	private static function where_to_str($whereData,$condition_concat="AND"){
+		$sql="";
+		if (!empty($whereData)){
+			$sql="WHERE ";
+		}
+		if (is_array($whereData) && !empty($whereData)){
+			foreach ($whereData as $where=>$value){
+				$sql.="`$where` ";
+		
+				if (is_array($value)){
+					$sql1="IN('".implode("','", $value)."') ";
+					$sql.=str_replace(".", "`.`", $sql1);
+				}else {
+					$sql.="='$value' ";
+				}
+		
+				$sql.="$condition_concat ";
+			}
+			$sql=self::remove_last_symbol($sql,"$condition_concat ");
+		}else {
+			$sql.=$whereData;
+		}
+		return $sql;
+	}
 	static function create_sql($rows,$from,$where=null,$orderby=null,$groupby=null,$limit=null,$distinct=false){
 		
 		$rows=self::array_to_str($rows);
@@ -144,9 +168,7 @@ class Db{
 		
 		$sql="SELECT $distinct_text $rows FROM $from ";
 		
-		if (!empty($where)){
-			$sql.="WHERE $where ";
-		}
+		$sql.=self::where_to_str($where);
 		
 		if (!empty($groupby)){
 			$groupby=self::array_to_str($groupby);
@@ -234,25 +256,8 @@ class Db{
 	}
 	static function create_sql_delete($table,$whereData,$condition_concat="AND"){
 		$sql="DELETE FROM `$table` ";
-		if (!empty($whereData)){
-			$sql.="WHERE ";
-		}
-		if (is_array($whereData) && !empty($whereData)){
-			foreach ($whereData as $where=>$value){
-				$sql.="`$where` ";
-				
-				if (is_array($value)){
-					$sql.="IN('".implode("','", $value)."') ";
-				}else {
-					$sql.="='$value' ";
-				}
-				
-				$sql.="$condition_concat ";
-			}
-			$sql=self::remove_last_symbol($sql,"$condition_concat ");
-		}else {
-			$sql.=$whereData;
-		}
+		
+		$sql.=self::where_to_str($where_data,$condition_concat);
 		return $sql;
 	}
 	function last_insert_id(){
