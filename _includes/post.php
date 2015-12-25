@@ -75,8 +75,72 @@ class Post extends Struct{
 	function set_status($status){
 		return $this->set('status', $status);
 	}
-	static function get_posts($user_id,$access_level){
-		
+	/*
+	 * @type
+	 * 1-post
+	 * 2-comment
+	 */
+	private static function like($user_id,$post_id,$type,$db){
+		$sql=Db::create_sql_insert('likes', array(
+				"user_id"=>$user_id,
+				"post_id"=>$post_id,
+				"type"=>$type
+		),null,$db);
+		return $db->query($sql);
+	}
+	static function like_post($user_id,$post_id,$db){
+		return self::like($user_id, $post_id, 1, $db);
+	}
+	static function like_comment($user_id,$comment_id,$db){
+		return self::like($user_id, $comment_id, 2, $db);
+	}
+	private static function unlike($user_id,$post_id,$type,$db){
+		$sql=Db::create_sql_delete('likes', array(
+				"user_id"=>$user_id,
+				"post_id"=>$post_id,
+				"type"=>$type));
+		$db->query($sql);
+	}
+	static function unlike_post($user_id,$post_id,$db){
+		return self::unlike($user_id, $post_id, 1, $db);
+	}
+	static function unlike_comment($user_id,$comment_id,$db){
+		return self::unlike($user_id, $comment_id, 2, $db);
+	}
+	private static  function count_likes($post_id,$type,$db){
+		$sql=Db::create_sql('count(*)likes', 'likes',array(
+				"post_id"=>$post_id,
+				"type"=>$type
+		));
+		$result=$db->qfetch($sql);
+		return $result['likes'];
+	}
+	static function count_post_likes($post_id,$db){
+		return self::count_likes($post_id, 1, $db);
+	}
+	static function count_comments_likes($comment_id,$db){
+		return self::count_likes($comment_id, 2, $db);
+	}
+	private static function get_likers($post_id,$type,$db){
+		$sql=Db::create_sql(array(
+				'first_name',
+				"last_name",
+				"users.user_id"
+		), array(
+				"users",
+				"likes"
+		),"
+				`post_id`='$post_id' AND 
+				`likes`.`type`='$type' AND
+				`users`.`user_id`=`likes`.`user_id`"
+		);
+		return Db::fetch_array($db, $sql);
+	}
+	static function get_post_likers($post_id,$db){
+		return self::get_likers($post_id, 1, $db);
+	}
+	static function get_comments_likers($comment_id,$db){
+		return self::get_likers($comment_id, 2, $db);
 	}
 	
 }
