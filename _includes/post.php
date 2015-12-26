@@ -196,3 +196,76 @@ class Post extends Struct{
 		return Db::fetch_array($db, $sql);
 	}
 }
+class Feeds{
+	/*
+	 * Function returnds the posts of friends to be displayed in homepage.
+	 */
+	static function get_feeds($user_id,$db,$start=0,$limit=10){
+		// 		$db=new Db($user, $password, $database);
+		$friend_list=Friendship::get_friend_ids($user_id, null);
+		$sql=Db::create_sql(array(
+				"first_name",
+				"last_name",
+				"post_id",
+				"users.user_id",
+				"post_data",
+				"link",
+				"picture_id",
+				"time"
+		), array(
+				"users",
+				"post"
+		),
+				"(
+					(
+						`post`.`user_id` IN($friend_list) AND  				-- For including friends post
+						`post`.`access` < 3
+					) OR
+						`post`.`user_id`='$user_id'  				-- For including own post's
+				) AND
+				`post`.`status`='1' AND
+				`post`.`user_id`=`users`.`user_id`",
+				"`post_id` DESC",
+				null,
+				"$start,$limit"
+		);
+		return Db::fetch_array($db, $sql);
+	
+	}
+	static function get_friends_feeds($user_one,$user_two,$db,$start=0,$limit=10){
+		
+		
+		if ($user_one==$user_two){
+			$access_limit=4; //Checking if the user is viewing his own profile.
+		}else {
+			$relation=Friendship::get_relation($user_one, $user_two, $db);
+			if ($relation==3){
+				return null;//If user is blocked.
+			}
+			$access_limit=$relation==2?3:2;
+		}
+		
+		$sql=Db::create_sql(array(
+				"first_name",
+				"last_name",
+				"post_id",
+				"users.user_id",
+				"post_data",
+				"link",
+				"picture_id",
+				"time"
+		), array(
+				"users",
+				"post"
+		),
+				"`post`.`user_id`='$user_two' AND
+				`post`.`status`='1' AND
+				`post`.`access` < '$access_limit' AND
+				`post`.`user_id`=`users`.`user_id`",
+				"`post_id` DESC",
+				null,
+				"$start,$limit"
+		);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+}
