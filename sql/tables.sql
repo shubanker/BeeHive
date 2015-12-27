@@ -247,6 +247,41 @@ ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_i
 ALTER TABLE `userdata`
 ADD CONSTRAINT `userdata_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE IF NOT EXISTS `notifications` (
+`notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) DEFAULT NULL,
+  `msg` varchar(50) DEFAULT NULL,
+  `type` tinyint(4) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+ ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `post_id` (`post_id`), ADD KEY `user_id_2` (`user_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
