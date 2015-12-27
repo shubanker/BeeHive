@@ -159,6 +159,16 @@ class Db{
 		}
 		return "$sql ";
 	}
+	private static function update_existing($update_existing){
+		$sql="";
+		if (!empty($update_existing)){
+			$sql="ON DUPLICATE KEY UPDATE ";
+			foreach ($update_existing as $to_update){
+				$sql.="$to_update=VALUES($to_update),";
+			}
+		}
+		return self::remove_last_symbol($sql)." ";
+	}
 	static function create_sql($rows,$from,$where=null,$orderby=null,$groupby=null,$limit=null,$distinct=false){
 		
 		$rows=self::array_to_str($rows);
@@ -188,7 +198,7 @@ class Db{
 	/*
 	 * $pk here is the auto increment integer value
 	 */
-	static function create_sql_insert($table,$data,$pk=NULL,$db=NULL){
+	static function create_sql_insert($table,$data,$pk=NULL,$db=NULL,$update_existing=NULL){
 		if (isset($pk)){
 			unset($data[$pk]);//removing any set value for this column.
 		}
@@ -200,12 +210,14 @@ class Db{
 		
 		$sql="INSERT INTO `$table` ";
 		$sql.=" (`".implode("`, `", array_keys($data))."`) \n";
-		$sql2= " VALUES ('".implode("', '", $data)."'); ";
+		$sql2= " VALUES ('".implode("', '", $data)."') ";
 		
 // 		$sql2=str_replace(",''", ",null", $sql2);
 		$sql2=preg_replace('/([^\\\\])\'\'/i', '\1null', $sql2); //replacing '' values to null.
 		
-		return $sql.$sql2;
+		$sql= $sql.$sql2;
+		$sql.=self::update_existing($update_existing);
+		return $sql;
 	}
 	/*
 	 * Function to make multiple insertion/Updation at once.
@@ -245,13 +257,7 @@ class Db{
 		}
 		$sql=self::remove_last_symbol($sql)." ";
 		
-		if (!empty($update_existing)){
-			$sql.="ON DUPLICATE KEY UPDATE ";
-			foreach ($update_existing as $to_update){
-				$sql.="$to_update=VALUES($to_update),";
-			}
-			$sql=self::remove_last_symbol($sql)." ";
-		}
+		$sql.=self::update_existing($update_existing);
 		
 		return "$sql;";
 	}
