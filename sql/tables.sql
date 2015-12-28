@@ -282,6 +282,22 @@ ALTER TABLE `notifications`
 ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
 ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
 
+
+CREATE TRIGGER  add_notification_comment AFTER INSERT ON `comments`
+	FOR EACH ROW
+	INSERT INTO `notifications` (`user_id`,`post_id`,`type`,`status`) VALUES(
+		(SELECT `user_id` from post WHERE post.`post_id`=NEW.`post_id` LIMIT 1),
+		NEW.`post_id`,
+		2,
+		1)  ON DUPLICATE KEY UPDATE status=VALUES(status),time=VALUES(time);
+
+CREATE TRIGGER  add_notification_like AFTER INSERT ON `likes`
+	FOR EACH ROW
+	INSERT INTO `notifications` (`user_id`,`post_id`,`type`,`status`) VALUES(
+		(SELECT `user_id` from post WHERE post.`post_id`=NEW.`post_id` LIMIT 1),
+		NEW.`post_id`,
+		1,
+		1)  ON DUPLICATE KEY UPDATE status=VALUES(status),time=VALUES(time);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
