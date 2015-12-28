@@ -14,7 +14,7 @@
 class Notifications{
 	private static $table="notifications";
 	
-	static function add_notofication($user_id,$post_id,$type,$msg=null,$db=NULL){
+	static function add_notification($user_id,$post_id,$type,$msg=null,$db=NULL){
 		$sql=Db::create_sql_insert(self::$table, array(
 				"user_id"=>$user_id,
 				"post_id"=>$post_id,
@@ -42,7 +42,26 @@ class Notifications{
 	}
 	static function get_notification_count($user_id,$db=null){
 		$sql= Db::create_sql('count(`notification_id`)', self::$table,
-				"`user_id`='$user_id'");
+				"`user_id`='$user_id' AND status=1");
 		return empty($db)?$sql:(is_numeric($user_id)?Db::qnfetch($sql, $db):false);
+	}
+	/*
+	 * @status
+	 * 0-read
+	 * 1-unread
+	 * null-all
+	 */
+	static function get_notifications($user_id,$status=NULL,$db=NULL){
+		$status_condition = $status===0||$status===1?"AND `status`='$status'":"";
+		$sql="SELECT
+		`notification_id`,
+				CASE 
+				WHEN `msg` IS NOT NULL THEN msg
+				WHEN `type`=1 THEN concat((SELECT count(user_id) from `likes` WHERE `post_id`=post_id AND `type`=1 AND `user_id`!='$user_id'),' peoples Liked your post')
+				WHEN `type`=2 THEN concat((SELECT count(*) from (SELECT DISTINCT `user_id` FROM `comments` WHERE `post_id`=post_id AND `user_id`!='$user_id') AS commenters),' peoples Commented on your post')
+				END AS message
+				FROM
+				`notifications` WHERE user_id='$user_id' $status_condition";
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }
