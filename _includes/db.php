@@ -33,6 +33,9 @@ class Db{
 		}
 		return $this->db->query($sql);
 	}
+	static function queryy($sql,$db){
+		return $db->query($sql);
+	}
 	
 	static function fetch($result){
 		return mysqli_fetch_assoc($result);
@@ -102,7 +105,9 @@ class Db{
 		$sql="UPDATE `{$table}` SET ";
 		foreach ($data as $key=>$val){
 			if ($modify_pk || !in_array($key, $pkkeys)){
-				$val=$db->escape($val);
+				if (!empty($db)){
+					$val=$db->escape($val);
+				}
 				$sql.="`$key`='{$val}',";
 			}
 		}
@@ -272,6 +277,12 @@ class Db{
 	}
 	function affected_rows(){
 		return $this->db->affected_rows;
+	}
+	static function last_inserted_id($db){
+		return $db->last_insert_id();
+	}
+	static function rows_affected($db){
+		return $db->affected_rows();
 	}
 	function dberror(){
 // 		if(isLocal()){
