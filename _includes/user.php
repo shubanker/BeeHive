@@ -94,3 +94,57 @@ class User extends Struct{
 		$this->set_status(2);
 	}
 }
+class UserData{
+	private static  $table="userdata";
+	static function add_data($user_id,$type,$data,$db){
+		$sql=Db::create_sql_insert(self::$table, array(
+				"user_id"=>$user_id,
+				"type"=>$type,
+				"data"=>$data
+		),null,$db);
+		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::last_inserted_id($db):false);
+	}
+	static function get_user_data($user_id,$type,$db){
+		$where=array(
+						"user_id"=>$user_id,
+						"status"=>1
+				);
+		if ($type!=null){
+			$where["type"]=$type;
+		}
+		$sql=Db::create_sql(array(
+				"data_id",
+				"type",
+				"data"
+		), self::$table,
+				$where);
+		return empty($db)?$sql:db::fetch_array($db, $sql);
+	}
+	static function get_all_data($user_id,$db){
+		return self::get_user_data($user_id, null, $db);
+	}
+	static function edit_data($data_id,$type,$data,$db,$status=NULL){
+		$update_data=array();
+		if (!empty($type)){
+			$update_data['type']=$type;
+		}
+		if (!empty($data)){
+			$update_data['data']=$data;
+		}
+		if ($status===0 || $status===1){
+			$update_data['status']=$status;
+		}
+		if (empty($update_data)){
+			return false;
+		}
+		$update_data['data_id']=$data_id;
+		$sql=Db::create_update_sql($db, self::$table,$update_data , "data_id");
+		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::rows_affected($db):false);
+	}
+	static function remove_data($data_id,$db){
+		return self::edit_data($data_id, null, null, $db,0);
+	}
+	static function re_activate_data($data_id,$db){
+		return self::edit_data($data_id, null, null, $db,1);
+	}
+}
