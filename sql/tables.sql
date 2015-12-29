@@ -225,8 +225,7 @@ ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`user_two`) REFERENCES `users` (`us
 -- Constraints for table `likes`
 --
 ALTER TABLE `likes`
-ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `messages`
@@ -330,6 +329,49 @@ CREATE TRIGGER  add_notification_like AFTER INSERT ON `likes`
 				1,
 				1)  ON DUPLICATE KEY UPDATE status=VALUES(status),time=VALUES(time);
 			END IF;
+		END IF;
+	END
+DROP TRIGGER IF EXISTS remove_notification_comment; 
+DELIMITER //
+CREATE TRIGGER  remove_notification_comment AFTER DELETE ON `comments`
+	FOR EACH ROW
+	BEGIN
+		DECLARE commenters_count INT DEFAULT 0;
+		DECLARE ui INT DEFAULT 0;
+		DELETE FROM `likes` WHERE post_id=OLD.`post_id` AND type=2; -- Removing likes which was on deleted comment ..
+
+		SET ui=(SELECT `user_id` from post WHERE post.`post_id`=OLD.`post_id` LIMIT 1);
+
+		SET commenters_count = (SELECT count(`comments`.`user_id`) from `comments` WHERE 
+			`comments`.`post_id` = OLD.`post_id` AND 
+			`comments`.`status`=1 AND 
+			`comments`.`user_id`!=ui
+			);
+		IF(commenters_count = 0) THEN
+		DELETE FROM `notifications` WHERE post_id=OLD.`post_id` AND
+		user_id = ui AND 
+		type=2;
+		END IF;
+	END
+
+DROP TRIGGER IF EXISTS remove_notification_likes; 
+DELIMITER //
+CREATE TRIGGER  remove_notification_likes AFTER DELETE ON `likes`
+	FOR EACH ROW
+	BEGIN
+		DECLARE likes_count INT DEFAULT 0;
+		DECLARE ui INT DEFAULT 0;
+		SET ui=(SELECT `user_id` from post WHERE post.`post_id`=OLD.`post_id` LIMIT 1);
+
+		SET likes_count = (SELECT count(`likes`.`user_id`) from `likes` WHERE 
+			`likes`.`post_id` = OLD.`post_id` AND 
+			`likes`.`type`=1 AND 
+			`likes`.`user_id`!=ui
+			);
+		IF(likes_count = 0) THEN
+		DELETE FROM `notifications` WHERE post_id=OLD.`post_id` AND
+		user_id = ui AND 
+		type=1;
 		END IF;
 	END
 
