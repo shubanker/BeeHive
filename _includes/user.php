@@ -93,6 +93,22 @@ class User extends Struct{
 	function deactivate_user(){
 		$this->set_status(2);
 	}
+	static function search_users_by_name($name,$db,$start=0,$limit=10){
+		$name=strtolower($name);
+		$sql=Db::create_sql(array(
+				"user_id",
+				"first_name",
+				"last_name"
+		), 
+				'users',
+				"lower(concat(`first_name`,`last_name`)) LIKE '%$name%' AND
+				status=1",
+				null,null,
+				"$start,$limit");
+		
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+	
 }
 class UserData{
 	private static  $table="userdata";
