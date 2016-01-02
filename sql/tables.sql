@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2016 at 11:49 AM
+-- Generation Time: Jan 02, 2016 at 03:34 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
 `album_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
+  `cover_picture` int(11) DEFAULT NULL,
   `access` tinyint(4) NOT NULL DEFAULT '1',
   `status` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -270,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Indexes for table `albums`
 --
 ALTER TABLE `albums`
- ADD PRIMARY KEY (`album_id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`album_id`), ADD KEY `user_id` (`user_id`), ADD KEY `cover_picture` (`cover_picture`);
 
 --
 -- Indexes for table `comments`
@@ -383,7 +384,8 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 -- Constraints for table `albums`
 --
 ALTER TABLE `albums`
-ADD CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+ADD CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+ADD CONSTRAINT `albums_ibfk_2` FOREIGN KEY (`cover_picture`) REFERENCES `images` (`image_id`);
 
 --
 -- Constraints for table `comments`
