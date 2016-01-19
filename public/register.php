@@ -21,7 +21,8 @@ if (!isset($_SESSION['show_over'])){
 	closendie();
 }
 if (!empty($_POST)){
-	
+	print_r($_POST);
+	die();
 	$db=new Db(DBUSER, DBPASSWORD, DATABASE);
 	if (!$db->isinit()){
 		closendie("<h1>Database Error</h1>");
@@ -45,6 +46,6 @@ if (!empty($_POST)){
 	}
 }
 
-include 'reg.html';
+include 'reg.php';
 
 ?>

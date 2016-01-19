@@ -5,9 +5,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
 		<title>Fullscreen Form Interface</title>
-		<meta name="description" content="Fullscreen Form Interface: A distraction-free form concept with fancy animations" />
-		<meta name="keywords" content="fullscreen form, css animations, distraction-free, web design" />
-		<meta name="author" content="Codrops" />
+		<meta name="description" content="Registration Page for Beehive." />
+		<meta name="keywords" content="Beehive registration" />
+		<meta name="author" content="Shubanker" />
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="_css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="_css/reg.css" />
@@ -24,15 +24,15 @@
 					<ol class="fs-fields">
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
-							<input class="fs-anim-lower" id="q1" name="name" type="text" placeholder="Sherlock Holmes" required autofocus value="" />
+							<input class="fs-anim-lower" id="q1" name="name" type="text" placeholder="Sherlock Holmes" required autofocus value="<?=isset($_POST['name'])?$_POST['name']:"" ?>" />
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't send you spam, we promise...">What's your email address?</label>
-							<input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="emaiple@example.com" required value="" />
+							<input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="emaiple@example.com" required value="<?=isset($_POST['email'])?$_POST['email']:"" ?>" />
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q2" data-info="Set A strong password...">Set a Password for your account!</label>
-							<input class="fs-anim-lower" id="q2" name="q2" type="password" placeholder="password" required value="" />
+							<input class="fs-anim-lower" id="q2" name="password" type="password" placeholder="password" required value="" />
 						</li>
 						
 						<li data-input-trigger>
@@ -44,7 +44,7 @@
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q5" data-info="This will help us serve you approperiate content" >Tell us When you were Born?</label>
-							<input class="fs-anim-lower" id="q5" name="dob" type="date" placeholder="YYYY-MM-DD"/>
+							<input class="fs-anim-lower" id="q5" name="dob" type="date" placeholder="YYYY-MM-DD" value="<?=isset($_POST['date'])?$_POST['date']:"" ?>"/>
 						</li>
 					</ol><!-- /fs-fields -->
 					<button class="fs-submit" type="submit">Create Account</button>
@@ -70,7 +70,7 @@
 
 				new FForm( formWrap, {
 					onReview : function() {
-						classie.add( document.body, 'overview' ); // for demo purposes only
+						classie.add( document.body, 'overview' );
 					}
 				} );
 			})();
