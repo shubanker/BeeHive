@@ -16,7 +16,7 @@ if (isset($_GET['direct'])){//To escape slideshow.
 }
 //Checking to display show
 if (!isset($_SESSION['show_over'])){
-	include 'slideshow.html';
+	include 'reg-slideshow.html';
 	$_SESSION['show_over']=true;
 	closendie();
 }
@@ -44,4 +44,7 @@ if (!empty($_POST)){
 		}
 	}
 }
+
+include 'reg.html';
+
 ?>

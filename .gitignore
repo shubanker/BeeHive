@@ -2,4 +2,4 @@
 !.gitignore
 sandbox/*.*
 Images/*
-public/html_tests/sandbox/*
+public/html_tests/*
