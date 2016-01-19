@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2016 at 03:34 PM
+-- Generation Time: Jan 19, 2016 at 01:29 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -21,21 +21,6 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `social` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `social`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `albums`
---
-
-CREATE TABLE IF NOT EXISTS `albums` (
-`album_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `cover_picture` int(11) DEFAULT NULL,
-  `access` tinyint(4) NOT NULL DEFAULT '1',
-  `status` tinyint(4) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -113,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `friends` (
 
 CREATE TABLE IF NOT EXISTS `images` (
 `image_id` int(11) NOT NULL,
-  `album_id` int(11) NOT NULL,
   `loc` varchar(100) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -268,12 +252,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 --
--- Indexes for table `albums`
---
-ALTER TABLE `albums`
- ADD PRIMARY KEY (`album_id`), ADD KEY `user_id` (`user_id`), ADD KEY `cover_picture` (`cover_picture`);
-
---
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
@@ -289,7 +267,7 @@ ALTER TABLE `friends`
 -- Indexes for table `images`
 --
 ALTER TABLE `images`
- ADD PRIMARY KEY (`image_id`), ADD KEY `album_id` (`album_id`);
+ ADD PRIMARY KEY (`image_id`);
 
 --
 -- Indexes for table `likes`
@@ -331,11 +309,6 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
---
--- AUTO_INCREMENT for table `albums`
---
-ALTER TABLE `albums`
-MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `comments`
 --
@@ -381,13 +354,6 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 
 --
--- Constraints for table `albums`
---
-ALTER TABLE `albums`
-ADD CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-ADD CONSTRAINT `albums_ibfk_2` FOREIGN KEY (`cover_picture`) REFERENCES `images` (`image_id`);
-
---
 -- Constraints for table `comments`
 --
 ALTER TABLE `comments`
@@ -400,13 +366,6 @@ ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`pos
 ALTER TABLE `friends`
 ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_one`) REFERENCES `users` (`user_id`),
 ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`user_two`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `images`
---
-ALTER TABLE `images`
-ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `albums` (`album_id`),
-ADD CONSTRAINT `images_ibfk_2` FOREIGN KEY (`album_id`) REFERENCES `albums` (`album_id`);
 
 --
 -- Constraints for table `likes`
