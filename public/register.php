@@ -16,7 +16,7 @@ if (isset($_GET['direct'])){//To escape slideshow.
 }
 //Checking to display show
 if (!isset($_SESSION['show_over'])){
-	//Show Show
+	include 'slideshow.html';
 	$_SESSION['show_over']=true;
 	closendie();
 }

@@ -1,0 +1,105 @@
+/* General Demo Style */
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700|Dosis:200,600);
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+body {
+	font-family: 'Lato', Calibri, Arial, sans-serif;
+	color: #fff;
+
+	margin:0;
+	overflow-x: hidden;
+	overflow-style: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background: #e61919;
+	animation: color 30s linear infinite;
+	user-select: none;
+	position: absolute;
+	z-index: 3;
+}
+
+a {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #fff;
+}
+@-moz-keyframes color {
+  0% {
+    background: #e61919;
+  }
+  25% {
+    background: #80e619;
+  }
+  50% {
+    background: #19e5e6;
+  }
+  75% {
+    background: #7f19e6;
+  }
+  100% {
+    background: #e61919;
+  }
+}
+@-webkit-keyframes color {
+  0% {
+    background: #e61919;
+  }
+  25% {
+    background: #80e619;
+  }
+  50% {
+    background: #19e5e6;
+  }
+  75% {
+    background: #7f19e6;
+  }
+  100% {
+    background: #e61919;
+  }
+}
+@-o-keyframes color {
+  0% {
+    background: #e61919;
+  }
+  25% {
+    background: #80e619;
+  }
+  50% {
+    background: #19e5e6;
+  }
+  75% {
+    background: #7f19e6;
+  }
+  100% {
+    background: #e61919;
+  }
+}
+@keyframes color {
+  0% {
+    background: #e61919;
+  }
+  25% {
+    background: #80e619;
+  }
+  50% {
+    background: #19e5e6;
+  }
+  75% {
+    background: #7f19e6;
+  }
+  100% {
+    background: #e61919;
+  }
+}
