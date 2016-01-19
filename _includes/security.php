@@ -94,9 +94,9 @@ class validate{
 // 		echo preg_match('/\A[a-z][a-zA-Z\d_]{3,10}\Z/m', $userName)?"":$userName;
 		return preg_match('/\A[a-z][a-zA-Z\d_]{3,10}\Z/m', $userName);
 	}
-	static function name($name){
+	static function name($name,$min=3,$max=10){
 // 		echo preg_match('/\A[a-zA-Z.]{3,10}\Z/m', $name)?"":$name;
-		return preg_match('/\A[a-zA-Z.]{3,10}\Z/m', $name);
+		return preg_match('/\A[a-zA-Z. ]{'.$min.','.$max.'}\Z/m', $name);
 	}
 	static function password($password){
 // 		echo preg_match('%(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@{-~[-`]).{8,35}%m', $password)?"":"$password";
