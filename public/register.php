@@ -21,8 +21,6 @@ if (!isset($_SESSION['show_over'])){
 	closendie();
 }
 if (!empty($_POST)){
-	print_r($_POST);
-	die();
 	$db=new Db(DBUSER, DBPASSWORD, DATABASE);
 	if (!$db->isinit()){
 		closendie("<h1>Database Error</h1>");
@@ -41,6 +39,7 @@ if (!empty($_POST)){
 		$user_id=$register->register(true,$db);
 		if ($user_id){
 			$_SESSION['user_id']=$user_id;
+			unset($_SESSION['show_over']);
 			redirect_to();
 		}
 	}

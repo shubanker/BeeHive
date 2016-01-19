@@ -100,7 +100,8 @@ class validate{
 	}
 	static function password($password){
 // 		echo preg_match('%(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@{-~[-`]).{8,35}%m', $password)?"":"$password";
-		return preg_match('%(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@{-~[-`]).{8,35}%m', $password);
+// 		return preg_match('%(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@{-~[-`]).{8,35}%m', $password);
+		return preg_match('%.{7,35}%m', $password);
 	}
 	static function number($number,$length=null){
 // 		echo preg_match('/\A\d{'.$length.'}\Z/m', $number)?"":"$number";
