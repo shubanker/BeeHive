@@ -108,6 +108,12 @@ class User extends Struct{
 		
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
+	static function email_registered($email,$db){
+		$semail=$db->escape($email);
+		$sql=db::create_sql('count(user_id)num', 'users',"email='$semail'",null,null,1);
+		$result= $db->qfetch($sql);
+		return 1===(int)$result['num'];
+	}
 	
 }
 class UserData{

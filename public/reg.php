@@ -31,8 +31,8 @@
 							<input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="emaiple@example.com" required value="<?=isset($_POST['email'])?$_POST['email']:"" ?>" />
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q2" data-info="Set A strong password...">Set a Password for your account!</label>
-							<input class="fs-anim-lower" id="q2" name="password" type="password" placeholder="password" required value="" />
+							<label class="fs-field-label fs-anim-upper" for="q2" data-info="Set A strong password...">Lets Lock your account with a Password </label>
+							<input class="fs-anim-lower" id="q2" name="password" type="password" placeholder="password" required />
 						</li>
 						
 						<li data-input-trigger>
@@ -44,7 +44,7 @@
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q5" data-info="This will help us serve you approperiate content" >Tell us When you were Born?</label>
-							<input class="fs-anim-lower" id="q5" name="dob" type="date" placeholder="YYYY-MM-DD" value="<?=isset($_POST['date'])?$_POST['date']:"" ?>"/>
+							<input class="fs-anim-lower" id="q5" name="dob" type="date" placeholder="YYYY-MM-DD" value="<?=isset($_POST['date'])?$_POST['date']:"" ?>" required/>
 						</li>
 					</ol><!-- /fs-fields -->
 					<button class="fs-submit" type="submit">Create Account</button>
@@ -52,6 +52,7 @@
 			</div><!-- /fs-form-wrap -->
 
 		</div><!-- /container -->
+		<script src="_js/jquery.js"></script>
 		<script src="_js/classie.js"></script>
 		<script src="_js/selectFx.js"></script>
 		<script src="_js/fullscreenForm.js"></script>

@@ -405,7 +405,6 @@
 			error;
 
 		if( !input ) return true;
-
 		switch( input.tagName.toLowerCase() ) {
 			case 'input' : 
 				if( input.type === 'radio' || input.type === 'checkbox' ) {
@@ -424,6 +423,30 @@
 				}else if (input.type === 'email'){
 					if(!/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\b/i.test(input.value)){
 						error = 'INVALIDEMAIL';
+					}else{
+//						$.post("ajax-req.php",{"email_exists":input.value}).done(function(data){
+//							var ob=JSON.parse(data);
+//							if(ob.email_exists==1){
+//								error='EMAILEXISTS';
+//							}
+//						});
+						$.ajax({
+					          url:  "ajax-req.php",
+					          type: "POST",
+					          data: {"email_exists":input.value},
+					          async:false,
+					          success: function(data){
+					        	  var ob=JSON.parse(data);
+									if(ob.email_exists==1){
+										error='EMAILEXISTS';
+									}
+					          }
+					       }
+					    );
+					}
+				}else if(input.type === 'password'){
+					if(!/.{7,35}/i.test(input.value)){
+						error = 'INPASSWORD';
 					}
 				}
 				break;
@@ -460,7 +483,12 @@
 			case 'INVALIDEMAIL' : 
 				message = 'Please fill a valid email address';
 				break;
-			// ...
+			case 'INPASSWORD':
+				message = 'Password length should be between 7 - 35 characters';
+				break;
+			case 'EMAILEXISTS':
+				message = 'Email Already Registered :( .';
+				break;
 		};
 		this.msgError.innerHTML = message;
 		this._showCtrl( this.msgError );
