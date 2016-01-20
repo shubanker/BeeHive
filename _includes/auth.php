@@ -27,10 +27,14 @@ class Auth{
 	function check_crediantials($email,$password,$db){
 		
 		if (!validate::email($email)){
-			$this->error['email']='Invalid Email';
+			$this->set_error('Invalid Email');
 			return false;
 		}
 		
+		if (empty(trim($password))){
+			$this->set_error("Password Can not be Empty");
+			return false;
+		}
 		/*
 		 * Lets escape email.
 		 */
@@ -44,10 +48,10 @@ class Auth{
 		 */
 		if (count($data)==1 && password::verify_password($password, $data[0]['password'])){
 			$this->is_login=TRUE;
-			$_SESSION ['id'] =(int)$data[0]['user_id'];
+			$_SESSION ['user_id'] =(int)$data[0]['user_id'];
 			return $this->user_id=(int)$data[0]['user_id'];
 		}
-		$this->error['crediantials']="Invalid email/password.";
+		$this->set_error("Invalid email/password.");
 		return false;
 	}
 	function get_userid(){
@@ -58,5 +62,9 @@ class Auth{
 	}
 	function get_error(){
 		return $this->error;
+	}
+	private function set_error($error){
+		$this->error=$_SESSION['msg']=$error;
+		$_SESSION['msg_type']="danger";
 	}
 }

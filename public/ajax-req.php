@@ -6,3 +6,19 @@ if (isset($_REQUEST['email_exists'])){
 	die(json_encode($result));
 	
 }
+if (isset($_POST['req_type'])){
+	switch ($_POST['req_type']){
+		case "login":
+			$auth=new Auth($db);
+			$responce['success']=0;
+			if ($auth->check_crediantials($_POST['email'], $_POST['password'], $db)){
+				$responce['success']=1;
+			}else {
+				$responce['msg']=$auth->get_error();
+			}
+			closendie(json_encode($responce));
+			break;
+			
+			
+	}
+}
