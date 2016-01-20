@@ -1,4 +1,7 @@
-<body class="welcome-page animated fadeIn">
+<?php 
+$files = glob('_img/cn/Friends/*.jpg');
+shuffle($files);
+?><body class="welcome-page animated fadeIn">
     <div class="row row-welcome">
         <div class="login-page">
             <div class="row">
@@ -38,39 +41,12 @@
             <div class="row welcome-full animated fadeInLeft">
                 <div class="row-body">
                     <div class="welcome-users-inner">
+                    <?php foreach (array_slice($files, 0,11) as $img){?>
+                    
                         <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/guy-3.jpg" class="img-circle" /> </a>
+                            <a href="profile.html"><img src="<?=$img ?>" class="img-circle" /> </a>
                         </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-1.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/guy-2.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-2.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/guy-5.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-3.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/guy-8.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-4.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/guy-9.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-7.jpg" class="img-circle" /> </a>
-                        </div>
-                        <div class="welcome-user">
-                            <a href="profile.html"><img src="_img/cn/Friends/woman-7.jpg" class="img-circle" /> </a>
-                        </div>
+                    <?php }?>
                     </div>
                 </div>
             </div>
