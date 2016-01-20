@@ -118,6 +118,9 @@ class Post extends Struct{
 				"post_id"=>$post_id,
 				"type"=>$type
 		));
+		if (empty($db)){
+			return $sql;
+		}
 		$result=$db->qfetch($sql);
 		return $result['likes'];
 	}
@@ -203,16 +206,19 @@ class Feeds{
 	static function get_feeds($user_id,$db,$start=0,$limit=10){
 		// 		$db=new Db($user, $password, $database);
 		$friend_list=Friendship::get_friend_ids($user_id, null);
-		$sql=Db::create_sql(array(
-				"first_name",
-				"last_name",
-				"post_id",
-				"users.user_id",
-				"post_data",
-				"link",
-				"picture_id",
-				"time"
-		), array(
+		$sql=Db::create_sql(
+				"`first_name`,
+				`last_name`,
+				`post_id`,
+				`users`.`user_id`,
+				`post_data`,
+				`link`,
+				`picture_id`,
+				`time`,
+				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
+				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count",
+
+				array(
 				"users",
 				"post"
 		),
@@ -229,7 +235,7 @@ class Feeds{
 				null,
 				"$start,$limit"
 		);
-		return Db::fetch_array($db, $sql);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	
 	}
 	static function get_friends_feeds($user_one,$user_two,$db,$start=0,$limit=10){
@@ -245,16 +251,17 @@ class Feeds{
 			$access_limit=$relation==2?3:2;
 		}
 		
-		$sql=Db::create_sql(array(
-				"first_name",
-				"last_name",
-				"post_id",
-				"users.user_id",
-				"post_data",
-				"link",
-				"picture_id",
-				"time"
-		), array(
+		$sql=Db::create_sql("`first_name`,
+				`last_name`,
+				`post_id`,
+				`users`.`user_id`,
+				`post_data`,
+				`link`,
+				`picture_id`,
+				`time`,
+				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
+				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count"
+				, array(
 				"users",
 				"post"
 		),
