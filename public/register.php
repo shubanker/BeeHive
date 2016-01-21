@@ -19,7 +19,7 @@ if (isset($_GET['show_it'])){//To reshow slidshow.
 }
 //Checking to display show
 if (!isset($_SESSION['show_over'])){
-	include 'templates/cn/reg-slideshow.html';
+	include 'templates/reg-slideshow.html';
 	$_SESSION['show_over']=true;
 	closendie();
 }

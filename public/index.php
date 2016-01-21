@@ -15,7 +15,7 @@ if (isset($_SESSION['user_id'])){
 			}
 		}
 	}
-	include 'templates/cn/loginhome.html';
+	include TEMPLATE.'loginhome.html';
 }
 echo clearNoteHtmlOp::get_js();
 ?>

@@ -15,3 +15,5 @@ define('DATABASE', 'social');
 define('DBUSER', 'beehive');
 define('DBPASSWORD', 'beehive');
 define('DBHOST', 'localhost');
+
+define("TEMPLATE", "templates/cn/");

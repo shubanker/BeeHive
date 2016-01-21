@@ -15,10 +15,10 @@ EOS;
 	}
 	static function get_include_css($include_css=array()){
 		$default_css=array(
-				"_css/bootstrap.min.css",
-				"_css/animate.min.css",
-				"_css/font-awesome.min.css",
-				"_css/clean-note-timeline.css"
+				TEMPLATE."_css/bootstrap.min.css",
+				TEMPLATE."_css/animate.min.css",
+				TEMPLATE."_css/font-awesome.min.css",
+				TEMPLATE."_css/clean-note-timeline.css"
 		);
 		foreach ($include_css as $css){
 			$default_css[]=$css;
@@ -79,9 +79,9 @@ EOT;
 	}
 	static function get_js($includes=array()){
 		$default=array(
-				"_js/jquery.js",
-				"_js/bootstrap.min.js",
-				"_js/custom.js"
+				TEMPLATE."_js/jquery.js",
+				TEMPLATE."_js/bootstrap.min.js",
+				TEMPLATE."_js/custom.js"
 		);
 		foreach ($includes as $value) {
 			$default[]=$value;
