@@ -83,7 +83,10 @@
 				} );
 			})();
 			$(document).ready(function() {
-				$(".alert").delay(2000).fadeOut(2500);
+				$(".alert").delay(5000).fadeOut(2500);
+			});
+			$(".close").on("click",function(){
+				$(".alert").hide();
 			});
 		</script>
 	</body>
