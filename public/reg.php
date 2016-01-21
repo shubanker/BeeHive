@@ -30,16 +30,16 @@
 					
 					<ol class="fs-fields">
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
+							<label class="fs-field-label fs-anim-upper" for="q1">What should We call you?</label>
 							<input class="fs-anim-lower" id="q1" name="name" type="text" placeholder="Sherlock Holmes" required autofocus value="<?=isset($_POST['name'])?$_POST['name']:"" ?>" />
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't send you spam, we promise...">What's your email address?</label>
-							<input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="emaiple@example.com" required value="<?=isset($_POST['email'])?$_POST['email']:"" ?>" />
+							<input class="fs-anim-lower" id="q2" name="email" type="email" placeholder="example@example.com" required value="<?=isset($_POST['email'])?$_POST['email']:"" ?>" />
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q2" data-info="Set A strong password...">Lets Lock your account with a Password </label>
-							<input class="fs-anim-lower" id="q2" name="password" type="password" placeholder="password" required />
+							<label class="fs-field-label fs-anim-upper" for="q2" data-info="Set A strong password...">Lets Lock your account with a Password &#128274;</label>
+							<input class="fs-anim-lower" id="q2" name="password" type="password" placeholder="P@ssw0rd" required />
 						</li>
 						
 						<li data-input-trigger>

@@ -484,7 +484,7 @@
 				message = 'Please fill a valid email address';
 				break;
 			case 'INPASSWORD':
-				message = 'Password length should be between 7 - 35 characters';
+				message = 'Your password is too week,lets make it between 7 to 35 characters';
 				break;
 			case 'EMAILEXISTS':
 				message = 'Email Already Registered :( .';
