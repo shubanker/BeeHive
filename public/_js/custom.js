@@ -23,5 +23,5 @@ $(document).ready(function() {
     $(".frm").toggleClass("animated");
     $(".frm").toggleClass("fadeInRight");
   });
-  $(".alert").delay(2000).fadeOut(2500);
-})
+  $(".alert").delay(3000).fadeOut(2500);
+});
