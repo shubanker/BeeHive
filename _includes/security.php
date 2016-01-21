@@ -140,6 +140,15 @@ class Keys{
 	static function is_valid($unix_time){
 		return strtotime('now')<$unix_time;
 	}
+	static function update_hits($user_id,$key,$db){
+		$id=$db->escape($user_id);
+		$key=$db->escape($key);
+		
+		$sql="UPDATE `keys` SET hits=hits+1 WHERE 
+			user_id='$id' AND skey='$key'";
+		return empty($db)?$sql:$db->query($sql);
+		
+	}
 	static function get_random_string($min=NULL,$max=NULL){
 		$min=$min==NULL?rand(2,9):$min;//Default range is between 2 and 9 change this if needed.
 		$max=$max==NULL?$min:$max;
