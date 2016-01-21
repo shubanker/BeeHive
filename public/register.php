@@ -19,7 +19,7 @@ if (isset($_GET['show_it'])){//To reshow slidshow.
 }
 //Checking to display show
 if (!isset($_SESSION['show_over'])){
-	include 'reg-slideshow.html';
+	include 'templates/cn/reg-slideshow.html';
 	$_SESSION['show_over']=true;
 	closendie();
 }
@@ -50,6 +50,6 @@ if (!empty($_POST)){
 	}
 }
 
-include 'reg.php';
+include 'templates/cn/reg-form.html';
 
 ?>
