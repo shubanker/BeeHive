@@ -14,6 +14,9 @@ require_once '../_includes/register.php';
 if (isset($_GET['direct'])){//To escape slideshow.
 	$_SESSION['show_over']=true;
 }
+if (isset($_GET['show_it'])){//To reshow slidshow.
+	unset($_SESSION['show_over']);
+}
 //Checking to display show
 if (!isset($_SESSION['show_over'])){
 	include 'reg-slideshow.html';
