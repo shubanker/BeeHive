@@ -129,6 +129,11 @@ class Db{
 	static function update($db,$table,$data,$pk){
 		return $db->query(self::create_update_sql($db, $table, $data, $pk));
 	}
+	static function delete($db,$table,$data){
+		return $db->query(self::create_sql_delete($table, $data));
+		
+	}
+	
 	/*
 	 * To convert array of column names into proper sql structure
 	 */
@@ -266,7 +271,7 @@ class Db{
 		
 		return "$sql;";
 	}
-	static function create_sql_delete($table,$whereData,$condition_concat="AND"){
+	static function create_sql_delete($table,$where_data,$condition_concat="AND"){
 		$sql="DELETE FROM `$table` ";
 		
 		$sql.=self::where_to_str($where_data,$condition_concat);

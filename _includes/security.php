@@ -112,7 +112,7 @@ class validate{
 }
 class Keys{
 	static function gen_key($user_id,$validity,$db){
-		$key=self::get_random_string(30,60);
+		$key=self::get_random_string(15,35);
 		$exp=strtotime("+ $validity");
 		
 		$data=array(
@@ -130,7 +130,7 @@ class Keys{
 		$skey=$db->escape($key);
 		$suser_id=$db->escape($user_id);
 		
-		$where="user_id='$suser_id' AND skey='$skey' AND status= 1";
+		$where="user_id='$suser_id' AND skey='$skey' ";
 		
 		$where.=$hit_limit==null?"":" AND hits < '$hit_limit'";
 		

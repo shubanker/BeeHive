@@ -38,7 +38,7 @@ class Cookies {
 		$data=array(
 				"status"=>2
 		);
-		Db::update($db, 'keys', $data, array(
+		db::delete($db, 'keys', array(
 			"user_id"=>$user_id,
 			"skey"=>$token
 		));
