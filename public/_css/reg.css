@@ -133,3 +133,25 @@ a:hover, a:focus {
 	max-width: 300px;
 	text-align: left;
 }
+.alert {
+	padding:15px;
+	margin-bottom:20px;
+	border:1px solid transparent;
+	border-radius:4px;
+	box-sizing:border-box
+}
+.alert-danger {
+	color:#a94442;
+	background-color:#f2dede;
+	border-color:#ebccd1
+}
+.close{
+	float: right;
+	cursor: pointer;
+	background: transparent none repeat scroll 0px 0px;
+	text-shadow: 0px 1px 0px #FFF;
+	opacity:0.4;
+}
+.hidden{
+	display: none;
+}

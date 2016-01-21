@@ -44,6 +44,8 @@ if (!empty($_POST)){
 			$_SESSION['user_id']=$user_id;
 			unset($_SESSION['show_over']);
 			redirect_to();
+		}else {
+			$errors[]="Something Went Wrong :( <br/>Please try after sometime.";
 		}
 	}
 }

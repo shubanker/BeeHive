@@ -9,7 +9,7 @@ function closendie ($msg="",$db=null){
 	if (empty($db)){
 		global $db;
 	}
-	if (!empty($db)){
+	if (!empty($db) && $db->isinit()){
 		$db->close();
 	}
 	die($msg);

@@ -21,6 +21,13 @@
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<form id="myform" class="fs-form fs-form-full" autocomplete="off" action="" method="post">
+					<?php if (isset($errors) && !empty($errors)){?><div class="alert alert-danger">
+						<button type="button" class="close" data-dismiss="alert"> &times;</button>
+						<?=implode("<br/>", $errors); ?>
+						
+					</div>
+					<?php }?>
+					
 					<ol class="fs-fields">
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
@@ -75,6 +82,9 @@
 					}
 				} );
 			})();
+			$(document).ready(function() {
+				$(".alert").delay(2000).fadeOut(2500);
+			});
 		</script>
 	</body>
 </html>
