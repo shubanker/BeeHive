@@ -1,25 +1,22 @@
 <?php 
 class Cookies {
-	static function verify_cookies($id, $token,$db) {
-		if ($id == null) {
-			$id = isset ( $_COOKIE ['user_id'] ) ? $_COOKIE ['user_id'] : null;
-			if ($id == null) {
-				return false;
-			}
+	static function verify_cookies($user_id, $token,$db) {
+		if ($user_id == null) {
+			$user_id = isset ( $_COOKIE ['user_id'] ) ? $_COOKIE ['user_id'] : null;
 		}
-		$id=(int)$id;
+		$user_id=(int)$user_id;
 		
 		if ($token == null) {
 			$token = isset ( $_COOKIE ['token'] ) ? $_COOKIE ['token'] : null;
-			if ($token == null) {
-				return false;
-			}
 		}
-		
-		$data=Keys::get_key_data($id, $token, $db);
+		if (empty($user_id)||empty($token)){
+			return false;
+		}
+		$data=Keys::get_key_data($user_id, $token, $db);
 		
 		if (!empty($data['exp'])){
-			return Keys::is_valid($data['exp'])?$id:false;
+			Keys::update_hits($user_id, $token, $db);
+			return Keys::is_valid($data['exp'])?$user_id:false;
 		}else {
 			return false;
 		}

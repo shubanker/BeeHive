@@ -143,9 +143,12 @@ class Keys{
 	static function update_hits($user_id,$key,$db){
 		$id=$db->escape($user_id);
 		$key=$db->escape($key);
-		
-		$sql="UPDATE `keys` SET hits=hits+1 WHERE 
-			user_id='$id' AND skey='$key'";
+		$lastused=strtotime("now");
+		$sql="UPDATE `keys` SET hits=hits+1,
+			lastused='$lastused'
+		WHERE 
+			user_id='$id' AND
+			skey='$key'";
 		return empty($db)?$sql:$db->query($sql);
 		
 	}
