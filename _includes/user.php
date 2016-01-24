@@ -114,7 +114,10 @@ class User extends Struct{
 		$result= $db->qfetch($sql);
 		return 1===(int)$result['num'];
 	}
-	
+	static function update_last_active($db){
+		$time=strtotime("now");
+		
+	}
 }
 class UserData{
 	private static  $table="userdata";
@@ -161,6 +164,15 @@ class UserData{
 		}
 		$update_data['data_id']=$data_id;
 		$sql=Db::create_update_sql($db, self::$table,$update_data , "data_id");
+		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::rows_affected($db):false);
+	}
+	static function edit_by_type($user_id,$type,$newdata,$db){
+		$update_data['data']=$newdata;
+		$pk['type']=$type;
+		$pk['user_id']=$user_id;
+		
+		$sql=Db::create_update_sql($db, self::$table, $update_data, $pk);
+		
 		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::rows_affected($db):false);
 	}
 	static function remove_data($data_id,$db){
