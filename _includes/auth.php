@@ -31,7 +31,7 @@ class Auth{
 			return false;
 		}
 		
-		if (empty(trim($password))){
+		if (empty($password)){
 			$this->set_error("Password Can not be Empty");
 			return false;
 		}
@@ -66,5 +66,37 @@ class Auth{
 	private function set_error($error){
 		$this->error=$_SESSION['msg']=$error;
 		$_SESSION['msg_type']="danger";
+	}
+	/*
+	 * Function handles login,password recovery requests.
+	 */
+	static function do_login(){
+		if (isset($_POST['email'])){
+			if (isset($_POST['password'])){
+				$db=new Db();
+				$auth=new Auth($db);
+				if ($auth->check_crediantials($_POST['email'], $_POST['password'], $db)){
+					session_regenerate_id();
+					redirect_to();
+					closendie("",$db);
+				}
+			}elseif (isset($_POST['forgot'])){
+				
+			}else {
+				$_SESSION['msg']="Unknown request.";
+				$_SESSION['msg_type']="danger";
+			}
+		}
+	}
+	static function logout($db=NULL){
+		if (empty($db)){
+			$db=new Db();
+		}
+		if (isset( $_COOKIE ['user_id'])){
+			Cookies::deactivate_cookie($_COOKIE ['user_id'], $_COOKIE ['token'], $db);
+		}
+		session_unset();
+		redirect_to();
+		closendie("",$db);
 	}
 }

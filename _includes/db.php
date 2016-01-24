@@ -5,7 +5,7 @@
 class Db{
 	private $db;
 	private $isinit;
-	function __construct($user,$password,$database,$host="localhost"){
+	function __construct($user=DBUSER,$password=DBPASSWORD,$database=DATABASE,$host=DBHOST){
 		$this->isinit=false;
 		if (!empty($user)&&!empty($password)&&!empty($database)){
 			 return $this->login($user, $password, $database,$host);
