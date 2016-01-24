@@ -266,7 +266,7 @@ class Db{
 			$sql.="('".implode("','", $row)."'),";
 		}
 		$sql=self::remove_last_symbol($sql)." ";
-		
+		$sql=preg_replace('/([^\\\\])\'\'/i', '\1null', $sql); //replacing '' values to null.
 		$sql.=self::update_existing($update_existing);
 		
 		return "$sql;";

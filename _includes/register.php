@@ -18,9 +18,24 @@ class Register{
 		}
 		$this->user->set_status(1);
 		if ($cerate&&!empty($db)){
-			return $this->user->create($db);
+			if($user_id=$this->user->create($db)){
+				self::add_essential_userdata($user_id, $db);
+				return $user_id;
+			}
 		}
 		return $this->user;
+	}
+	static function add_essential_userdata($user_id,$db){
+		$types=array("dp","lastactive");
+		$data=array();
+		foreach ($types as $type){
+			$data[]=array(
+					"user_id"=>$user_id,
+					"type"=>$type
+			);
+		}
+		$sql=db::create_sql_insert_multiple("userdata", $data);
+		return empty($db)?$sql:$db->query($sql);
 	}
 	function get_userOb(){
 		return $this->user;
