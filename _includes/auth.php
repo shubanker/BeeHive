@@ -16,6 +16,7 @@ class Auth{
 	}
 	function check_user($db){
 		if (isset($_SESSION['user_id'])){
+			$this->is_login=true;
 			return $this->user_id=$_SESSION['user_id'];
 		}
 		
@@ -70,10 +71,12 @@ class Auth{
 	/*
 	 * Function handles login,password recovery requests.
 	 */
-	static function do_login(){
+	static function do_login($db=NULL){
 		if (isset($_POST['email'])){
 			if (isset($_POST['password'])){
-				$db=new Db();
+				if (empty($db)){
+					$db=new Db();
+				}
 				$auth=new Auth($db);
 				if ($auth->check_crediantials($_POST['email'], $_POST['password'], $db)){
 					session_regenerate_id();

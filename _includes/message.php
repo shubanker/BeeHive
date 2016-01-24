@@ -123,4 +123,24 @@ class Message{
 				"$start,$no_of_results");
 		return Db::fetch_array($db, $sql);
 	}
+	static function get_chat_list($user_id,$db,$start=0,$limit=15){
+		$friend_list=Friendship::get_friend_ids($user_id, null);
+		$sql=Db::create_sql(array(
+				"first_name",
+				"last_name",
+				"users.user_id",
+				"data"
+		), array(
+				"userdata",
+				"users"
+		),
+				"`userdata`.`user_id` IN($friend_list) AND
+				`users`.`user_id`=`userdata`.`user_id` AND
+				`userdata`.`type`='lastactive' ",
+				"data DESC",
+				null,
+				"$start,$limit"
+		);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
 }
