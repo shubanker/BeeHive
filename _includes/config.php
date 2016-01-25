@@ -17,3 +17,4 @@ define('DBPASSWORD', 'beehive');
 define('DBHOST', 'localhost');
 
 define("TEMPLATE", "templates/cn/");
+define("IMAGEDIR", "../Images");
