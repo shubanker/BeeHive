@@ -35,7 +35,7 @@ class Image{
 		
 		self::get_image($sql, $size, $db,true);
 	}
-	static function get_image($image_id,$size,$db,$isdp=false){
+	static function get_image($image_id,$size,$db,$isdp=false,$showdeleted=FALSE){
 		$qimage=$isdp?"($image_id)":"'$image_id'";
 		
 		switch ($size){
@@ -53,12 +53,13 @@ class Image{
 					$width=$height=0;
 				}
 		}
+		$status_condition=$showdeleted?"":" AND status='1' ";
 		$sql=Db::create_sql(array(
 				"loc"
 		), array(
 				"images"
 		),
-				"`image_id`=$qimage");
+				"`image_id`=$qimage $status_condition");
 		$image=Db::qnfetch($sql, $db);
 		self::thumbnail($image['loc'], $width, $height);
 	}
