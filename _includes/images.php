@@ -5,7 +5,7 @@
  */
 class Image{
 	static function get_dp($user_id,$size,$db){
-		$sql=Db::create_sql(array("data"),
+		$sql=Db::create_sql("IFNULL(`data`,1)",
 				 array("userdata"),
 				"`user_id`='$user_id' AND
 				`type`='dp' AND
@@ -60,12 +60,12 @@ class Image{
 		header("Cache-Control: max-age = 604800");
 		header("Expires: ".gmdate("D, d M Y H:i:s", time() + 604800)." GMT");
 		
-		
-		$image=IMAGEDIR."/$image";
-		if (!file_exists($image)){
+		if (empty($image)||!file_exists(IMAGEDIR."/$image")){
 			header("HTTP/1.0 404 Not Found");
-			die("");
+			die();
 		}
+		$image=IMAGEDIR."/$image";
+		
 		$image_properties = getimagesize($image);
 		$image_width = $image_properties[0];
 		$image_height = $image_properties[1];
