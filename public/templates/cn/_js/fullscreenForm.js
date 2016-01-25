@@ -325,6 +325,7 @@
 		else {
 			onEndAnimationFn();
 		}
+		document.querySelector('.fs-current > input').focus();
 	}
 
 	/**
