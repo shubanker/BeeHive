@@ -15,7 +15,7 @@ if ($auth->is_login()){
 	$user_id=$auth->get_userid();
 	$user=new User($user_id,$db);
 	$feeds=Feeds::get_feeds($user_id, $db);
-	
+	include TEMPLATE.'home.html';
 }else {
 	Auth::do_login();
 	include TEMPLATE.'loginhome.html';

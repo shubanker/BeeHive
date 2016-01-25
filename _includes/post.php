@@ -214,7 +214,7 @@ class Feeds{
 				`post_data`,
 				`link`,
 				`picture_id`,
-				`time`,
+				timediff(concat(curdate(), ' ', curtime()), concat(time)) as hours,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
 				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count",
 
@@ -274,5 +274,37 @@ class Feeds{
 				"$start,$limit"
 		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+	static function get_age($hours){
+	    list($hour, $min, $sec) = split(":", $hours);
+	    if($hour > 24) $days = round($hour / 24);
+	    else $days = 0;
+	
+	    if($days >= 31) {
+	        $date = date('M d, Y', strtotime("-$hour hours"));
+	        return $date;
+	    }
+	    else if($days >= 1) {
+	        $age = "$days day";
+	        if($days > 1) { $age .= "s"; }
+	    }
+	    else {
+	        if($hour > 0) {
+	            $hour = ltrim($hour, '0');
+	            $age .= " $hour hour";
+	            if($hour > 1) { $age .= "s"; }
+	        }
+	        if($min > 0) {
+	            $min = ltrim($min, '0'); 
+	            if(!$min) $min = '0';
+	            $age .= " $min min";
+	            if($min != 1) { $age .= "s"; }
+	        }
+	    }
+	
+	    if($min < 1 and $hour < 1) { $age = 'a few seconds'; }
+	    $age .= ' ago';
+	
+	    return $age;
 	}
 }
