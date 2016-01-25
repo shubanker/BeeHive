@@ -18,7 +18,14 @@ if (isset($_POST['req_type'])){
 			}
 			closendie(json_encode($responce));
 			break;
-			
+		case "get_comments":
+			$post_id=(int)$_POST['post_id'];
+			$comments=Post::get_post_comments($post_id, $db);
+			for ($i = 0; $i < count($comments); $i++) {
+				$comments[$i]['time']=Feeds::get_age($comments[$i]['time']);
+			}
+			closendie(json_encode($comments));
+			break;
 			
 	}
 }

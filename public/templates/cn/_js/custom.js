@@ -58,7 +58,28 @@ $(document).ready(function() {
 	  $("#statusboxfooter").removeClass("hidden");
   });
   $('.add-comment-input').on('focus',function(){
-	  var post=$(this).parent().find(".postid").value();
-	  alert("hi");
+	  var postid=$(this).parent().find(".postid").val();
+	  var comments_list=$(this).parent().find(".comments-list");
+	  if(comments_list.children().length==0){
+		  load_comments(postid,comments_list);
+	  }
+	  
   });
+  function load_comments(postid,comments_list){
+	  $.post("ajax-req.php",{"req_type":"get_comments","post_id":postid}).done(function(data){
+			var ob=JSON.parse(data);
+			comments_list.empty();
+			for(i=0;i<ob.length;i++){
+				$op='<li class="comment">';
+				$op+='<a class="pull-left" href="user.php?id='+ob[i].user_id+'">';
+				$op+='<img class="avatar" src="image.php?user='+ob[i].user_id+'" alt="avatar"> </a>';
+				$op+='<div class="comment-body">';
+				$op+='<div class="comment-heading">';
+				$op+='<h4 class="comment-user-name"><a href="user.php?id='+ob[i].user_id+'">'+ob[i].first_name+' '+ob[i].last_name+'</a></h4>';
+				$op+='<h5 class="time">'+ob[i].time+'</h5></div>';
+				$op+='<p>'+ob[i].comment+'</p> </div></li>';
+				comments_list.append($op);
+			}
+		});
+  }
 })
