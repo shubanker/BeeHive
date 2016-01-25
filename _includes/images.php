@@ -4,6 +4,24 @@
  * if the user has direct link or the image id of the image he can view it.
  */
 class Image{
+	
+	static function new_image($image_name,$db){
+		$up=new upload(IMAGEDIR."/");
+		
+		if ($up->upload_image_file($image_name)){
+			
+			$file_name=$up->get_file_name();
+			$sql=Db::create_sql_insert("images", array(
+					"loc"=>$file_name
+			));
+			if ($db->query($sql)){
+				return $db->last_insert_id();
+			}
+			
+		}
+		return false;
+		
+	}
 	static function get_dp($user_id,$size,$db){
 		$sql=Db::create_sql("IFNULL(`data`,1)",
 				 array("userdata"),

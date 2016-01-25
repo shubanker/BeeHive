@@ -30,4 +30,5 @@ require_once '../_includes/friendship.php';
 require_once '../_includes/message.php';
 require_once '../_includes/post.php';
 require_once '../_includes/notifications.php';
+require_once '../_includes/upload.php';
 // require_once '../_includes/basic.php';
