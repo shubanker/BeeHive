@@ -68,7 +68,7 @@
                             </div>
                             <div class="pull-left meta">
                                 <div class="title h5"><a href="user.php?id=<?=$feed['user_id'] ?>" class="post-user-name"><?=$feed['first_name']." ".$feed['last_name'] ?></a> <?=empty($feed['picture_id'])?"made a post.":"uploaded a photo." ?></div>
-                                <h6 class="text-muted time"><?=Feeds::get_age($feed['hours']) ?></h6>
+                                <h6 class="text-muted time"><?=Feeds::get_age($feed['time']) ?></h6>
                             </div>
                         </div>
                         <?php if (!empty($feed['picture_id'])){?><div class="post-image"><img src="image.php?id=<?=$feed['picture_id'] ?>" class="image show-in-modal" alt="image post">
