@@ -67,7 +67,8 @@ class Notifications{
     WHEN n.msg IS NOT NULL THEN n.msg
     WHEN type=1 THEN concat((SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id),' peoples Liked your post')
     WHEN type=2 THEN concat((SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id),' peoples Commented on your post')
-    END AS message
+    END AS message,
+    n.post_id
 FROM
     notifications AS n 
 WHERE 

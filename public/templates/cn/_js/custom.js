@@ -19,7 +19,10 @@ $(document).ready(function() {
 
   /*chat box*/
   $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
-    $('.chat-window').show();
+	  //Chatbox user name
+	  name=$(this).find('.chat-user-name').html();
+	  $('#chat_name').html(name);
+	  $('.chat-window').show();
   });
 
   $(document).on('click', '.icon_close', function (e) {
