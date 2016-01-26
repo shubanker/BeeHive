@@ -87,5 +87,16 @@ $(document).ready(function() {
 			}
 		});
   }
+  /*============== Likes =======================*/
+  $('.like').on('click',function(d){
+	  d.preventDefault();
+//	  parent=$(this).parent();
+	  lcount=$(this).find('.count');
+	  liked=$(this).parent().find('.btn-primary')[0];
+	  $(this).toggleClass('btn-default');
+	  $(this).toggleClass('btn-primary');
+	  lcount.html(Number(lcount.html())+Number(liked?-1:1));
+//	  alert($(this).parent().find('.btn-primary')[0]?"yup":"nop");
+  });
   /*==============  Loading Post ===============*/
 })

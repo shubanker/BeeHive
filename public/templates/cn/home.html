@@ -3,7 +3,7 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="index.html"><img src="img/logo.png" class="img-logo"> <b>Clean-Note</b> </a>
+                <a class="navbar-brand" href="index.php"><img src="img/logo.png" class="img-logo"> <b>Bee-Hive</b> </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <div class="col-md-5 col-sm-4">
@@ -76,8 +76,8 @@
                         <div class="post-description">
                             <p><?=$feed['post_data'] ?></p>
                             <div class="stats">
-                            	<a href="#" class="stat-item"><i class="fa fa-thumbs-up icon"></i><?=$feed['like_count'] ?> </a>
-                            	<a href="#" class="stat-item"><i class="fa fa-comments-o icon"></i><?=$feed['comment_count'] ?> </a>
+                            	<a href="#" class="btn btn-<?=$feed['has_liked']==1?"primary":"default" ?> stat-item like"><i class="fa fa-thumbs-up icon"></i><span class="count"><?=$feed['like_count'] ?></span> </a>
+                            	<a href="#" class="btn btn-default stat-item"><i class="glyphicon glyphicon-comment icon"></i><?=$feed['comment_count'] ?> </a>
                             </div>
                         </div>
                         <div class="post-footer">

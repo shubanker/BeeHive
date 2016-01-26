@@ -463,11 +463,9 @@ body {
 
 .post .post-description .stats {
 	margin-top: 20px;
-	color: #7f7f7f
 }
 
 .post .post-description .stats a {
-	color: #7f7f7f;
 	display: inline-block;
 	font-size: 12px;
 	font-weight: 700;
@@ -480,7 +478,7 @@ body {
 }
 
 .post .post-description .stats .stat-item .icon {
-	margin-right: 1px
+	margin-right: 8px
 }
 
 .post .post-footer {

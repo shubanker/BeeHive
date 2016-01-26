@@ -216,7 +216,8 @@ class Feeds{
 				`picture_id`,
 				`time`,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
-				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count",
+				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count,
+				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1' AND `likes`.`user_id`='$user_id') as has_liked",
 
 				array(
 				"users",
