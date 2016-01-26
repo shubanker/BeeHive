@@ -203,8 +203,13 @@ class Feeds{
 	/*
 	 * Function returnds the posts of friends to be displayed in homepage.
 	 */
-	static function get_feeds($user_id,$db,$start=0,$limit=10){
+	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">"){
 		// 		$db=new Db($user, $password, $database);
+		$start=empty($start)?0:$start;
+		$limit=empty($limit)?10:$limit;
+		$equality=$equality=="<"?"<":">";
+		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$sql=Db::create_sql(
 				"`first_name`,
@@ -230,6 +235,7 @@ class Feeds{
 					) OR
 						`post`.`user_id`='$user_id'  				-- For including own post's
 				) AND
+				$after_post_id
 				`post`.`status`='1' AND
 				`post`.`user_id`=`users`.`user_id`",
 				"`post_id` DESC",
