@@ -88,15 +88,27 @@ $(document).ready(function() {
 		});
   }
   /*============== Likes =======================*/
+  function toggle_like(e){
+	  lcount=e.find('.count');
+	  liked=e.parent().find('.btn-primary')[0];
+	  e.toggleClass('btn-default');
+	  e.toggleClass('btn-primary');
+	  lcount.html(Number(lcount.html())+Number(liked?-1:1));
+  }
   $('.like').on('click',function(d){
 	  d.preventDefault();
-//	  parent=$(this).parent();
-	  lcount=$(this).find('.count');
-	  liked=$(this).parent().find('.btn-primary')[0];
-	  $(this).toggleClass('btn-default');
-	  $(this).toggleClass('btn-primary');
-	  lcount.html(Number(lcount.html())+Number(liked?-1:1));
-//	  alert($(this).parent().find('.btn-primary')[0]?"yup":"nop");
+	  $this=$(this);
+	  toggle_like($(this));
+	  postid=$(this).parents('.panel-shadow').find(".postid").val();
+	  
+	  $.post("ajax-req.php",{"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
+		  r=JSON.parse(e);
+		  if(r.success!=1){
+			  toggle_like($this);
+		  }
+	  }).fail(function(e){
+		  toggle_like($this);
+	  });
   });
   /*==============  Loading Post ===============*/
 })
