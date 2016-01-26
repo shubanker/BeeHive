@@ -14,6 +14,7 @@ $auth=new Auth($db);
 if ($auth->is_login()){
 	$user_id=$auth->get_userid();
 	$user=new User($user_id,$db);
+	$user->update_last_active($user_id, $db);
 	$feeds=Feeds::get_feeds($user_id, $db);
 	include TEMPLATE.'home.html';
 }else {

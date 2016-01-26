@@ -25,6 +25,7 @@ if (!$auth->is_login()){
 }
 
 $user_id=$auth->get_userid();
+User::update_last_active($user_id, $db);
 if (isset($_POST['req_type'])){
 	switch ($_POST['req_type']){
 		case "get_comments":

@@ -114,9 +114,9 @@ class User extends Struct{
 		$result= $db->qfetch($sql);
 		return 1===(int)$result['num'];
 	}
-	static function update_last_active($db){
+	static function update_last_active($user_id,$db){
 		$time=strtotime("now");
-		
+		UserData::edit_by_type($user_id,"lastactive", strtotime("now"), $db);
 	}
 }
 class UserData{
