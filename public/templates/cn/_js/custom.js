@@ -54,9 +54,11 @@ $(document).ready(function() {
     $(".frm").toggleClass("animated");
     $(".frm").toggleClass("fadeInRight");
   });
+  /*==============  Statup Post ===============*/
   $("#statusbox").on('focus',function(){
 	  $("#statusboxfooter").removeClass("hidden");
   });
+  /*==============  Loading Comments ===============*/
   $('.add-comment-input').on('focus',function(){
 	  var postid=$(this).parent().find(".postid").val();
 	  var comments_list=$(this).parent().find(".comments-list");
@@ -71,15 +73,19 @@ $(document).ready(function() {
 			comments_list.empty();
 			for(i=0;i<ob.length;i++){
 				$op='<li class="comment">';
-				$op+='<a class="pull-left" href="user.php?id='+ob[i].user_id+'">';
-				$op+='<img class="avatar" src="image.php?user='+ob[i].user_id+'" alt="avatar"> </a>';
-				$op+='<div class="comment-body">';
-				$op+='<div class="comment-heading">';
-				$op+='<h4 class="comment-user-name"><a href="user.php?id='+ob[i].user_id+'">'+ob[i].first_name+' '+ob[i].last_name+'</a></h4>';
-				$op+='<h5 class="time">'+ob[i].time+'</h5></div>';
-				$op+='<p>'+ob[i].comment+'</p> </div></li>';
+					$op+='<a class="pull-left" href="user.php?id='+ob[i].user_id+'">';
+						$op+='<img class="avatar" src="image.php?user='+ob[i].user_id+'" alt="avatar"> </a>';
+					$op+='<div class="comment-body">';
+						$op+='<div class="comment-heading">';
+							$op+='<h4 class="comment-user-name"><a href="user.php?id='+ob[i].user_id+'">'+ob[i].first_name+' '+ob[i].last_name+'</a></h4>';
+							$op+='<h5 class="time">'+ob[i].time+'</h5>';
+						$op+='</div>';
+						$op+='<p>'+ob[i].comment+'</p>';
+					$op+='</div>';
+				$op+='</li>';
 				comments_list.append($op);
 			}
 		});
   }
+  /*==============  Loading Post ===============*/
 })
