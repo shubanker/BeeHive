@@ -1,7 +1,7 @@
   /*==============  Loading Comments ===============*/
   $( document ).on('focus', '.add-comment-input' ,function(d){
-	  var postid=$(this).parent().find(".postid").val();
-	  var comments_list=$(this).parent().find(".comments-list");
+	  var postid=$(this).parents('.panel-shadow').find(".postid").val();
+	  var comments_list=$(this).parents('.panel-shadow').find(".comments-list");
 	  if(comments_list.children().length==0){
 		  load_comments(postid,comments_list);
 	  }
@@ -44,7 +44,8 @@
 	  toggle_like($this);
 	  postid=$this.parents('.panel-shadow').find(".postid").val();
 	  
-	  $.post("ajax-req.php",{"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
+	  $.post("ajax-req.php",
+			  {"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
 		  r=JSON.parse(e);
 		  if(r.success!=1){
 			  toggle_like($this);
