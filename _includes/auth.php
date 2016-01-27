@@ -45,7 +45,7 @@ class Auth{
 		 * Lets escape email.
 		 */
 		$s_email=$db->escape($email);
-		$sql=Db::create_sql(array('user_id','password'), array('users'),"email='$s_email' AND status=1");
+		$sql=Db::create_sql(array('user_id','password','first_name','last_name'), array('users'),"email='$s_email' AND status=1");
 		if ($data=Db::fetch_array($db, $sql)){
 			/*
 			 * Making shure only one data is returned
@@ -53,6 +53,7 @@ class Auth{
 			if (count($data)==1 && password::verify_password($password, $data[0]['password'])){
 				$this->is_login=TRUE;
 				$_SESSION ['user_id'] =(int)$data[0]['user_id'];
+				$_SESSION['user_name']=$data[0]['first_name']." ".$data[0]['last_name'];
 				return $this->user_id=(int)$data[0]['user_id'];
 			}
 			$this->set_error("Invalid email/password.");

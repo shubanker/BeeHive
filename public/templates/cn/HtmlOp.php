@@ -84,7 +84,7 @@ EOT;
 				TEMPLATE."_js/custom.js"
 		);
 		foreach ($includes as $value) {
-			$default[]=$value;
+			$default[]=TEMPLATE."_js/$value";
 		}
 		$op="";
 		foreach ($default as $js){

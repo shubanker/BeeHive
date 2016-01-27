@@ -17,20 +17,20 @@ $auth=new Auth($db);
 
 if ($auth->is_login()){
 	$user_id=$auth->get_userid();
-	$user=new User($user_id,$db);
-	$user->update_last_active($user_id, $db);
 	/*
-	 * Loading it through AJAX
+	 * will load it through AJAX
 	 */
 	$feeds=array();
-// 	$feeds=Feeds::get_feeds($user_id, $db);
+// 	$feeds=Feeds::get_feeds($user_id, $db); //uncomment this to load initial post's directly.
 	
 	include TEMPLATE.'home.html';
+	if (!empty($db) && $db->isinit()){
+		User::update_last_active($user_id, $db);
+	}
 }else {
 	Auth::do_login();
 	include TEMPLATE.'loginhome.html';
 }
-echo clearNoteHtmlOp::get_js();
 if (!empty($db) && $db->isinit()){
 	$db->close();
 }
