@@ -42,6 +42,7 @@ if (isset($_POST['req_type'])){
 			$r=$_POST['type']==1?Post::like_post($user_id, $post_id, $db):Post::unlike_post($user_id, $post_id, $db);
 			$responce['success']=$r?1:0;
 			closendie(json_encode($responce));
+			break;
 		case 'syncpost':
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$feeds=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
@@ -49,5 +50,12 @@ if (isset($_POST['req_type'])){
 				$feeds[$i]['time']=Feeds::get_age($feeds[$i]['time']);
 			}
 			closendie(json_encode($feeds));
+			break;
+		case "add_comment":
+			$post_id=(int)$_POST['post_id'];
+			$comment=$db->escape($_POST['comment']);
+			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
+			closendie(json_encode($responce));
+			break;
 	}
 }

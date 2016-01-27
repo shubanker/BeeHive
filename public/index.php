@@ -7,11 +7,7 @@ echo clearNoteHtmlOp::get_include_css();
 if (isset($_GET['logout'])){
 	Auth::logout();
 }
-$db=null;//Initialising variable.
-//Checking if database is required.
-if (isset($_SESSION['user_id'])||!empty($_POST)){
-	$db=new Db();
-}
+$db=new Db();
 $auth=new Auth($db);
 
 
