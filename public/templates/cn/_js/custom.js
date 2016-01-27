@@ -62,14 +62,13 @@ $(document).ready(function() {
 	  $("#statusboxfooter").removeClass("hidden");
   });
   /*==============  Loading Comments ===============*/
-  $('.add-comment-input').on('focus',function(){
+  $( document ).on('focus', '.add-comment-input' ,function(d){
 	  var postid=$(this).parent().find(".postid").val();
 	  var comments_list=$(this).parent().find(".comments-list");
 	  if(comments_list.children().length==0){
 		  load_comments(postid,comments_list);
 	  }
-	  
-  });
+	});
   function load_comments(postid,comments_list){
 	  $.post("ajax-req.php",{"req_type":"get_comments","post_id":postid}).done(function(data){
 			var ob=JSON.parse(data);
