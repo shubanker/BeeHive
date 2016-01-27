@@ -159,18 +159,19 @@ $(document).on('click','#make_post',function(e){
         	$('.progress_bar').toggleClass('hidden');
         },
         success: function(e){
-        	alert(e);
         	$('#make_post').toggleClass('hidden');
         	$('.progress_bar').toggleClass('hidden');
-        	$('#image_up').val('');
-        	$('#post_form').find('textarea').val('');
         	ob=JSON.parse(e);
         	if(ob.success==1){
         		$('.post-box-top').after(make_post_html(ob));
+        		$('#image_up').val('');
+            	$('#post_form').find('textarea').val('');
         	}
         },
         error: function(){
-        	
+
+        	$('#make_post').toggleClass('hidden');
+        	$('.progress_bar').toggleClass('hidden');
         },
         // Form data
         data: formData,

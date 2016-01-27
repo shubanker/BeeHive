@@ -31,7 +31,7 @@
         </div>
     </nav>
     <div class="row text-center color-container">
-        <h1 class="profile-name"><?=isset($_SESSION['user_name'])?$_SESSION['user_name']:"Welcome" ?></h1>
+        <h1 class="profile-name"><?=isset($_SESSION['user_name'])?htmlspecialchars($_SESSION['user_name']):"Welcome" ?></h1>
     </div>
     <div class="container">
         <div class="col-md-10 no-paddin-xs">

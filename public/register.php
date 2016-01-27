@@ -42,6 +42,7 @@ if (!empty($_POST)){
 		$user_id=$register->register(true,$db);
 		if ($user_id){
 			$_SESSION['user_id']=$user_id;
+			$_SESSION['user_name']=$_POST['name'];
 			unset($_SESSION['show_over']);
 			redirect_to();
 		}else {
