@@ -6,6 +6,28 @@
 		  load_comments(postid,comments_list);
 	  }
 	});
+  $( document ).on('keyup', '.add-comment-input' ,function(d){
+	  if(13==d.keyCode){
+		  add_coment($(this));
+	  }
+	});
+  $( document ).on('click', '.comment-button' ,function(d){
+	  add_coment($(this));
+	});
+  function add_coment($this){
+	  post=$this.parents('.panel-shadow');
+	  post_id=post.find(".postid").val();
+	  comment=post.find(".add-comment-input").val();
+	  post.find(".add-comment-input").val("");
+	  $.post("ajax-req.php",
+			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
+				  r=JSON.parse(d);
+				  if(r.comment_id!=null){
+					  post.find(".comments-list").prepend(make_comment_html(r));
+//					  alert(post.find(".comments-list").html());
+				  }
+			  });
+  }
   function make_comment_html(ob){
 	  $op='<li class="comment">';
 		$op+='<a class="pull-left" href="user.php?id='+ob.user_id+'">';
@@ -80,7 +102,8 @@
 		$op+="</div>"+
 			"</div>";
 		if(ob.picture_id!=null){
-			$op+="<div class='post-image'><img src='image.php?id="+ob.picture_id+"' class='image show-in-modal' alt='image post'>";
+			$op+="<div class='post-image'><img src='image.php?id="+ob.picture_id+"' class='image show-in-modal' alt='image post'>" +
+					"</div>";
 		}
 		$op+="                        <div class='post-description'>"+
 			"    <p>"+ob.post_data+"</p>";

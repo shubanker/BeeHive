@@ -55,6 +55,12 @@ if (isset($_POST['req_type'])){
 			$post_id=(int)$_POST['post_id'];
 			$comment=$db->escape($_POST['comment']);
 			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
+			$responce['time']=Feeds::get_age("now");
+			$responce['user_id']=$user_id;
+			$responce['first_name']=$_SESSION['user_name'];
+			$responce['last_name']="";
+			$responce['comment']=$_POST['comment'];
+			
 			closendie(json_encode($responce));
 			break;
 	}
