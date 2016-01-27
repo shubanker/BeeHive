@@ -1638,3 +1638,6 @@ a:active, a:focus, a:hover {
     cursor: inherit;
     display: block;
 }
+.comment-button{
+	cursor: pointer;
+}

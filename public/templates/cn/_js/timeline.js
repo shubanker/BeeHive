@@ -90,7 +90,10 @@
 			"</div>";
 		
 		$op+="<div class='post-footer'>"+
-			"    <input class='form-control add-comment-input' placeholder='Add a comment...' type='text'>"+
+			"<div class='input-group'>"+
+			"    <input class='form-control add-comment-input' placeholder='Add a comment...' type='text'>" +
+			"	<span class='input-group-addon comment-button'><i class='fa fa-edit'></i></span>" +
+			"</div>"+
 			"    <input class='postid' type='hidden' value='"+ob.post_id+"' />"+
 			"    <ul class='comments-list'>"+
 			"    </ul>"+
