@@ -23,6 +23,8 @@
 			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
 				  r=JSON.parse(d);
 				  if(r.comment_id!=null){
+					  ccount=post.find('.c_count');
+					  ccount.html(Number(ccount.html())+1);
 					  post.find(".comments-list").prepend(make_comment_html(r));
 //					  alert(post.find(".comments-list").html());
 				  }
@@ -109,7 +111,7 @@
 			"    <p>"+ob.post_data+"</p>";
 		$op+="<div class='stats'>"+
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
-			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i>"+ob.comment_count+"</a>"+
+			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>"+
 			"    </div>"+
 			"</div>";
 		
