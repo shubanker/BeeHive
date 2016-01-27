@@ -49,13 +49,14 @@
                 </div>
                 <div class="profile-info col-md-8">
                     <div class="panel post-box-top">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="statusbox"></textarea>
-                        
+                        <form action="" method="post" enctype="multipart/form-data" id="post_form">
+                            <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="statusbox" name="post_msg"></textarea>
+                        	<input type="hidden" name="req_type" value="new_post" />
                         <div class="panel-footer hidden" id="statusboxfooter">
-                            <button class="btn btn-info pull-right" type="submit">Post</button>
+                            <button class="btn btn-info pull-right" type="submit" id="make_post">Post</button>
+                            <progress class="pull-right hidden progress_bar"></progress>
                             <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-camera btn-file"><input type="file" name="image" /></i></a>
+                                <li><a href="#"><i class="fa fa-camera btn-file"><input type="file" name="image" id="image_up"/></i></a>
                                 </li>
                             </ul>
                         </div>

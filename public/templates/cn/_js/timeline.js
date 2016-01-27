@@ -108,7 +108,7 @@
 					"</div>";
 		}
 		$op+="                        <div class='post-description'>"+
-			"    <p>"+ob.post_data+"</p>";
+			"    <p>"+(ob.post_data==null?"":ob.post_data)+"</p>";
 		$op+="<div class='stats'>"+
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
 			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>"+
@@ -137,4 +137,51 @@ function sync_post(last_sync){
 		  $('.post-box-top').after($op);
 		  timer=setTimeout("sync_post("+(ob.length>0?ob[0].post_id:last_sync)+")",1000);
 	  });
+}
+/* ========= Making Post ============*/
+$(document).on('click','#make_post',function(e){
+	e.preventDefault();
+	
+	var formData = new FormData($('form')[1]);
+    $.ajax({
+        url: 'ajax-req.php',  //Server script to process data
+        type: 'POST',
+        xhr: function() {  // Custom XMLHttpRequest
+            var myXhr = $.ajaxSettings.xhr();
+            if(myXhr.upload){ // Check if upload property exists
+                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+            }
+            return myXhr;
+        },
+        //Ajax events
+        beforeSend: function(){
+        	$('#make_post').toggleClass('hidden');
+        	$('.progress_bar').toggleClass('hidden');
+        },
+        success: function(e){
+        	alert(e);
+        	$('#make_post').toggleClass('hidden');
+        	$('.progress_bar').toggleClass('hidden');
+        	$('#image_up').val('');
+        	$('#post_form').find('textarea').val('');
+        	ob=JSON.parse(e);
+        	if(ob.success==1){
+        		$('.post-box-top').after(make_post_html(ob));
+        	}
+        },
+        error: function(){
+        	
+        },
+        // Form data
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        $('.progress_bar').attr({value:e.loaded,max:e.total});
+    }
 }

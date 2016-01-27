@@ -1,5 +1,6 @@
 <?php
 require_once '../_includes/include_all.php';
+require_once '../_includes/images.php';
 $db=new Db(DBUSER, DBPASSWORD, DATABASE);
 $auth=new Auth($db);
 if (isset($_REQUEST['email_exists'])){
@@ -62,6 +63,42 @@ if (isset($_POST['req_type'])){
 			$responce['comment']=$_POST['comment'];
 			
 			closendie(json_encode($responce));
+			break;
+		case "new_post":
+			$post_msg=empty($_POST['post_msg'])?null:$_POST['post_msg'];
+			$post_msg_escaped=$db->escape($post_msg);
+			$image_id=null;
+			if (isset($_FILES['image']['name'])&&!empty($_FILES['image']['name'])){
+				$image_id=image::new_image("image", $db);
+				if (empty($image_id)){
+					$responce['error']="Invalid Image";
+					closendie(json_encode($responce));
+				}
+			}
+			if (empty($post_msg)&&!isset($responce['error'])&&empty($image_id)){
+				$responce['error']="Post can not be Empty.";
+				closendie(json_encode($responce));
+			}
+			$post=new Post();
+			$post->set_user_id($user_id);
+			$post->set_picture_id($image_id);
+			$post->set_post_data($post_msg_escaped);
+			$post->set_access(2);
+			$post_id=$post->create($db);
+			if (!empty($post_id)){
+				$responce['success']=1;
+				$responce['first_name']=$_SESSION['user_name'];
+				$responce['last_name']="";
+				$responce['time']=Feeds::get_age("now");
+				$responce['picture_id']=$image_id;
+				$responce['comment_count']=$responce['like_count']=$responce['has_liked']=0;
+				$responce['post_id']=$post_id;
+				$responce['post_data']=$post_msg;
+				$responce['user_id']=$user_id;
+				closendie(json_encode($responce));
+			}
+			$responce['error']="Something went Wrong";
+			closedir(json_encode($responce));
 			break;
 	}
 }
