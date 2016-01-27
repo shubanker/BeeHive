@@ -43,7 +43,7 @@ if (isset($_POST['req_type'])){
 			$responce['success']=$r?1:0;
 			closendie(json_encode($responce));
 		case 'syncpost':
-			$last_post_id=$_POST['last_sync'];
+			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$feeds=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
 			for($i=0;$i<count($feeds);$i++){
 				$feeds[$i]['time']=Feeds::get_age($feeds[$i]['time']);

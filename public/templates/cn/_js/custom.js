@@ -123,14 +123,15 @@ $(document).ready(function() {
 	  like($this);
 	});
   /*==============  Loading Post ===============*/
-  setTimeout("sync_post()",5000);
+  last_sysn=$(".postid").val()==null?0:$(".postid").val();
+  sync_post(last_sysn);
 });
-function sync_post(){
-	  last_sync=$(".postid").val();
+function sync_post(last_sync){
 	  $.post("ajax-req.php",{"req_type":"syncpost","last_sync":last_sync}).done(function(d){
 		  ob=JSON.parse(d);
+		  $op="";
 		  for(i=0;i<ob.length;i++){
-			    $op="<div class='panel panel-white post panel-shadow'>\n" +
+			    $op+="<div class='panel panel-white post panel-shadow'>\n" +
 			    		"<div class='post-heading'>\n    <div class='pull-left image'>";
 			    $op+="<img src='image.php?user="+ob[i].user_id+"&s=s' class='avatar' alt='user profile image'>";
 			    $op+="</div>"+
@@ -139,8 +140,11 @@ function sync_post(){
 			        (ob[i].picture_id==null?"made a post.":"uploaded a photo.")+"</div>";
 			    $op+="<h6 class='text-muted time'> "+ob[i].time+"</h6>";
 			    $op+="</div>"+
-			    "</div>"+
-			    "                        <div class='post-description'>"+
+			    "</div>";
+			    if(ob[i].picture_id!=null){
+			    	$op+="<div class='post-image'><img src='image.php?id="+ob[i].picture_id+"' class='image show-in-modal' alt='image post'>";
+			    }
+			    $op+="                        <div class='post-description'>"+
 			    "    <p>"+ob[i].post_data+"</p>";
 			    $op+="<div class='stats'>"+
 			    "        <a href='#' class='btn "+(ob[i].has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob[i].like_count+"</span> </a>"+
@@ -156,8 +160,9 @@ function sync_post(){
 			    "    </ul>"+
 			    "</div>"+
 			    "</div>";
-			    $('.panel').after($op);
 		  }
+		  $('.post-box-top').after($op);
+		  timer=setTimeout("sync_post("+(ob.length>0?ob[0].post_id:last_sync)+")",1000);
 	  });
-	  timer=setTimeout("sync_post()",5000);
+	  
 }

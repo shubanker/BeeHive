@@ -19,14 +19,19 @@ class Auth{
 			$this->is_login=true;
 			return $this->user_id=$_SESSION['user_id'];
 		}
-		
+		if (empty($db)){
+			return false;
+		}
 		if ($id=Cookies::verify_cookies(null, null, $db)){
 			$_SESSION['user_id']=$this->user_id=$id;
 			$this->is_login=TRUE;
 		}
 	}
 	function check_crediantials($email,$password,$db){
-		
+		if (!$db->isinit()){
+			$this->set_error("Something went wrong :( \nPlease try again after Sometime.");
+			return false;
+		}
 		if (!validate::email($email)){
 			$this->set_error('Invalid Email');
 			return false;
@@ -40,19 +45,22 @@ class Auth{
 		 * Lets escape email.
 		 */
 		$s_email=$db->escape($email);
-		
 		$sql=Db::create_sql(array('user_id','password'), array('users'),"email='$s_email' AND status=1");
-		$data=Db::fetch_array($db, $sql);
-		
-		/*
-		 * Making shure only one data is returned
-		 */
-		if (count($data)==1 && password::verify_password($password, $data[0]['password'])){
-			$this->is_login=TRUE;
-			$_SESSION ['user_id'] =(int)$data[0]['user_id'];
-			return $this->user_id=(int)$data[0]['user_id'];
+		if ($data=Db::fetch_array($db, $sql)){
+			/*
+			 * Making shure only one data is returned
+			 */
+			if (count($data)==1 && password::verify_password($password, $data[0]['password'])){
+				$this->is_login=TRUE;
+				$_SESSION ['user_id'] =(int)$data[0]['user_id'];
+				return $this->user_id=(int)$data[0]['user_id'];
+			}
+			$this->set_error("Invalid email/password.");
+		}else {
+			$this->set_error("Something went wrong :( \nPlease try again after Sometime.");
 		}
-		$this->set_error("Invalid email/password.");
+		
+		
 		return false;
 	}
 	function get_userid(){

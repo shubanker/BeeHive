@@ -7,12 +7,10 @@ shuffle($files);
             <div class="row">
                 <div class="col-md-4 col-md-offset-4"><img src="templates/cn/_img/Friends/woman-1.jpg" class="user-avatar img-circle">
                     <h1><img src="templates/cn/_img/logo.png" class="img-logo">Bee-Hive</h1>
-                    <?php if (isset($_SESSION['msg'])){?>
-                                <div class="alert alert-<?=isset($_SESSION['msg_type'])?$_SESSION['msg_type']:"info" ?>">
+                                <div class="alert <?="alert-".(isset($_SESSION['msg_type'])?$_SESSION['msg_type']:"info"); ?> <?=isset($_SESSION['msg'])&&!empty($_SESSION['msg'])?"":"hidden" ?>">
 									<button type="button" class="close" data-dismiss="alert"> &times;</button>
-									<?=$_SESSION['msg'];unset($_SESSION['msg']);?>
+									<?=isset($_SESSION['msg'])&&!empty($_SESSION['msg'])?nl2br($_SESSION['msg']):"";unset($_SESSION['msg']);?>
 								</div>
-					<?php }?>
                     <form role="form" class="frm animated fadeInRight" action="" method="post">
                         <div class="form-content">
                             <div class="form-group">
