@@ -106,7 +106,7 @@ class Message{
 	 * 
 	 * @after-for getting new messages useful for ajax.
 	 */
-	static function get_messages($user_one,$user_two,$db,$start=NULL,$no_of_results=NULL,$after=NULL){
+	static function get_messages($user_one,$user_two,$db,$start=NULL,$no_of_results=NULL,$after=NULL,$sortDesc=TRUE){
 		
 		$start=is_numeric($start)?$start:0;
 		$no_of_results=is_numeric($no_of_results)?$no_of_results:10;
@@ -114,11 +114,11 @@ class Message{
 		if (is_numeric($after)){
 			$after=" AND `message_id`>$after ";
 		}
-		
-		echo $sql=Db::create_sql('*', self::$table,"
+		$sort=$sortDesc?"`message_id` DESC":"`message_id`";
+		$sql=Db::create_sql('*', self::$table,"
 				((`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')) $after",
-				"`message_id` DESC",
+				$sort,
 				null,
 				"$start,$no_of_results");
 		return Db::fetch_array($db, $sql);

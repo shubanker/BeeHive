@@ -32,9 +32,7 @@ if (isset($_POST['req_type'])){
 		case "get_comments":
 			$post_id=(int)$_POST['post_id'];
 			$comments=Post::get_post_comments($post_id, $db);
-			for ($i = 0; $i < count($comments); $i++) {
-				$comments[$i]['time']=Feeds::get_age($comments[$i]['time']);
-			}
+			$comments=make_time_redable($comments);
 			closendie(json_encode($comments));
 			break;
 		case 'toggle_like':
@@ -47,9 +45,7 @@ if (isset($_POST['req_type'])){
 		case 'syncpost':
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$feeds=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
-			for($i=0;$i<count($feeds);$i++){
-				$feeds[$i]['time']=Feeds::get_age($feeds[$i]['time']);
-			}
+			$feeds=make_time_redable($feeds);
 			closendie(json_encode($feeds));
 			break;
 		case "add_comment":
@@ -108,5 +104,20 @@ if (isset($_POST['req_type'])){
 			}
 			closendie(json_encode($list));
 			break;
+		case "get_msg":
+			if (is_numeric($_POST['friendid'])){
+				$friend_id=(int)$_POST['friendid'];
+				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,null,false);
+				$msg=make_time_redable($msg);
+				closendie(json_encode($msg));
+			}
+			closendie(json_encode(array('error'=>'invalid request')));
+			break;
 	}
+}
+function make_time_redable($array,$field="time"){
+	for ($i=0;$i<count($array);$i++){
+		$array[$i][$field]=Feeds::get_age($array[$i][$field]);
+	}
+	return $array;
 }

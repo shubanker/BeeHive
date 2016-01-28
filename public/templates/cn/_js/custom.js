@@ -22,6 +22,8 @@ $(document).ready(function() {
 	  e.preventDefault();
 	  //Chatbox user name
 	  name=$(this).find('.chat-user-name').html();
+	  friendid=$(this).find('input').val();
+	  load_chat(friendid);
 	  $('#chat_name').html(name);
 	  $('.chat-window').show();
   });
@@ -80,8 +82,40 @@ function make_chat_html(ob){
 	$op="<a href='#' class='list-group-item'><i class='fa ";
 		$op+=ob.data>200?"fa-times-circle absent-status":"fa-check-circle connected-status";
 	$op+="'></i>";
+	$op+="<input type='hidden' value='"+ob.user_id+"'/>";
 	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail'> <span class='chat-user-name'>";
 	$op+=ob.first_name+" "+ob.last_name;
 	$op+="</span> </a>";
 	return $op;
+}
+function load_chat(friendid,lastsync=0){
+	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid}).done(function(d){
+		ob=JSON.parse(d);
+		op="";
+		for (var i = 0; i < ob.length; i++) {
+			op+=make_chat_msg__html(ob[i],friendid);
+		}
+		$('.msg_container_base').html(op);
+	});
+}
+function make_chat_msg__html(ob,friendid){
+	isreceived=ob.user_one==friendid;
+	op="<div class='row msg_container "+(isreceived?"base_receive":"base_sent")+"'>";
+	image="<div class='col-md-2 col-xs-2 avatar-chat-box'>" +
+			"<img src='image.php?user="+ob.user_one+"&s=s' class=' img-responsive ' alt='image'>" +
+			"</div>";
+	if(isreceived){
+		op+=image;
+	}
+	op+="<div class='col-md-10 col-xs-10'>" +
+			"<div class='messages "+(isreceived?"msg_receive":"msg_sent")+"'>";
+	op+="<p>"+ob.message+"</p>" +
+			"<time>"+ob.time+"</time>" +
+					"</div>" +
+				"</div>";
+	if(!isreceived){
+		op+=image;
+	}
+	op+="</div>";
+	return op;
 }
