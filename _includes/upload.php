@@ -85,7 +85,7 @@ class upload {
 		$this->get_image_file_type ();
 		
 		// Check file size
-		if ($this->size > 500000) {
+		if ($this->size > IMAGE_SIZE_LIMIT*1024000) {
 			$this->upload_error ['size'] = "Sorry, your file is too large.";
 			$this->uploadOk = 0;
 		} // array("jpeg","jpg","png","gif")

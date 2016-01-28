@@ -86,7 +86,7 @@ function make_chat_html(ob){
 	$op+="'></i>";
 	$op+="<input type='hidden' value='"+ob.user_id+"'/>";
 	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail'> <span class='chat-user-name'>";
-	$op+=ob.first_name+" "+ob.last_name;
+	$op+=(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name);
 	$op+="</span> </a>";
 	return $op;
 }

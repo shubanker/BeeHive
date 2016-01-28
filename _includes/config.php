@@ -18,3 +18,4 @@ define('DBHOST', 'localhost');
 
 define("TEMPLATE", "templates/cn/");
 define("IMAGEDIR", "../Images");
+define("IMAGE_SIZE_LIMIT", "2");#Value in Mb
