@@ -23,9 +23,11 @@ $(document).ready(function() {
 	  //Chatbox user name
 	  name=$(this).find('.chat-user-name').html();
 	  friendid=$(this).find('input').val();
-	  load_chat(friendid);
+	  
 	  $('#chat_name').html(name);
 	  $('.chat-window').show();
+	  $('#current_chat_user_id').val(friendid);
+	  load_chat(friendid);
   });
 
   $(document).on('click', '.icon_close', function (e) {

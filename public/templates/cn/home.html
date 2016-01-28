@@ -36,7 +36,7 @@
     <div class="container">
         <div class="col-md-10 no-paddin-xs">
             <div class="row">
-                <div class=" col-md-3">
+                <div class=" col-md-3 hidden-xs">
                     <div class="left-user-options" data-spy="affix">
                         <img src="image.php?user=<?=$user_id ?>" class="img-thumbnail img-circle img-user">
                         <div class="list-group">
@@ -124,6 +124,7 @@
                     <div class="panel-footer">
                         <div class="input-group">
                             <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." /> <span class="input-group-btn"><button class="btn btn-primary btn-sm" id="btn-chat">Send</button> </span>
+                            <input type="hidden" id='current_chat_user_id' />
                         </div>
                     </div>
                 </div>
