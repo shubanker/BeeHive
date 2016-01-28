@@ -1,8 +1,8 @@
 $(document).ready(function() {
    /*============ Chat sidebar ========*/
-  $('.chat-sidebar, .nav-controller, .chat-sidebar a').on('click', function(event) {
-      $('.chat-sidebar').toggleClass('focus');
-  });
+//  $('.chat-sidebar, .nav-controller, .chat-sidebar a').on('click', function(event) {
+//      $('.chat-sidebar').toggleClass('focus');
+//  });
 
   $(".hide-chat").click(function(){
       $('.chat-sidebar').toggleClass('focus');
@@ -19,6 +19,7 @@ $(document).ready(function() {
 
   /*chat box*/
   $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
+	  e.preventDefault();
 	  //Chatbox user name
 	  name=$(this).find('.chat-user-name').html();
 	  $('#chat_name').html(name);
