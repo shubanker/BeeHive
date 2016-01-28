@@ -18,11 +18,14 @@
 	  post=$this.parents('.panel-shadow');
 	  post_id=post.find(".postid").val();
 	  comment=post.find(".add-comment-input").val();
+	  if(comment==null || comment==""){
+		  return false;
+	  }
 	  post.find(".add-comment-input").val("");
 	  $.post("ajax-req.php",
 			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
 				  r=JSON.parse(d);
-				  if(r.comment_id!=null){
+				  if(r.comment_id!=null&&r.comment_id){
 					  ccount=post.find('.c_count');
 					  ccount.html(Number(ccount.html())+1);
 					  post.find(".comments-list").prepend(make_comment_html(r));
