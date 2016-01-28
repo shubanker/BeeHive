@@ -98,7 +98,15 @@ if (isset($_POST['req_type'])){
 				closendie(json_encode($responce));
 			}
 			$responce['error']="Something went Wrong";
-			closedir(json_encode($responce));
+			closendie(json_encode($responce));
+			break;
+		case "online_list":
+			$list=Message::get_chat_list($user_id, $db);
+			$now=strtotime("now");
+			for ($i=0;$i<count($list);$i++){
+				$list[$i]['data']=$now-$list[$i]['data'];
+			}
+			closendie(json_encode($list));
 			break;
 	}
 }

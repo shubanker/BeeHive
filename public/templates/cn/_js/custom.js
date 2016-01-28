@@ -61,4 +61,25 @@ $(document).ready(function() {
   $("#statusbox").on('focus',function(){
 	  $("#statusboxfooter").removeClass("hidden");
   });
+	load_online_list();
 });
+/* ============= Online users ================= */
+function load_online_list(){
+	$.post("ajax-req.php",{req_type:"online_list"}).done(function(d){
+		ob=JSON.parse(d);
+		$op="";
+		for (var i = 0; i < ob.length; i++) {
+			$op+=make_chat_html(ob[i]);
+		}
+		$(".chat_list").html($op);
+	});
+}
+function make_chat_html(ob){
+	$op="<a href='#' class='list-group-item'><i class='fa ";
+		$op+=ob.data>200?"fa-times-circle absent-status":"fa-check-circle connected-status";
+	$op+="'></i>";
+	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail'> <span class='chat-user-name'>";
+	$op+=ob.first_name+" "+ob.last_name;
+	$op+="</span> </a>";
+	return $op;
+}
