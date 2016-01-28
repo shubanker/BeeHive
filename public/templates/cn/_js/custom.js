@@ -61,7 +61,4 @@ $(document).ready(function() {
   $("#statusbox").on('focus',function(){
 	  $("#statusboxfooter").removeClass("hidden");
   });
-  /*==============  Loading Post ===============*/
-  last_sysn=$(".postid").val()==null?0:$(".postid").val();
-  sync_post(last_sysn);
 });
