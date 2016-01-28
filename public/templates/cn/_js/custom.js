@@ -96,6 +96,7 @@ function load_chat(friendid,lastsync=0){
 			op+=make_chat_msg__html(ob[i],friendid);
 		}
 		$('.msg_container_base').html(op);
+		$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
 	});
 }
 function make_chat_msg__html(ob,friendid){
