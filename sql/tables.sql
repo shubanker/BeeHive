@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2016 at 01:29 PM
+-- Generation Time: Jan 28, 2016 at 12:17 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -99,8 +99,22 @@ CREATE TABLE IF NOT EXISTS `friends` (
 CREATE TABLE IF NOT EXISTS `images` (
 `image_id` int(11) NOT NULL,
   `loc` varchar(100) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `keys`
+--
+
+CREATE TABLE IF NOT EXISTS `keys` (
+  `user_id` int(11) NOT NULL,
+  `skey` varchar(100) COLLATE utf8_bin NOT NULL,
+  `exp` varchar(12) COLLATE utf8_bin NOT NULL,
+  `lastused` varchar(12) COLLATE utf8_bin NOT NULL,
+  `hits` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -226,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `userdata` (
 `data_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `type` varchar(25) NOT NULL,
-  `data` text NOT NULL,
+  `data` text,
   `status` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
@@ -268,6 +282,12 @@ ALTER TABLE `friends`
 --
 ALTER TABLE `images`
  ADD PRIMARY KEY (`image_id`);
+
+--
+-- Indexes for table `keys`
+--
+ALTER TABLE `keys`
+ ADD UNIQUE KEY `user_id` (`user_id`,`skey`);
 
 --
 -- Indexes for table `likes`
@@ -366,6 +386,12 @@ ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`pos
 ALTER TABLE `friends`
 ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_one`) REFERENCES `users` (`user_id`),
 ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`user_two`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `keys`
+--
+ALTER TABLE `keys`
+ADD CONSTRAINT `keys_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `likes`
