@@ -138,9 +138,9 @@ function sync_post(last_sync){
 			    $op+=make_post_html(ob[i]);
 		  }
 		  $('.post-box-top').after($op);
-		  timer=setTimeout("sync_post("+(ob.length>0?ob[0].post_id:last_sync)+")",20000);
+		  sync_post_timer=setTimeout("sync_post("+(ob.length>0?ob[0].post_id:last_sync)+")",20000);
 	  }).fail(function(){
-		  timer=setTimeout("sync_post("+last_sync+")",10000);
+		  sync_post_timer=setTimeout("sync_post("+last_sync+")",10000);
 	  });
 	  
 }

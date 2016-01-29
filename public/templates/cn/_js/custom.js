@@ -81,7 +81,7 @@ function load_online_list(){
 		}
 		$(".chat_list").html($op);
 	});
-	setTimeout('load_online_list()',15000);
+	load_online_list_timer=setTimeout('load_online_list()',15000);
 }
 function make_chat_html(ob){
 	$op="<a href='#' class='list-group-item'><i class='fa ";
