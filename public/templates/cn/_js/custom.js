@@ -26,12 +26,15 @@ $(document).ready(function() {
 	  
 	  $('#chat_name').html(name);
 	  $('.chat-window').show();
+	  $('.chat_input').val('').focus();
 	  $('#current_chat_user_id').val(friendid);
 	  load_chat(friendid);
   });
 
   $(document).on('click', '.icon_close', function (e) {
     $(this).closest('.chat-window').hide();
+    clearTimeout(chat_timer);
+    chat_timer=0
   });
   
   $(document).on('click', '.panel-heading span.icon_minim', function (e) {
@@ -72,6 +75,7 @@ $(document).ready(function() {
 	
 });
 /* ============= Online users ================= */
+load_online_list_timer=0;
 function load_online_list(){
 	$.post("ajax-req.php",{req_type:"online_list"}).done(function(d){
 		ob=JSON.parse(d);
@@ -93,15 +97,51 @@ function make_chat_html(ob){
 	$op+="</span> </a>";
 	return $op;
 }
+/* ============= Messages ============== */
+chat_timer=0;
 function load_chat(friendid,lastsync=0){
+	$('.msg_container_base').html('');
+	sync_chat(friendid,lastsync);
+}
+function sync_chat(friendid,lastsync=0){
 	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid}).done(function(d){
 		ob=JSON.parse(d);
-		op="";
-		for (var i = 0; i < ob.length; i++) {
-			op+=make_chat_msg__html(ob[i],friendid);
+		if(ob.length>0){
+			lastsync=ob[ob.length-1].message_id;
+			op="";
+			for (var i = 0; i < ob.length; i++) {
+				op+=make_chat_msg__html(ob[i],friendid);
+			}
+			$('.msg_container_base').append(op);
+			$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
 		}
-		$('.msg_container_base').html(op);
-		$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+		chat_timer=setTimeout("sync_chat("+friendid+","+lastsync+")",1000);
+	});
+}
+$(document).on('click','.btn-sm',function(){
+	firendid=$('#current_chat_user_id').val();
+	msg=$('.chat_input').val();
+	send_msg(msg,friendid);
+});
+$( document ).on('keyup', '.chat_input' ,function(d){
+  if(13==d.keyCode){
+	  firendid=$('#current_chat_user_id').val();
+	  msg=$('.chat_input').val();
+	  send_msg(msg,friendid);
+  }
+});
+function send_msg(msg,friendid){
+	if(msg==null||msg==""){
+		return false;
+	}
+	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+//			op=make_chat_msg__html(ob,friendid);
+//			$('.msg_container_base').append(op).scrollTop($('.msg_container_base')[0].scrollHeight);
+			$('.chat_input').val('');
+		}
+		
 	});
 }
 function make_chat_msg__html(ob,friendid){

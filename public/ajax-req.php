@@ -107,11 +107,33 @@ if (isset($_POST['req_type'])){
 		case "get_msg":
 			if (is_numeric($_POST['friendid'])){
 				$friend_id=(int)$_POST['friendid'];
-				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,null,false);
+				$last_sync=(int)$_POST['lastsync'];
+				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,false);
 				$msg=make_time_redable($msg);
 				closendie(json_encode($msg));
 			}
 			closendie(json_encode(array('error'=>'invalid request')));
+			break;
+		case "send_msg":
+			if (empty(trim($_POST['msg']))||!is_numeric($_POST['friendid'])){
+				$responce['error']="Invalid request";
+			}else {
+				$smsg=$db->escape(trim($_POST['msg']));
+				$friend_id=(int)$_POST['friendid'];
+				$message_id=Message::send_message($user_id, $friend_id, $smsg, $db);
+				if ($message_id){
+// 					$responce['message_id']=$message_id;
+// 					$responce['user_one']=$user_id;
+// 					$responce['user_two']=$friend_id;
+// 					$responce['message']=$_POST['msg'];
+// 					$responce['time']=Feeds::get_age("now");
+// 					$responce['status']=1;
+					$responce['success']=1;
+				}else {
+					$responce['success']=0;
+				}
+			}
+			closendie(json_encode($responce));
 			break;
 	}
 }
