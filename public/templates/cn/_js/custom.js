@@ -66,7 +66,10 @@ $(document).ready(function() {
   $("#statusbox").on('focus',function(){
 	  $("#statusboxfooter").removeClass("hidden");
   });
-	load_online_list();
+  
+  $('.alert-info').hide();
+  load_online_list();
+	
 });
 /* ============= Online users ================= */
 function load_online_list(){
