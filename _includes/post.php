@@ -73,7 +73,10 @@ class Post extends Struct{
 		return $this->get('access');
 	}
 	function set_access($access){
-		return $this->set('access', $access);
+		if (!is_numeric($access)||$access<1||$access>3){
+			$access=2;//2 is default i.e friends only.
+		}
+		return $this->set('access', (int)$access);
 	}
 	function get_status(){
 		return $this->get('status');

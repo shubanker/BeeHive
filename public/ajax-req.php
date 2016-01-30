@@ -79,7 +79,7 @@ if (isset($_POST['req_type'])){
 			$post->set_user_id($user_id);
 			$post->set_picture_id($image_id);
 			$post->set_post_data($post_msg_escaped);
-			$post->set_access(2);
+			$post->set_access(trim($_POST['privacy']));
 			$post_id=$post->create($db);
 			if (!empty($post_id)){
 				$responce['success']=1;

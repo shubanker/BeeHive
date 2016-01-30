@@ -57,7 +57,15 @@
                             <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="statusbox" name="post_msg"></textarea>
                         	<input type="hidden" name="req_type" value="new_post" />
                         <div class="panel-footer hidden" id="statusboxfooter">
-                            <button class="btn btn-info pull-right" type="submit" id="make_post">Post</button>
+                        	
+                            <div class="pull-right">
+	                            <select name="privacy" id="" class="">
+	                            	<option value="1">Public</option>
+	                            	<option value="2" selected="selected">Friends</option>
+	                            	<option value="3">Only me</option>
+	                            </select>
+	                            <button class="btn btn-info" type="submit" id="make_post">Post</button>
+                            </div>
                             <progress class="pull-right hidden progress_bar"></progress>
                             <ul class="nav nav-pills">
                                 <li><a href="#"><i class="fa fa-camera btn-file"><input type="file" name="image" id="image_up"/></i></a>
