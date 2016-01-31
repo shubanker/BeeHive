@@ -31,24 +31,21 @@ if (isset($_POST['req_type'])){
 	switch ($_POST['req_type']){
 		case "get_comments":
 			$post_id=(int)$_POST['post_id'];
-			$comments=Post::get_post_comments($post_id, $db);
-			$comments=make_time_redable($comments);
-			$comments=make_html_entity($comments, array('comment','first_name','last_name'));
-			closendie(json_encode($comments));
+			$responce=Post::get_post_comments($post_id, $db);
+			$responce=make_time_redable($responce);
+			$responce=make_html_entity($responce, array('comment','first_name','last_name'));
 			break;
 		case 'toggle_like':
 			$post_id=(int)$_POST['post_id'];
 			
 			$r=$_POST['type']==1?Post::like_post($user_id, $post_id, $db):Post::unlike_post($user_id, $post_id, $db);
 			$responce['success']=$r?1:0;
-			closendie(json_encode($responce));
 			break;
 		case 'syncpost':
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
-			$feeds=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
-			$feeds=make_time_redable($feeds);
-			$feeds=make_html_entity($feeds, array('post_data','first_name','last_name'));
-			closendie(json_encode($feeds));
+			$responce=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
+			$responce=make_time_redable($responce);
+			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));
 			break;
 		case "add_comment":
 			$post_id=(int)$_POST['post_id'];
@@ -59,8 +56,6 @@ if (isset($_POST['req_type'])){
 			$responce['first_name']=htmlentities($_SESSION['user_name']);
 			$responce['last_name']="";
 			$responce['comment']=htmlentities($_POST['comment']);
-			
-			closendie(json_encode($responce));
 			break;
 		case "new_post":
 			$post_msg=empty($_POST['post_msg'])?null:$_POST['post_msg'];
@@ -70,12 +65,10 @@ if (isset($_POST['req_type'])){
 				$image_id=image::new_image("image", $db);
 				if (empty($image_id)){
 					$responce['error']="Invalid Image";
-					closendie(json_encode($responce));
 				}
 			}
 			if (empty($post_msg)&&!isset($responce['error'])&&empty($image_id)){
 				$responce['error']="Post can not be Empty.";
-				closendie(json_encode($responce));
 			}
 			$post=new Post();
 			$post->set_user_id($user_id);
@@ -93,31 +86,28 @@ if (isset($_POST['req_type'])){
 				$responce['post_id']=$post_id;
 				$responce['post_data']=htmlentities($post_msg);
 				$responce['user_id']=$user_id;
-				closendie(json_encode($responce));
 			}
 			$responce['error']="Something went Wrong";
-			closendie(json_encode($responce));
 			break;
 		case "online_list":
-			$list=Message::get_chat_list($user_id, $db);
+			$responce=Message::get_chat_list($user_id, $db);
 			$now=strtotime("now");
-			for ($i=0;$i<count($list);$i++){
-				$list[$i]['data']=$now-$list[$i]['data'];
+			for ($i=0;$i<count($responce);$i++){
+				$responce[$i]['data']=$now-$responce[$i]['data'];
 			}
-			closendie(json_encode($list));
 			break;
 		case "get_msg":
 			if (is_numeric($_POST['friendid'])){
 				$friend_id=(int)$_POST['friendid'];
 				$last_sync=(int)$_POST['lastsync'];
 				$sortDesc=$_POST['fillbefore']==false?false:true;
-				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
-				$msg=array_reverse($msg);
-				$msg=make_html_entity($msg, array('message'));
-				$msg=make_time_redable($msg);
-				closendie(json_encode($msg));
+				$responce=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
+				$responce=array_reverse($responce);
+				$responce=make_html_entity($responce, array('message'));
+				$responce=make_time_redable($responce);
+			}else{
+				$responce['error']='invalid reques';
 			}
-			closendie(json_encode(array('error'=>'invalid request')));
 			break;
 		case "send_msg":
 			if (empty(trim($_POST['msg']))||!is_numeric($_POST['friendid'])){
@@ -138,14 +128,14 @@ if (isset($_POST['req_type'])){
 					$responce['success']=0;
 				}
 			}
-			closendie(json_encode($responce));
 			break;
 		case "notification_count":
 			$responce['notification_count']=Notifications::get_notification_count($user_id,$db);
 			$responce['message_count']=Message::get_unread_count($user_id, $db);
-			closendie(json_encode($responce));
 			break;
+		default:$responce['error']="Invalid Request";
 	}
+	closendie(json_encode($responce));
 }
 function make_time_redable($array,$field="time"){
 	for ($i=0;$i<count($array);$i++){
