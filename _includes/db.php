@@ -126,6 +126,18 @@ class Db{
 		$sql.=";";
 		return $sql;
 	}
+	static function create_update_sql2($table,$data,$where,$db){
+		$sql="UPDATE `{$table}` SET ";
+		foreach ($data as $key=>$val){
+			if (!empty($db)){
+				$val=$db->escape($val);
+			}
+			$sql.="`$key`='{$val}',";
+		}
+		$sql=self::remove_last_symbol($sql);
+		$sql.=self::where_to_str($where);
+		return $sql;
+	}
 	static function update($db,$table,$data,$pk){
 		return $db->query(self::create_update_sql($db, $table, $data, $pk));
 	}
