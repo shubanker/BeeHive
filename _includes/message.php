@@ -85,6 +85,12 @@ class Message{
 // 		echo $sql;
 		return Db::fetch_array($db, $sql);
 	}
+	static function get_unread_count($user_id,$db){
+		$sql=Db::create_sql('count(DISTINCT user_one)"count"', self::$table,
+				"`user_two`='$user_id' AND status IN(1,2)"
+			);
+		return empty($db)?$sql:Db::qnfetch($sql, $db);
+	}
 	private static function set_status($message_id,$status,$db){
 		$sql=Db::create_update_sql($db, self::$table, array(
 				"status"=>$status
