@@ -46,6 +46,11 @@ if (isset($_POST['req_type'])){
 			$responce=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));
+			
+			#Can he edit/delete post
+			for ($i = 0; $i < count($responce); $i++) {
+				$responce[$i]['can_edit']=$responce[$i]['user_id']==$user_id?1:0;
+			}
 			break;
 		case "add_comment":
 			$post_id=(int)$_POST['post_id'];
@@ -86,6 +91,7 @@ if (isset($_POST['req_type'])){
 				$responce['post_id']=$post_id;
 				$responce['post_data']=htmlentities($post_msg);
 				$responce['user_id']=$user_id;
+				$responce['can_edit']=1;
 			}
 			$responce['error']="Something went Wrong";
 			break;
