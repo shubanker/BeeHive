@@ -87,7 +87,7 @@ class Message{
 	}
 	static function get_unread_count($user_id,$db){
 		$sql=Db::create_sql('count(DISTINCT user_one)"count"', self::$table,
-				"`user_two`='$user_id' AND status IN(1,2)"
+				"`user_two`='$user_id' AND status IN(1)"
 			);
 		if (empty($db)){
 			return $sql;
