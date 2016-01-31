@@ -1641,3 +1641,9 @@ a:active, a:focus, a:hover {
 .comment-button{
 	cursor: pointer;
 }
+.notification_count{
+	background-color: #ff5252;
+	font-size: 0.9em;
+	padding: .3em;
+    border-radius: .4em;
+}

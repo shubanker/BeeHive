@@ -18,7 +18,7 @@ EOS;
 				TEMPLATE."_css/bootstrap.min.css",
 				TEMPLATE."_css/animate.min.css",
 				TEMPLATE."_css/font-awesome.min.css",
-				TEMPLATE."_css/clean-note-timeline.css"
+				TEMPLATE."_css/timeline.css"
 		);
 		foreach ($include_css as $css){
 			$default_css[]=$css;
