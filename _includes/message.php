@@ -96,20 +96,20 @@ class Message{
 			return $result['count'];
 		}
 	}
-	private static function set_status($message_id,$status,$db){
+	private static function set_status($user_id,$message_id,$status,$db){
 		if (is_array($message_id)){
 			$message_id=implode("','", $message_id);
 		}
 		$sql=Db::create_update_sql2(self::$table, array(
 				"status"=>$status
-		), "`message_id` IN('$message_id')", $db);
+		), "`message_id` IN('$message_id') AND `user_two`='$user_id'", $db);
 		return empty($db)?$sql:($db->query($sql)?$db->affected_rows():false);
 	}
-	static function mark_received($message_id,$db){
-		return self::set_status($message_id, 2, $db);
+	static function mark_received($user_id,$message_id,$db){
+		return self::set_status($user_id,$message_id, 2, $db);
 	}
-	static function mark_read($message_id,$db){
-		return self::set_status($message_id, 3, $db);
+	static function mark_read($user_id,$message_id,$db){
+		return self::set_status($user_id,$message_id, 3, $db);
 	}
 	/*
 	 * Get all the messages between 2 users.

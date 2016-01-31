@@ -106,9 +106,11 @@ if (isset($_POST['req_type'])){
 				//For marking read.
 				$message_ids=array();
 				foreach ($responce as $msg){
-					$message_ids[]=$msg['message_id'];
+					if ($msg['user_two']==$user_id){
+						$message_ids[]=$msg['message_id'];
+					}
 				}
-				Message::mark_received($message_ids, $db);
+				Message::mark_received($user_id,$message_ids, $db);
 				
 				$responce=array_reverse($responce);
 				$responce=make_html_entity($responce, array('message'));

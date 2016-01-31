@@ -171,12 +171,16 @@ function make_chat_msg__html(ob,friendid){
 	op+="</div>";
 	return op;
 }
+/*========== Notification count ========*/
+notification_count_timer=0;
 function get_notification_count(){
 	$.post('ajax-req.php',{req_type:'notification_count'}).done(function(d){
 		ob=JSON.parse(d);
+		$('.notification_count').remove();
 		$('#notifications').append(get_notification_count_html(ob.notification_count));
 		$('#messages').append(get_notification_count_html(ob.message_count));
 	});
+	notification_count_timer=setTimeout("get_notification_count()",6000);
 }
 function get_notification_count_html(c){
 	if(c > 0){
