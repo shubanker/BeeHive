@@ -89,7 +89,12 @@ class Message{
 		$sql=Db::create_sql('count(DISTINCT user_one)"count"', self::$table,
 				"`user_two`='$user_id' AND status IN(1,2)"
 			);
-		return empty($db)?$sql:Db::qnfetch($sql, $db);
+		if (empty($db)){
+			return $sql;
+		}else{
+			$result=Db::qnfetch($sql, $db);
+			return $result['count'];
+		}
 	}
 	private static function set_status($message_id,$status,$db){
 		$sql=Db::create_update_sql($db, self::$table, array(

@@ -41,9 +41,14 @@ class Notifications{
 		return self::update_status($notification_id, 1,$db);
 	}
 	static function get_notification_count($user_id,$db=null){
-		$sql= Db::create_sql('count(`notification_id`)', self::$table,
+		$sql= Db::create_sql('count(`notification_id`)count', self::$table,
 				"`user_id`='$user_id' AND status=1");
-		return empty($db)?$sql:(is_numeric($user_id)?Db::qnfetch($sql, $db):false);
+		if (empty($db)){
+			return $sql;
+		}else {
+			$result=Db::qnfetch($sql, $db);
+			return $result['count'];
+		}
 	}
 	/*
 	 * @status

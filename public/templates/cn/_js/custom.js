@@ -72,6 +72,7 @@ $(document).ready(function() {
   
   $('.alert-info').hide();
   load_online_list();
+  get_notification_count();
 	
 });
 /* ============= Online users ================= */
@@ -169,4 +170,17 @@ function make_chat_msg__html(ob,friendid){
 	}
 	op+="</div>";
 	return op;
+}
+function get_notification_count(){
+	$.post('ajax-req.php',{req_type:'notification_count'}).done(function(d){
+		ob=JSON.parse(d);
+		$('#notifications').append(get_notification_count_html(ob.notification_count));
+		$('#messages').append(get_notification_count_html(ob.message_count));
+	});
+}
+function get_notification_count_html(c){
+	if(c > 0){
+		return "<span class='notification_count'>"+c+"</span>";
+	}
+	return false;
 }
