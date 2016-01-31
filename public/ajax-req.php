@@ -102,6 +102,14 @@ if (isset($_POST['req_type'])){
 				$last_sync=(int)$_POST['lastsync'];
 				$sortDesc=$_POST['fillbefore']==false?false:true;
 				$responce=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
+				
+				//For marking read.
+				$message_ids=array();
+				foreach ($responce as $msg){
+					$message_ids[]=$msg['message_id'];
+				}
+				Message::mark_received($message_ids, $db);
+				
 				$responce=array_reverse($responce);
 				$responce=make_html_entity($responce, array('message'));
 				$responce=make_time_redable($responce);
