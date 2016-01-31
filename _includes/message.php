@@ -97,11 +97,13 @@ class Message{
 		}
 	}
 	private static function set_status($message_id,$status,$db){
-		$sql=Db::create_update_sql($db, self::$table, array(
+		if (is_array($message_id)){
+			$message_id=implode("','", $message_id);
+		}
+		$sql=Db::create_update_sql2(self::$table, array(
 				"status"=>$status
-		), array("message_id"=>$message_id));
-		return $db->query($sql)?$db->affected_rows():false;
-		
+		), "`message_id` IN('$message_id')", $db);
+		return empty($db)?$sql:($db->query($sql)?$db->affected_rows():false);
 	}
 	static function mark_received($message_id,$db){
 		return self::set_status($message_id, 2, $db);
