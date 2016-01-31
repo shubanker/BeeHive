@@ -140,6 +140,11 @@ if (isset($_POST['req_type'])){
 			}
 			closendie(json_encode($responce));
 			break;
+		case "notification_count":
+			$responce['notification_count']=Notifications::get_notification_count($user_id,$db);
+			$responce['message_count']=Message::get_unread_count($user_id, $db);
+			closendie(json_encode($responce));
+			break;
 	}
 }
 function make_time_redable($array,$field="time"){
