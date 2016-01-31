@@ -33,6 +33,7 @@ if (isset($_POST['req_type'])){
 			$post_id=(int)$_POST['post_id'];
 			$comments=Post::get_post_comments($post_id, $db);
 			$comments=make_time_redable($comments);
+			$comments=make_html_entity($comments, array('comment','first_name','last_name'));
 			closendie(json_encode($comments));
 			break;
 		case 'toggle_like':
@@ -46,6 +47,7 @@ if (isset($_POST['req_type'])){
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$feeds=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
 			$feeds=make_time_redable($feeds);
+			$feeds=make_html_entity($feeds, array('post_data','first_name','last_name'));
 			closendie(json_encode($feeds));
 			break;
 		case "add_comment":
@@ -54,9 +56,9 @@ if (isset($_POST['req_type'])){
 			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
 			$responce['time']=Feeds::get_age("now");
 			$responce['user_id']=$user_id;
-			$responce['first_name']=$_SESSION['user_name'];
+			$responce['first_name']=htmlentities($_SESSION['user_name']);
 			$responce['last_name']="";
-			$responce['comment']=$_POST['comment'];
+			$responce['comment']=htmlentities($_POST['comment']);
 			
 			closendie(json_encode($responce));
 			break;
@@ -83,13 +85,13 @@ if (isset($_POST['req_type'])){
 			$post_id=$post->create($db);
 			if (!empty($post_id)){
 				$responce['success']=1;
-				$responce['first_name']=$_SESSION['user_name'];
+				$responce['first_name']=htmlentities($_SESSION['user_name']);
 				$responce['last_name']="";
 				$responce['time']=Feeds::get_age("now");
 				$responce['picture_id']=$image_id;
 				$responce['comment_count']=$responce['like_count']=$responce['has_liked']=0;
 				$responce['post_id']=$post_id;
-				$responce['post_data']=$post_msg;
+				$responce['post_data']=htmlentities($post_msg);
 				$responce['user_id']=$user_id;
 				closendie(json_encode($responce));
 			}
@@ -109,6 +111,7 @@ if (isset($_POST['req_type'])){
 				$friend_id=(int)$_POST['friendid'];
 				$last_sync=(int)$_POST['lastsync'];
 				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,false);
+				$msg=make_html_entity($msg, array('message'));
 				$msg=make_time_redable($msg);
 				closendie(json_encode($msg));
 			}
@@ -142,4 +145,15 @@ function make_time_redable($array,$field="time"){
 		$array[$i][$field]=Feeds::get_age($array[$i][$field]);
 	}
 	return $array;
+}
+function make_html_entity($arrays,$fields){
+	for ($i = 0; $i < count($arrays); $i++) {
+		foreach ($fields as $field){
+			if (!isset($arrays[$i][$field])){
+				continue;
+			}
+				$arrays[$i][$field]=htmlentities($arrays[$i][$field]);
+		}
+	}
+	return $arrays;
 }
