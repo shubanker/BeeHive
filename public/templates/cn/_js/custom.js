@@ -103,8 +103,8 @@ function load_chat(friendid,lastsync=0){
 	$('.msg_container_base').html('');
 	sync_chat(friendid,lastsync);
 }
-function sync_chat(friendid,lastsync=0){
-	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid}).done(function(d){
+function sync_chat(friendid,lastsync=0,fillbefore=false){
+	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':fillbefore}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;
@@ -112,8 +112,13 @@ function sync_chat(friendid,lastsync=0){
 			for (var i = 0; i < ob.length; i++) {
 				op+=make_chat_msg__html(ob[i],friendid);
 			}
-			$('.msg_container_base').append(op);
-			$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+			if(fillbefore){
+				$('.msg_container_base').prepend(op);
+			}else{
+				$('.msg_container_base').append(op);
+				$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+			}
+			
 		}
 		chat_timer=setTimeout("sync_chat("+friendid+","+lastsync+")",1000);
 	});

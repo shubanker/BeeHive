@@ -110,7 +110,9 @@ if (isset($_POST['req_type'])){
 			if (is_numeric($_POST['friendid'])){
 				$friend_id=(int)$_POST['friendid'];
 				$last_sync=(int)$_POST['lastsync'];
-				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,false);
+				$sortDesc=$_POST['fillbefore']==false?false:true;
+				$msg=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
+				$msg=array_reverse($msg);
 				$msg=make_html_entity($msg, array('message'));
 				$msg=make_time_redable($msg);
 				closendie(json_encode($msg));
