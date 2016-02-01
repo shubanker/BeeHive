@@ -11,10 +11,10 @@ $(document).ready(function() {
   $('.tip').tooltip();
   
   /*show image in modal when click*/
-  $('.show-in-modal').click(function(e){
-    $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+$(this).attr('src')+'" />');
-    $('#modal-show').modal('show');
-    e.preventDefault();
+  $(document).on('click','.show-in-modal',function(e){
+	  $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+$(this).attr('src')+'" />');
+	    $('#modal-show').modal('show');
+	    e.preventDefault();
   });
 
   /*chat box*/
