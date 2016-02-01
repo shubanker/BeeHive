@@ -114,8 +114,12 @@
 			"    <p>"+(ob.post_data==null?"":ob.post_data)+"</p>";
 		$op+="<div class='stats'>"+
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
-			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>"+
-			"    </div>"+
+			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>";
+		if(ob.can_edit==1){
+			$op+="        <a href='#' class='btn btn-default stat-item edit_post'><i class='glyphicon glyphicon-edit icon'></i> Edit</a>";
+			$op+="        <a href='#' class='btn btn-danger stat-item del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a>";
+		}
+		$op+="    </div>"+
 			"</div>";
 		
 		$op+="<div class='post-footer'>"+
@@ -192,6 +196,24 @@ function progressHandlingFunction(e){
         $('.progress_bar').attr({value:e.loaded,max:e.total});
     }
 }
+/* ========== Modifying post ========= */
+$(document).on('click','.del_post',function(e){
+	e.preventDefault();
+	$this=$(this);
+	$this.addClass('disabled');
+	post_id=$this.parents('.panel-shadow').find(".postid").val();
+	$.post('ajax-req.php',{req_type:'del_post','post_id':post_id}).done(function(d){
+		ob=JSON.parse(d);
+		
+		if(ob.success==1){
+			$this.parents('.panel-shadow').fadeOut().remove();
+		}else{
+			$this.removeClass('disabled');
+		}
+	}).fail(function(e){
+		$this.removeClass('disabled');
+	});
+})
 $(document).ready(function() {
 	/*==============  Loading Post ===============*/
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();

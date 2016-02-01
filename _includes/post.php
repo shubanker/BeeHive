@@ -84,6 +84,15 @@ class Post extends Struct{
 	function set_status($status){
 		return $this->set('status', $status);
 	}
+	static function set_post_status($user_id,$post_id,$status,$db){
+		$sql=Db::create_update_sql2('Post', array(
+				'status'=>(int)($status)
+		), array(
+				'post_id'=>$post_id,
+				'user_id'=>$user_id
+		), $db);
+		return empty($db)?$sql:$db->query($sql);
+	}
 	/*
 	 * @type
 	 * 1-post
