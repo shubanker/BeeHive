@@ -201,18 +201,18 @@ $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
-    $('#editPostTextarea').html(post_data);
+    $('#editPostTextarea').val(post_data);
     $('#editPostId').val(postid);
 });
 $(document).on('click','#editPostSubmit',function(){
 	post_id=$('#editPostId').val();
-	post_data=$('#editPostTextarea').html();
+	post_data=$('#editPostTextarea').val();
 	$.post('ajax-req.php',{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.success==1){
 			$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
-			$('#editPost').modal('hide');
 		}
+		$('#editPost').modal('hide');
 	});
 });
 $(document).on('click','.del_post',function(e){

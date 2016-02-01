@@ -51,6 +51,14 @@ class Post extends Struct{
 	function set_post_data($post_data){
 		return $this->set('post_data', $post_data);
 	}
+	static function update_post_data($user_id,$post_id,$data,$db){
+		$sql=Db::create_update_sql2('post', array(
+				'post_data'=>$data
+		), array(
+				'post_id'=>(int)$post_id
+		), $db);
+		return empty($db)?$sql:$db->query($sql);
+	}
 	function get_link(){
 		return $this->get('link');
 	}

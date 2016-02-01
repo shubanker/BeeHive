@@ -104,6 +104,24 @@ if (isset($_POST['req_type'])){
 			}
 			$responce['error']="Something went Wrong";
 			break;
+		case 'editpost':
+			if (is_numeric($_POST['post_id'])){
+				$post_data=trim($_POST['post_data']);
+				$post_id=(int)$_POST['post_id'];
+// 				$responce[]=$_POST;
+				if (Post::update_post_data($user_id, $post_id, $post_data, $db)){
+					$responce['success']=$db->affected_rows()==1?1:0;
+				}else {
+					$responce['success']=0;
+					$responce['error']='Something Went Wrong.';
+				}
+			}else{
+				$responce['success']=0;
+				$responce['error']='Invalid Post Id';
+				
+			}
+			
+			break;
 		case "online_list":
 			$responce=Message::get_chat_list($user_id, $db);
 			$now=strtotime("now");
