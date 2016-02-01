@@ -116,7 +116,7 @@
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
 			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>";
 		if(ob.can_edit==1){
-			$op+="        <a href='#' class='btn btn-default stat-item edit_post'><i class='glyphicon glyphicon-edit icon'></i> Edit</a>";
+			$op+="        <a href='#' class='btn btn-default stat-item edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a>";
 			$op+="        <a href='#' class='btn btn-danger stat-item del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a>";
 		}
 		$op+="    </div>"+
@@ -197,6 +197,24 @@ function progressHandlingFunction(e){
     }
 }
 /* ========== Modifying post ========= */
+$(document).on('click','.edit_post',function(){
+    post=$(this).parents('.panel-shadow');
+    post_data=post.find('.post-description >p').html();
+    postid=post.find(".postid").val();
+    $('#editPostTextarea').html(post_data);
+    $('#editPostId').val(postid);
+});
+$(document).on('click','#editPostSubmit',function(){
+	post_id=$('#editPostId').val();
+	post_data=$('#editPostTextarea').html();
+	$.post('ajax-req.php',{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
+			$('#editPost').modal('hide');
+		}
+	});
+});
 $(document).on('click','.del_post',function(e){
 	e.preventDefault();
 	$this=$(this);
@@ -213,7 +231,7 @@ $(document).on('click','.del_post',function(e){
 	}).fail(function(e){
 		$this.removeClass('disabled');
 	});
-})
+});
 $(document).ready(function() {
 	/*==============  Loading Post ===============*/
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();
