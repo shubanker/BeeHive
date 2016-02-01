@@ -43,7 +43,9 @@ if (isset($_POST['req_type'])){
 			break;
 		case 'syncpost':
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
-			$responce=Feeds::get_feeds($user_id, $db,null,null,$last_post_id);
+			$equality=$_POST['from_end']==1?"<":">";
+			$responce=Feeds::get_feeds($user_id, $db,null,null,$last_post_id,$equality);
+			
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));
 			
