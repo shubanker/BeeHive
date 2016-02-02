@@ -37,6 +37,7 @@ $(document).ready(function() {
 
   $(document).on('click', '.icon_close', function (e) {
     $(this).closest('.chat-window').hide();
+    $('#current_chat_user_id').val('')
     clearTimeout(chat_timer);
     chat_timer=0;
   });
@@ -119,6 +120,9 @@ function sync_chat(lastsync=null,fillbefore=false){
 		lastsync=(lastsync==null?0:lastsync);
 	}
 	friendid=$('#current_chat_user_id').val();
+	if(friendid==null || friendid==''){
+		return false;
+	}
 	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1)}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
