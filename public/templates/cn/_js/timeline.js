@@ -42,7 +42,7 @@
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
 				$op+='<h4 class="comment-user-name"><a href="user.php?id='+ob.user_id+'">'+ob.first_name+' '+ob.last_name+'</a></h4>';
-				$op+='<h5 class="time">'+ob.time+'</h5>';
+				$op+='<h6 class="text-muted time">'+ob.time+'</h6>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
 			$op+="<input type='hidden' value='"+ob.comment_id+"' class='comment_id'/>";
