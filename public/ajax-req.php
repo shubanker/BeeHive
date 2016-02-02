@@ -44,6 +44,12 @@ if (isset($_POST['req_type'])){
 			$r=$_POST['type']==1?Post::like_post($user_id, $post_id, $db):Post::unlike_post($user_id, $post_id, $db);
 			$responce['success']=$r?1:0;
 			break;
+		case 'toggle_comment_like':
+			$comment_id=(int)$_POST['comment_id'];
+			
+			$r=$_POST['type']==1?Post::like_comment($user_id, $comment_id, $db):Post::unlike_comment($user_id, $comment_id, $db);
+			$responce['success']=$r?1:0;
+			break;
 		case 'syncpost':
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$equality=$_POST['from_end']==1?"<":">";

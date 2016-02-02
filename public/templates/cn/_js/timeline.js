@@ -77,19 +77,33 @@
 	  e.toggleClass('btn-primary');
 	  lcount.html(Number(lcount.html())+Number(liked?-1:1));
   }
-  function like($this){
+  function like($this,isComment=false){
 	  toggle_like($this);
-	  postid=$this.parents('.panel-shadow').find(".postid").val();
-	  
-	  $.post("ajax-req.php",
-			  {"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
-		  r=JSON.parse(e);
-		  if(r.success!=1){
+	  if(!isComment){
+		  postid=$this.parents('.panel-shadow').find(".postid").val();
+		  
+		  $.post("ajax-req.php",
+				  {"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
+			  r=JSON.parse(e);
+			  if(r.success!=1){
+				  toggle_like($this);
+			  }
+		  }).fail(function(e){
 			  toggle_like($this);
-		  }
-	  }).fail(function(e){
-		  toggle_like($this);
-	  });
+		  });
+	  }else{
+		  comment=$this.parents('.comment-body');
+		  commentid=comment.find(".comment_id").val();
+		  $.post('ajax-req.php',{req_type:'toggle_comment_like',comment_id:commentid,type:liked?0:1}).done(function(d){
+			  r=JSON.parse(e);
+			  if(r.success!=1){
+				  toggle_like($this);
+			  }
+		  }).fail(function(e){
+			  toggle_like($this);
+		  });
+		    
+	  }
   }
 //  $('.like').on('click',function(d){
 //	  d.preventDefault();
@@ -102,7 +116,11 @@
 	  $this=$(this);
 	  like($this);
 	});
-
+$(document).on('click','.like_comment',function(d){
+	d.preventDefault();
+	$this=$(this);
+	like($this,true);
+});
   /*==============  Loading Post ===============*/
   function make_post_html(ob){
 	  $op="<div class='panel panel-white post panel-shadow'>\n" +
