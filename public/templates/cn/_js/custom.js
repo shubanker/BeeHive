@@ -104,8 +104,15 @@ function load_chat(friendid,lastsync=0){
 	$('.msg_container_base').html('');
 	sync_chat(friendid,lastsync);
 }
-function sync_chat(friendid,lastsync=0,fillbefore=false){
-	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':fillbefore}).done(function(d){
+function sync_chat(friendid,lastsync=null,fillbefore=false){
+	if(lastsync==null){
+		if(!fillbefore){
+			lastsync=$('.messages>input').last().val();
+		}else{
+			lastsync=$('.messages>input').val();
+		}
+	}
+	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1)}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;
@@ -121,7 +128,7 @@ function sync_chat(friendid,lastsync=0,fillbefore=false){
 			}
 			
 		}
-		chat_timer=setTimeout("sync_chat("+friendid+","+lastsync+")",1000);
+		chat_timer=setTimeout("sync_chat("+friendid+")",1000);
 	});
 }
 $(document).on('click','.btn-sm',function(){
@@ -163,6 +170,7 @@ function make_chat_msg__html(ob,friendid){
 			"<div class='messages "+(isreceived?"msg_receive":"msg_sent")+"'>";
 	op+="<p>"+ob.message+"</p>" +
 			"<time>"+ob.time+"</time>" +
+					"<input type='hidden' value='"+ob.message_id+"'/>" +
 					"</div>" +
 				"</div>";
 	if(!isreceived){

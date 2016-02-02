@@ -134,8 +134,12 @@
 			"</div>";
 		return $op;
   }
-function sync_post(last_sync,toend=false){
+function sync_post(last_sync=null,toend=false){
 	toend_data=toend?1:0;
+//	alert($('.postid').val());
+	if(last_sync==null){
+		last_sync=$('.postid').val()==null?0:$('.postid').val();
+	}
 	  $.post("ajax-req.php",{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data}).done(function(d){
 		  ob=JSON.parse(d);
 		  
@@ -145,14 +149,14 @@ function sync_post(last_sync,toend=false){
 		  }
 		  if(!toend){
 			  $('.post-box-top').after($op);
-			  sync_post_timer=setTimeout("sync_post("+(ob.length>0?ob[0].post_id:last_sync)+")",8000);
+			  sync_post_timer=setTimeout("sync_post()",8000);
 		  }else{
 			  $('.profile-info').append($op);
 			  ready_to_scroll=true;
 		  }
 	  }).fail(function(){
 		  if(!toend){
-			  sync_post_timer=setTimeout("sync_post("+last_sync+")",10000);
+			  sync_post_timer=setTimeout("sync_post()",10000);
 		  }
 		  
 	  });

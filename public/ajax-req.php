@@ -135,7 +135,7 @@ if (isset($_POST['req_type'])){
 			if (is_numeric($_POST['friendid'])){
 				$friend_id=(int)$_POST['friendid'];
 				$last_sync=(int)$_POST['lastsync'];
-				$sortDesc=$_POST['fillbefore']==false?false:true;
+				$sortDesc=$_POST['fillbefore']==0?false:true;
 				$responce=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
 				
 				//For marking read.
