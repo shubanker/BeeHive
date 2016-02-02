@@ -29,12 +29,14 @@
 					  ccount=post.find('.c_count');
 					  ccount.html(Number(ccount.html())+1);
 					  post.find(".comments-list").prepend(make_comment_html(r));
-//					  alert(post.find(".comments-list").html());
 				  }
 			  });
   }
   function make_comment_html(ob){
 	  $op='<li class="comment">';
+	  if(ob.can_edit==1){
+		  $op+="<button type='button' class='close comment_del' >&times;</button>";
+	  }
 		$op+='<a class="pull-left" href="user.php?id='+ob.user_id+'">';
 			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'" alt="avatar"> </a>';
 		$op+='<div class="comment-body">';
@@ -43,6 +45,14 @@
 				$op+='<h5 class="time">'+ob.time+'</h5>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
+			$op+="<input type='hidden' value='"+ob.comment_id+"' class='comment_id'/>";
+			$op+="<div class='stats'>" +
+					"<a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" btn-xs stat-item like_comment'><i class='fa fa-thumbs-up icon'></i><span class='count'> "+ob.like_count+" </span> </a>";
+				if(ob.can_edit==1){
+					$op+="<a href='#' class='btn btn-default btn-xs stat-item edit_comment' data-toggle='modal' data-target='#editPost'> " +
+							"<i class='glyphicon glyphicon-edit icon'></i> Edit </a>";
+				}
+			$op+='</div>';
 		$op+='</div>';
 	$op+='</li>';
 	return $op;
@@ -210,24 +220,46 @@ function progressHandlingFunction(e){
         $('.progress_bar').attr({value:e.loaded,max:e.total});
     }
 }
-/* ========== Modifying post ========= */
+/* ========== Modifying post & Comment========= */
 $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
     $('#editPostTextarea').val(post_data);
     $('#editPostId').val(postid);
+    $('#editType').val(1);
+});
+$(document).on('click','.edit_comment',function(){
+    comment=$(this).parents('.comment-body');
+    post_data=comment.find('p').html();
+    postid=comment.find(".comment_id").val();
+    $('#editPostTextarea').val(post_data);
+    $('#editPostId').val(postid);
+    $('#editType').val(2);
 });
 $(document).on('click','#editPostSubmit',function(){
-	post_id=$('#editPostId').val();
-	post_data=$('#editPostTextarea').val();
-	$.post('ajax-req.php',{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
-		ob=JSON.parse(d);
-		if(ob.success==1){
-			$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
-		}
-		$('#editPost').modal('hide');
-	});
+	editType=$('#editType').val();
+	if(editType==1){
+		post_id=$('#editPostId').val();
+		post_data=$('#editPostTextarea').val();
+		$.post('ajax-req.php',{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
+			ob=JSON.parse(d);
+			if(ob.success==1){
+				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
+			}
+			$('#editPost').modal('hide');
+		});
+	}else{
+		comment_id=$('#editPostId').val();
+		comment_data=$('#editPostTextarea').val();
+		$.post('ajax-req.php',{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data}).done(function(d){
+			ob=JSON.parse(d);
+			if(ob.success==1){
+				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(comment_data);
+			}
+			$('#editPost').modal('hide');
+		});
+	}
 });
 $(document).on('click','.del_post',function(e){
 	e.preventDefault();

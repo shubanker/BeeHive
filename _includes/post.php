@@ -191,11 +191,16 @@ class Post extends Struct{
 		$scomment_id=$spost_id=$db->escape($comment_id);
 		$sql=Db::create_sql('*', 'comments',"`comment_id`='$scomment_id'");
 	}
-	static function edit_comment($comment_id,$new_comment,$db){
-		$sql=Db::create_update_sql($db, 'comments', array(
-				"comment_id"=>$comment_id,
+	static function edit_comment($comment_id,$new_comment,$db,$user_id=null,$admin=FALSE){
+		$where=array(
+				"comment_id"=>$comment_id
+		);
+		if(!$admin){
+			$where['user_id']=(int)$user_id;
+		}
+		$sql=Db::create_update_sql2('comments', array(
 				"comment"=>$new_comment
-		), "comment_id");
+		), $where, $db);
 		return $db->query($sql)?$db->affected_rows():false;
 	}
 	static function get_post_comments($user_id,$post_id,$db){

@@ -127,6 +127,23 @@ if (isset($_POST['req_type'])){
 			}
 			
 			break;
+		case 'editcomment':
+			if (is_numeric($_POST['comment_id'])){
+
+				$new_comment=trim($_POST['comment_data']);
+				$comment_id=(int)$_POST['comment_id'];
+				if (Post::edit_comment($comment_id, $new_comment, $db,$user_id)==1){
+					$responce['success']=1;
+				}else {
+					$responce['success']=0;
+					$responce['error']='Something Went Wrong.';
+				}
+			}else{
+				$responce['success']=0;
+				$responce['error']='Invalid Comment Id';
+				
+			}
+			break;
 		case "online_list":
 			$responce=Message::get_chat_list($user_id, $db);
 			$now=strtotime("now");
