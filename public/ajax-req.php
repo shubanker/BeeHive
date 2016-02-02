@@ -132,11 +132,11 @@ if (isset($_POST['req_type'])){
 			}
 			break;
 		case "get_msg":
-			if (is_numeric($_POST['friendid'])){
+			if (is_numeric($_POST['friendid']) &&(int)$_POST['friendid']>0){
 				$friend_id=(int)$_POST['friendid'];
-				$last_sync=(int)$_POST['lastsync'];
-				$sortDesc=$_POST['fillbefore']==0?false:true;
-				$responce=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$sortDesc);
+				$last_sync=isset($_POST['lastsync'])?(int)$_POST['lastsync']:0;
+				$equality=$_POST['fillbefore']==0?"<":">";
+				$responce=Message::get_messages($user_id, $friend_id, $db,null,null,$last_sync,$equality);
 				
 				//For marking read.
 				$message_ids=array();

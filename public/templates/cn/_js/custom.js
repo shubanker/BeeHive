@@ -20,6 +20,10 @@ $(document).ready(function() {
   /*chat box*/
   $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
 	  e.preventDefault();
+	  
+	  clearTimeout(chat_timer);
+	  chat_timer=0;
+	  
 	  //Chatbox user name
 	  name=$(this).find('.chat-user-name').html();
 	  friendid=$(this).find('input').val();
@@ -34,7 +38,7 @@ $(document).ready(function() {
   $(document).on('click', '.icon_close', function (e) {
     $(this).closest('.chat-window').hide();
     clearTimeout(chat_timer);
-    chat_timer=0
+    chat_timer=0;
   });
   
   $(document).on('click', '.panel-heading span.icon_minim', function (e) {
@@ -100,18 +104,21 @@ function make_chat_html(ob){
 }
 /* ============= Messages ============== */
 chat_timer=0;
+can_load_upper_msg=true;
 function load_chat(friendid,lastsync=0){
 	$('.msg_container_base').html('');
-	sync_chat(friendid,lastsync);
+	sync_chat(lastsync);
 }
-function sync_chat(friendid,lastsync=null,fillbefore=false){
+function sync_chat(lastsync=null,fillbefore=false){
 	if(lastsync==null){
 		if(!fillbefore){
 			lastsync=$('.messages>input').last().val();
 		}else{
 			lastsync=$('.messages>input').val();
 		}
+		lastsync=(lastsync==null?0:lastsync);
 	}
+	friendid=$('#current_chat_user_id').val();
 	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1)}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
@@ -122,15 +129,23 @@ function sync_chat(friendid,lastsync=null,fillbefore=false){
 			}
 			if(fillbefore){
 				$('.msg_container_base').prepend(op);
+				can_load_upper_msg=true;
 			}else{
 				$('.msg_container_base').append(op);
 				$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
 			}
 			
 		}
-		chat_timer=setTimeout("sync_chat("+friendid+")",1000);
+		chat_timer=setTimeout("sync_chat()",2000);
 	});
 }
+$('.msg_container_base').on('scroll',function(){
+	if($(this).scrollTop()<150 && can_load_upper_msg){
+		can_load_upper_msg=false;
+		friendid=$('#current_chat_user_id').val();
+		sync_chat(null,true);
+	}
+});
 $(document).on('click','.btn-sm',function(){
 	firendid=$('#current_chat_user_id').val();
 	msg=$('.chat_input').val();
@@ -158,6 +173,11 @@ function send_msg(msg,friendid){
 	});
 }
 function make_chat_msg__html(ob,friendid){
+	
+	if(friendid!=$('#current_chat_user_id').val()){//Avoiding loading of chats from diff user inCase though.
+		return '';
+	}
+	
 	isreceived=ob.user_one==friendid;
 	op="<div class='row msg_container "+(isreceived?"base_receive":"base_sent")+"'>";
 	image="<div class='col-md-2 col-xs-2 avatar-chat-box'>" +
