@@ -198,17 +198,20 @@ class Post extends Struct{
 		), "comment_id");
 		return $db->query($sql)?$db->affected_rows():false;
 	}
-	static function get_post_comments($post_id,$db){
-		$spost_id=$db->escape($post_id);
-		
-		$sql=Db::create_sql(array(
-				"first_name",
-				"last_name",
-				"users.user_id",
-				"comment_id",
-				"comment",
-				"time"
-		), array(
+	static function get_post_comments($user_id,$post_id,$db){
+		$spost_id=(int)$post_id;
+		$suser_id=(int)$user_id;
+		$sql=Db::create_sql("
+				`first_name`,
+				`last_name`,
+				`users`.`user_id`,
+				`comment_id`,
+				`comment`,
+				`time`,
+				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`comments`.`comment_id` AND `type` ='2')as like_count,
+				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`comments`.`comment_id` AND `type` ='2' AND `likes`.`user_id`='$suser_id') as has_liked
+				",
+				 array(
 				"users",
 				"comments"
 		),
@@ -216,7 +219,7 @@ class Post extends Struct{
 				`users`.`user_id`=`comments`.`user_id` AND
 				`comments`.`status`=1",
 				"`comment_id` DESC");
-		return Db::fetch_array($db, $sql);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }
 class Feeds{

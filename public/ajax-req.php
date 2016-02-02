@@ -31,7 +31,7 @@ if (isset($_POST['req_type'])){
 	switch ($_POST['req_type']){
 		case "get_comments":
 			$post_id=(int)$_POST['post_id'];
-			$responce=Post::get_post_comments($post_id, $db);
+			$responce=Post::get_post_comments($user_id,$post_id, $db);
 			for ($i = 0; $i < count($responce); $i++) {
 				$responce[$i]['can_edit']=$responce[$i]['user_id']==$user_id?1:0;
 			}
@@ -68,7 +68,7 @@ if (isset($_POST['req_type'])){
 			break;
 		case "add_comment":
 			$post_id=(int)$_POST['post_id'];
-			$comment=$db->escape($_POST['comment']);
+			$comment=trim($_POST['comment']);
 			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
 			$responce['time']=Feeds::get_age("now");
 			$responce['user_id']=$user_id;
