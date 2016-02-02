@@ -301,8 +301,10 @@ $(document).on('click','.comment_del',function(e){
 	 comment=$(this).parents('.comment');
 	 commentid=comment.find(".comment_id").val();
 	 $.post('ajax-req.php',{req_type:'del_comment',comment_id:commentid}).done(function(d){
-		 alert(d);ob=JSON.parse(d);
+		 ob=JSON.parse(d);
 		 if(ob.success==1){
+			 ccount = comment.parents('.panel-shadow').find('.c_count');
+			 ccount.html(Number(ccount.html())-1);
 			 comment.fadeOut().remove();
 		 }
 	 });

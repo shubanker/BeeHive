@@ -89,6 +89,8 @@ if (isset($_POST['req_type'])){
 			$responce['first_name']=htmlentities($_SESSION['user_name']);
 			$responce['last_name']="";
 			$responce['comment']=htmlentities($_POST['comment']);
+			$responce['can_edit']=1;
+			$responce['like_count']=0;
 			break;
 		case "new_post":
 			$post_msg=empty($_POST['post_msg'])?null:$_POST['post_msg'];
