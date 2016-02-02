@@ -72,6 +72,14 @@ if (isset($_POST['req_type'])){
 			}
 			
 			break;
+		case "del_comment":
+			$comment_id=(int)$_POST['comment_id'];
+			if (Post::remove_comment($comment_id, $db)){
+				$responce['success']=$db->affected_rows()==1?1:0;
+			}else {
+				$responce['success']=0;
+			}
+			break;
 		case "add_comment":
 			$post_id=(int)$_POST['post_id'];
 			$comment=trim($_POST['comment']);

@@ -35,7 +35,7 @@
   function make_comment_html(ob){
 	  $op='<li class="comment">';
 	  if(ob.can_edit==1){
-		  $op+="<button type='button' class='close comment_del' >&times;</button>";
+		  $op+="<button type='button' class='close comment_del' title='Delete Comment' >&times;</button>";
 	  }
 		$op+='<a class="pull-left" href="user.php?id='+ob.user_id+'">';
 			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'" alt="avatar"> </a>';
@@ -295,6 +295,17 @@ $(document).on('click','.del_post',function(e){
 	}).fail(function(e){
 		$this.removeClass('disabled');
 	});
+});
+$(document).on('click','.comment_del',function(e){
+	e.preventDefault();
+	 comment=$(this).parents('.comment');
+	 commentid=comment.find(".comment_id").val();
+	 $.post('ajax-req.php',{req_type:'del_comment',comment_id:commentid}).done(function(d){
+		 alert(d);ob=JSON.parse(d);
+		 if(ob.success==1){
+			 comment.fadeOut().remove();
+		 }
+	 });
 });
 $(document).ready(function() {
 	/*==============  Loading Post ===============*/

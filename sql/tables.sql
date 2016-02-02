@@ -60,7 +60,7 @@ CREATE TRIGGER `remove_notification_comment` AFTER DELETE ON `comments`
  FOR EACH ROW BEGIN
 		DECLARE commenters_count INT DEFAULT 0;
 		DECLARE ui INT DEFAULT 0;
-		DELETE FROM `likes` WHERE post_id=OLD.`post_id` AND type=2; -- Removing likes which was on comments ..
+		DELETE FROM `likes` WHERE `likes`.post_id=OLD.`comment_id` AND type=2; -- Removing likes which was on comments ..
 		SET ui=(SELECT `user_id` from post WHERE post.`post_id`=OLD.`post_id` LIMIT 1);
 
 		SET commenters_count = (SELECT count(`comments`.`user_id`) from `comments` WHERE 
