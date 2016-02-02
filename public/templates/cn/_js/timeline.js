@@ -1,4 +1,5 @@
-  /*==============  Loading Comments ===============*/
+req_page='ajax-req.php';  
+/*==============  Loading Comments ===============*/
   $( document ).on('focus', '.add-comment-input' ,function(d){
 	  var postid=$(this).parents('.panel-shadow').find(".postid").val();
 	  var comments_list=$(this).parents('.panel-shadow').find(".comments-list");
@@ -22,7 +23,7 @@
 		  return false;
 	  }
 	  post.find(".add-comment-input").val("");
-	  $.post("ajax-req.php",
+	  $.post(req_page,
 			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
 				  r=JSON.parse(d);
 				  if(r.comment_id!=null&&r.comment_id){
@@ -58,7 +59,7 @@
 	return $op;
   } 
   function load_comments(postid,comments_list){
-	  $.post("ajax-req.php",{"req_type":"get_comments","post_id":postid}).done(function(data){
+	  $.post(req_page,{"req_type":"get_comments","post_id":postid}).done(function(data){
 			var ob=JSON.parse(data);
 			comments_list.empty();
 			for(i=0;i<ob.length;i++){
@@ -82,7 +83,7 @@
 	  if(!isComment){
 		  postid=$this.parents('.panel-shadow').find(".postid").val();
 		  
-		  $.post("ajax-req.php",
+		  $.post(req_page,
 				  {"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
 			  r=JSON.parse(e);
 			  if(r.success!=1){
@@ -94,7 +95,7 @@
 	  }else{
 		  comment=$this.parents('.comment-body');
 		  commentid=comment.find(".comment_id").val();
-		  $.post('ajax-req.php',{req_type:'toggle_comment_like',comment_id:commentid,type:liked?0:1}).done(function(d){
+		  $.post(req_page,{req_type:'toggle_comment_like',comment_id:commentid,type:liked?0:1}).done(function(d){
 			  r=JSON.parse(e);
 			  if(r.success!=1){
 				  toggle_like($this);
@@ -168,7 +169,7 @@ function sync_post(last_sync=null,toend=false){
 	if(last_sync==null){
 		last_sync=$('.postid').val()==null?0:$('.postid').val();
 	}
-	  $.post("ajax-req.php",{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data}).done(function(d){
+	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data}).done(function(d){
 		  ob=JSON.parse(d);
 		  
 		  $op="";
@@ -196,7 +197,7 @@ $(document).on('click','#make_post',function(e){
 	
 	var formData = new FormData($('form')[1]);
     $.ajax({
-        url: 'ajax-req.php',  //Server script to process data
+        url: req_page,  //Server script to process data
         type: 'POST',
         xhr: function() {  // Custom XMLHttpRequest
             var myXhr = $.ajaxSettings.xhr();
@@ -260,7 +261,7 @@ $(document).on('click','#editPostSubmit',function(){
 	if(editType==1){
 		post_id=$('#editPostId').val();
 		post_data=$('#editPostTextarea').val();
-		$.post('ajax-req.php',{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
+		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
@@ -270,7 +271,7 @@ $(document).on('click','#editPostSubmit',function(){
 	}else{
 		comment_id=$('#editPostId').val();
 		comment_data=$('#editPostTextarea').val();
-		$.post('ajax-req.php',{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data}).done(function(d){
+		$.post(req_page,{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(comment_data);
@@ -284,7 +285,7 @@ $(document).on('click','.del_post',function(e){
 	$this=$(this);
 	$this.addClass('disabled');
 	post_id=$this.parents('.panel-shadow').find(".postid").val();
-	$.post('ajax-req.php',{req_type:'del_post','post_id':post_id}).done(function(d){
+	$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
 		ob=JSON.parse(d);
 		
 		if(ob.success==1){
@@ -300,7 +301,7 @@ $(document).on('click','.comment_del',function(e){
 	e.preventDefault();
 	 comment=$(this).parents('.comment');
 	 commentid=comment.find(".comment_id").val();
-	 $.post('ajax-req.php',{req_type:'del_comment',comment_id:commentid}).done(function(d){
+	 $.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
 		 ob=JSON.parse(d);
 		 if(ob.success==1){
 			 ccount = comment.parents('.panel-shadow').find('.c_count');
