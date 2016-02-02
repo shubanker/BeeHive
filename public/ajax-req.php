@@ -32,6 +32,9 @@ if (isset($_POST['req_type'])){
 		case "get_comments":
 			$post_id=(int)$_POST['post_id'];
 			$responce=Post::get_post_comments($post_id, $db);
+			for ($i = 0; $i < count($responce); $i++) {
+				$responce[$i]['can_edit']=$responce[$i]['user_id']==$user_id?1:0;
+			}
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce, array('comment','first_name','last_name'));
 			break;
