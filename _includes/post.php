@@ -353,4 +353,31 @@ class Feeds{
 	
 	    return $age;
 	}
+	static function get_friends_images($user_one,$user_two,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">"){
+		
+		$start=empty($start)?0:$start;
+		$limit=empty($limit)?10:$limit;
+		$equality=$equality=="<"?"<":">";
+		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		
+		if ($user_one==$user_two){
+			$access_limit=4; //Checking if the user is viewing his own profile.
+		}else {
+			$relation=Friendship::get_relation($user_one, $user_two, $db);
+			if ($relation==3){
+				return null;//If user is blocked.
+			}
+			$access_limit=$relation==2?3:2;
+		}
+		$sql=Db::create_sql(array('picture_id'), 'post',
+				"`post`.`user_id`='$user_two' AND
+				`picture_id` IS NOT NULL AND
+				`post`.`status`='1' AND
+				`post`.`access` < '$access_limit'",
+				"`post_id` DESC",
+				null,
+				"$start,$limit"
+			);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
 }

@@ -225,6 +225,13 @@ if (isset($_POST['req_type'])){
 			shuffle($result);
 			$responce=array_slice($result, 0,$limit);
 			break;
+		case "get_Images":
+			$friend_id=(int)$_POST['friend_id'];
+			$limit=(int)$_POST['limit'];
+			$result=Feeds::get_friends_images($user_id, $friend_id, $db);
+			shuffle($result);
+			$responce=array_slice($result, 0,$limit);
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}

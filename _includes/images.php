@@ -45,6 +45,10 @@ class Image{
 			case "es":
 				$width=$height=80;
 				break;
+			case "m":
+				$width=640;
+				$height=null;
+				break;
 			default:
 				if (is_array($size)){
 					$width=$size[0];
