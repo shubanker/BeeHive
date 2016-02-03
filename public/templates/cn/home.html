@@ -180,3 +180,10 @@
         </div>
     </footer>
 <?=clearNoteHtmlOp::get_js(array("timeline.js"));?>
+<script>
+$(document).ready(function() {
+	/*==============  Loading Post ===============*/
+	  last_sysn=$(".postid").val()==null?0:$(".postid").val();
+	  sync_post(last_sysn);
+});
+</script>

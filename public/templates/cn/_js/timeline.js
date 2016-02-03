@@ -310,11 +310,6 @@ $(document).on('click','.comment_del',function(e){
 		 }
 	 });
 });
-$(document).ready(function() {
-	/*==============  Loading Post ===============*/
-	  last_sysn=$(".postid").val()==null?0:$(".postid").val();
-	  sync_post(last_sysn);
-});
 
 /* ========== Scroll ==========*/
 var ready_to_scroll=true;
