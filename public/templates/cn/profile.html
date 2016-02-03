@@ -41,24 +41,25 @@
                 <div class="profile-nav col-md-4">
                     <div class="panel">
                         <ul class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="profile.php"><i class="fa fa-user"></i>Profile</a>
+                            <li class="active"><a href="profile.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>"><i class="fa fa-user"></i>Profile</a>
                             </li>
                             <li>
-                                <a href="about.php"> <i class="fa fa-info-circle"></i>About</a>
+                                <a href="about.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>"> <i class="fa fa-info-circle"></i>About</a>
                             </li>
                             <li>
-                                <a href="friends.php"> <i class="fa fa-users"></i>Friends</a>
+                                <a href="friends.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>"> <i class="fa fa-users"></i>Friends</a>
                             </li>
                             <li>
-                                <a href="photos.php"> <i class="fa fa-file-image-o"></i>Photos</a>
+                                <a href="photos.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>"> <i class="fa fa-file-image-o"></i>Photos</a>
                             </li>
+                            <?php if ($friend_id==$user_id){?>
                             <li>
                                 <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
-                            </li>
+                            </li><?php }?>
                         </ul>
                     </div>
                     <div class="panel panel-white panel-friends">
-                        <div class="panel-heading"><a href="friends.php" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
+                        <div class="panel-heading"><a href="friends.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
                             <h3 class="panel-title">Friends</h3>
                         </div>
                         <div class="panel-body text-center">
@@ -67,7 +68,7 @@
                         </div>
                     </div>
                     <div class="panel panel-white">
-                        <div class="panel-heading"><a href="photos.php" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
+                        <div class="panel-heading"><a href="photos.php<?=$friend_id==$user_id?"":"?id=$friend_id" ?>" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
                             <h3 class="panel-title">Photos</h3>
                         </div>
                         <div class="panel-body text-center">
