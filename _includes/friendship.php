@@ -21,7 +21,7 @@ class Friendship{
 	
 	private static $table="friends";
 	
-	static function get_friend_ids($user_id,$db=null){
+	static function get_friend_ids($user_id,$db){
 		$sql="SELECT
 		CASE
 		WHEN `user_one` = '$user_id' THEN `user_two`
@@ -37,8 +37,8 @@ class Friendship{
 		}
 		return $list;
 	}
-	static function get_friends_names($user_id,$db=null){
-		$sql="SELECT `user_id`,concat(`first_name` ,' ',`last_name`) as name FROM `users` WHERE `user_id` IN(SELECT
+	static function get_friends_names($user_id,$db){
+		$sql="SELECT `user_id`,concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name FROM `users` WHERE `user_id` IN(SELECT
 		CASE
 		WHEN `user_one` = '$user_id' THEN `user_two`
 		ELSE `user_one`
@@ -47,15 +47,23 @@ class Friendship{
 
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
-	static function get_friend_count($user_id,$db=null){
+	static function get_friend_count($user_id,$db){
 		$sql=Db::create_sql("count(*)count", self::$table,"(`user_one`='$user_id' OR `user_two`='$user_id') AND status=2");
 		
 		return empty($db)?$sql:Db::qnfetch($sql, $db)['count'];
 	}
-	static function get_mutuals($user_one,$user_two,$db=null){
+	static function get_mutuals($user_one,$user_two,$db,$start=NULL,$limit=NULL){
 		$friend_code=2;//status code of friendship
+		if (!empty($limit)){
+			if (empty($start)){
+				$start=0;
+			}
+			$limit_sql="LIMIT $start,$limit";
+		}else {
+			$limit_sql="";
+		}
 		$sql="
-		SELECT `user_id`,concat(`first_name` ,' ',`last_name`) as name FROM `users` WHERE `user_id` IN(
+		SELECT `user_id`,concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name FROM `users` WHERE `user_id` IN(
 			SELECT
 			CASE
 			WHEN `user_one` = '$user_one' THEN `user_two`
@@ -74,7 +82,7 @@ class Friendship{
 				WHERE (`user_one`='$user_two' OR `user_two`='$user_two') AND
 				status=$friend_code
 				)
-	);";
+	) $limit_sql;";
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 	static function send_friend_req($user_one,$user_two,$db){
@@ -142,7 +150,7 @@ class Friendship{
 		));
 		return $db->query($sql)?$db->affected_rows():false;
 	}
-	static function get_relation($user_one,$user_two,$db=NULL){
+	static function get_relation($user_one,$user_two,$db){
 		$sql=Db::create_sql('status', self::$table,"(`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')");
 		if (empty($db)){
