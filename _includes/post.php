@@ -273,8 +273,12 @@ class Feeds{
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	
 	}
-	static function get_friends_feeds($user_one,$user_two,$db,$start=0,$limit=10){
+	static function get_friends_feeds($user_one,$user_two,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">"){
 		
+		$start=empty($start)?0:$start;
+		$limit=empty($limit)?10:$limit;
+		$equality=$equality=="<"?"<":">";
+		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
 		
 		if ($user_one==$user_two){
 			$access_limit=4; //Checking if the user is viewing his own profile.
@@ -301,6 +305,7 @@ class Feeds{
 				"post"
 		),
 				"`post`.`user_id`='$user_two' AND
+				$after_post_id
 				`post`.`status`='1' AND
 				`post`.`access` < '$access_limit' AND
 				`post`.`user_id`=`users`.`user_id`",

@@ -169,7 +169,8 @@ function sync_post(last_sync=null,toend=false){
 	if(last_sync==null){
 		last_sync=$('.postid').val()==null?0:$('.postid').val();
 	}
-	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data}).done(function(d){
+	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data,friend_id,friend_id}).done(function(d){
+//		  alert(d);
 		  ob=JSON.parse(d);
 		  
 		  $op="";
@@ -181,7 +182,9 @@ function sync_post(last_sync=null,toend=false){
 			  sync_post_timer=setTimeout("sync_post()",8000);
 		  }else{
 			  $('.profile-info').append($op);
-			  ready_to_scroll=true;
+			  if(ob.length>0){
+				  ready_to_scroll=true;
+			  }
 		  }
 	  }).fail(function(){
 		  if(!toend){
