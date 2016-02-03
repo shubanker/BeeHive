@@ -324,4 +324,22 @@ $(document).on('scroll',function(){
 			sync_post(last_id,true);
 		}
 	}
-})
+});
+/* ========== Load Friends_list ======*/
+function load_friend_list(friend_id,limit){
+	$.post(req_page,{req_type:'get_friend_list',friend_id:friend_id,limit:limit}).done(function(d){
+//		alert(d);
+		ob=JSON.parse(d);
+		for (var i = 0; i < ob.length; i++) {
+			$('.friends').append(make_friend_html(ob[i]));
+		}
+		$('.tip').tooltip();
+	});
+}
+function make_friend_html(ob){
+	$op="<li>\n" +
+			"<a href='profile.php?id="+ob.user_id+"'>\n" +
+					"<img data-original-title='"+ob.name+"' src='image.php?user="+ob.user_id+"&s=s' title='"+ob.name+"' class='img-responsive tip'> </a>\n" +
+			"</li>";
+	return $op;
+}

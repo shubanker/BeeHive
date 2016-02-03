@@ -1,84 +1,82 @@
 $(document).ready(function() {
-   /*============ Chat sidebar ========*/
-//  $('.chat-sidebar, .nav-controller, .chat-sidebar a').on('click', function(event) {
-//      $('.chat-sidebar').toggleClass('focus');
-//  });
-
-  $(".hide-chat").click(function(){
-      $('.chat-sidebar').toggleClass('focus');
-  });
-
-  $('.tip').tooltip();
-  
-  /*show image in modal when click*/
-  $(document).on('click','.show-in-modal',function(e){
-	  $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+$(this).attr('src')+'" />');
-	    $('#modal-show').modal('show');
-	    e.preventDefault();
-  });
-
-  /*chat box*/
-  $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
-	  e.preventDefault();
-	  
-	  clearTimeout(chat_timer);
-	  chat_timer=0;
-	  
-	  //Chatbox user name
-	  name=$(this).find('.chat-user-name').html();
-	  friendid=$(this).find('input').val();
-	  
-	  $('#chat_name').html("<a href='profile.php?id="+friendid+"'>"+name+"</a>");
-	  $('.chat-window').show();
-	  $('.chat_input').val('').focus();
-	  $('#current_chat_user_id').val(friendid);
-	  load_chat(friendid);
-  });
-
-  $(document).on('click', '.icon_close', function (e) {
-    $(this).closest('.chat-window').hide();
-    $('#current_chat_user_id').val('')
-    clearTimeout(chat_timer);
-    chat_timer=0;
-  });
-  
-  $(document).on('click', '.panel-heading span.icon_minim', function (e) {
-      var $this = $(this);
-      if (!$this.hasClass('panel-collapsed')) {
-          $this.parents('.panel').find('.panel-body').slideUp();
-          $this.addClass('panel-collapsed');
-          $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
-      } else {
-          $this.parents('.panel').find('.panel-body').slideDown();
-          $this.removeClass('panel-collapsed');
-          $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
-      }
-  });
-  
-  /*============= About page ==============*/
-  $(".about-tab-menu .list-group-item").click(function(e) {
-      e.preventDefault();
-      $(this).siblings('a.active').removeClass("active");
-      $(this).addClass("active");
-      var index = $(this).index();
-      $("div.about-tab>div.about-tab-content").removeClass("active");
-      $("div.about-tab>div.about-tab-content").eq(index).addClass("active");
-  });
-  /*==============  show panel ===============*/
-  $(".btn-frm").click(function(){
-    $(".frm").toggleClass("hidden");
-    $(".frm").toggleClass("animated");
-    $(".frm").toggleClass("fadeInRight");
-  });
-  /*==============  Statup Post ===============*/
-  $("#statusbox").on('focus',function(){
-	  $("#statusboxfooter").removeClass("hidden");
-  });
   
   $('.alert-info').hide();
   load_online_list();
   get_notification_count();
-	
+  
+});
+/*============ Chat sidebar ========*/
+//$('.chat-sidebar, .nav-controller, .chat-sidebar a').on('click', function(event) {
+//  $('.chat-sidebar').toggleClass('focus');
+//});
+
+$(".hide-chat").click(function(){
+  $('.chat-sidebar').toggleClass('focus');
+});
+
+/*show image in modal when click*/
+$(document).on('click','.show-in-modal',function(e){
+  $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+$(this).attr('src')+'" />');
+    $('#modal-show').modal('show');
+    e.preventDefault();
+});
+
+/*chat box*/
+$(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
+  e.preventDefault();
+  
+  clearTimeout(chat_timer);
+  chat_timer=0;
+  
+  //Chatbox user name
+  name=$(this).find('.chat-user-name').html();
+  friendid=$(this).find('input').val();
+  
+  $('#chat_name').html("<a href='profile.php?id="+friendid+"'>"+name+"</a>");
+  $('.chat-window').show();
+  $('.chat_input').val('').focus();
+  $('#current_chat_user_id').val(friendid);
+  load_chat(friendid);
+});
+
+$(document).on('click', '.icon_close', function (e) {
+$(this).closest('.chat-window').hide();
+$('#current_chat_user_id').val('')
+clearTimeout(chat_timer);
+chat_timer=0;
+});
+
+$(document).on('click', '.panel-heading span.icon_minim', function (e) {
+  var $this = $(this);
+  if (!$this.hasClass('panel-collapsed')) {
+      $this.parents('.panel').find('.panel-body').slideUp();
+      $this.addClass('panel-collapsed');
+      $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+  } else {
+      $this.parents('.panel').find('.panel-body').slideDown();
+      $this.removeClass('panel-collapsed');
+      $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+  }
+});
+
+/*============= About page ==============*/
+$(".about-tab-menu .list-group-item").click(function(e) {
+  e.preventDefault();
+  $(this).siblings('a.active').removeClass("active");
+  $(this).addClass("active");
+  var index = $(this).index();
+  $("div.about-tab>div.about-tab-content").removeClass("active");
+  $("div.about-tab>div.about-tab-content").eq(index).addClass("active");
+});
+/*==============  show panel ===============*/
+$(".btn-frm").click(function(){
+$(".frm").toggleClass("hidden");
+$(".frm").toggleClass("animated");
+$(".frm").toggleClass("fadeInRight");
+});
+/*==============  Statup Post ===============*/
+$("#statusbox").on('focus',function(){
+  $("#statusboxfooter").removeClass("hidden");
 });
 /* ============= Online users ================= */
 load_online_list_timer=0;

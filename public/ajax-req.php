@@ -218,7 +218,15 @@ if (isset($_POST['req_type'])){
 			$responce['notification_count']=Notifications::get_notification_count($user_id,$db);
 			$responce['message_count']=Message::get_unread_count($user_id, $db);
 			break;
+		case "get_friend_list":
+			$friend_id=(int)$_POST['friend_id'];
+			$limit=(int)$_POST['limit'];
+			$result=Friendship::get_mutuals($user_id, $friend_id, $db);
+			shuffle($result);
+			$responce=array_slice($result, 0,$limit);
+			break;
 		default:$responce['error']="Invalid Request";
+		
 	}
 	closendie(json_encode($responce));
 }
