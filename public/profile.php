@@ -18,6 +18,7 @@ if ($auth->is_login()){
 		$friend_id=(int)$_GET['id'];
 		$friend=new User($friend_id,$db);
 		$user_name=$friend->get_name();
+		$gender=$friend->get_gen();
 	}
 	if (empty(trim($user_name))){
 		$friend_id=$user_id;
@@ -28,6 +29,7 @@ if ($auth->is_login()){
 	 */
 	$feeds=array();
 // 	$feeds=Feeds::get_friends_feeds($user_id, $friend_id, $db); //uncomment this to load initial post's directly.
+	$is_self=$friend_id==$user_id;
 	include TEMPLATE.'profile.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);
