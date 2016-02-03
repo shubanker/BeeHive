@@ -38,11 +38,11 @@ req_page='ajax-req.php';
 	  if(ob.can_edit==1){
 		  $op+="<button type='button' class='close comment_del' title='Delete Comment' >&times;</button>";
 	  }
-		$op+='<a class="pull-left" href="user.php?id='+ob.user_id+'">';
+		$op+='<a class="pull-left" href="profile.php?id='+ob.user_id+'">';
 			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'" alt="avatar"> </a>';
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
-				$op+='<h4 class="comment-user-name"><a href="user.php?id='+ob.user_id+'">'+ob.first_name+' '+ob.last_name+'</a></h4>';
+				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+ob.first_name+' '+ob.last_name+'</a></h4>';
 				$op+='<h6 class="text-muted time">'+ob.time+'</h6>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
@@ -129,7 +129,7 @@ $(document).on('click','.like_comment',function(d){
 		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar' alt='user profile image'>";
 		$op+="</div>"+
 			"    <div class='pull-left meta'>"+
-			"        <div class='title h5'><a href='user.php?id="+ob.user_id+"' class='post-user-name'>"+ob.first_name+" "+ob.last_name+"</a> "+
+			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+ob.first_name+" "+ob.last_name+"</a> "+
 		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+"</div>";
 		
 		$op+="<h6 class='text-muted time'> "+ob.time+"</h6>";

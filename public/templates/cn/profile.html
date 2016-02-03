@@ -31,7 +31,7 @@
         </div>
     </nav>
     <div class="row text-center cover-container">
-        <a href="#"><img src="image.php?user=<?=$user_id ?>"> </a>
+        <a href="#"><img src="image.php?user=<?=$friend_id ?>"> </a>
         <h1 class="profile-name"><?=$user_name ?></h1>
 <!--         <p class="user-text">sharing awesome ideas with your friends, you can grow, grow fast</p> -->
     </div>
@@ -78,6 +78,7 @@
                 </div>
                 <div class="profile-info col-md-8">
                     <div class="panel post-box-top">
+                    <?php if ($friend_id==$user_id){?>
                         <form action="" method="post" enctype="multipart/form-data" id="post_form">
                             <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="statusbox" name="post_msg"></textarea>
                         	<input type="hidden" name="req_type" value="new_post" />
@@ -97,7 +98,7 @@
                                 </li>
                             </ul>
                         </div>
-                        </form>
+                        </form><?php }?>
                     </div>
                     
                     <?php foreach ($feeds as $feed){?>

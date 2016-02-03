@@ -28,7 +28,7 @@ $(document).ready(function() {
 	  name=$(this).find('.chat-user-name').html();
 	  friendid=$(this).find('input').val();
 	  
-	  $('#chat_name').html(name);
+	  $('#chat_name').html("<a href='profile.php?id="+friendid+"'>"+name+"</a>");
 	  $('.chat-window').show();
 	  $('.chat_input').val('').focus();
 	  $('#current_chat_user_id').val(friendid);

@@ -1737,3 +1737,6 @@ a:active, a:focus, a:hover {
 .img-content img {
 	margin: auto;
 }
+#chat_name>a{
+	color: #fff;
+}

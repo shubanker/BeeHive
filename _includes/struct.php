@@ -43,9 +43,10 @@ class Struct{
 		$result=$db->qfetch($sql);
 		foreach ($this->fields as $field){
 			$this->data[$field]=$result[$field];
+			$this->is_init=true;
 		}
 		$this->data[$this->pk]=(int)$this->data[$this->pk];
-		return $this->is_init=true;
+		return $this->is_init;
 	}
 	function set($key,$value){
 		if (in_array($key, $this->fields)){
