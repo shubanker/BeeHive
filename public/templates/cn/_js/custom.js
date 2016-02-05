@@ -10,8 +10,9 @@ $(document).ready(function() {
 //  $('.chat-sidebar').toggleClass('focus');
 //});
 
-$(".hide-chat").click(function(){
-  $('.chat-sidebar').toggleClass('focus');
+$(".hide-chat").click(function(e){
+	e.preventDefault();
+	$('.chat-sidebar').toggleClass('focus');
 });
 
 /*show image in modal when click*/
@@ -40,10 +41,11 @@ $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (
 });
 
 $(document).on('click', '.icon_close', function (e) {
-$(this).closest('.chat-window').hide();
-$('#current_chat_user_id').val('')
-clearTimeout(chat_timer);
-chat_timer=0;
+	e.preventDefault();
+	$(this).closest('.chat-window').hide();
+	$('#current_chat_user_id').val('')
+	clearTimeout(chat_timer);
+	chat_timer=0;
 });
 
 $(document).on('click', '.panel-heading span.icon_minim', function (e) {
