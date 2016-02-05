@@ -46,7 +46,7 @@ echo clearNoteHtmlOp::get_include_css();
                             <p><?=$friend->get_email(); ?></p>
                         </div>
                          <ul class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="profile.php<?=$is_self?"":"?id=$friend_id" ?>"><i class="fa fa-user"></i>Profile</a>
+                            <li><a href="profile.php<?=$is_self?"":"?id=$friend_id" ?>"><i class="fa fa-user"></i>Profile</a>
                             </li>
                             <li>
                                 <a href="about.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-info-circle"></i>About</a>
@@ -54,7 +54,7 @@ echo clearNoteHtmlOp::get_include_css();
                             <li>
                                 <a href="friends.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-users"></i>Friends</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="photos.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-file-image-o"></i>Photos</a>
                             </li>
                             <?php if ($is_self){?>
