@@ -35,7 +35,7 @@ if ($auth->is_login()){
 		User::update_last_active($user_id, $db);
 	}
 }else {
-	Auth::do_login();
+	Auth::do_login($db);
 	include TEMPLATE.'loginhome.html';
 }
 if (!empty($db) && $db->isinit()){
