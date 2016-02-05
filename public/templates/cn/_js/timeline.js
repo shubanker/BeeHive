@@ -136,7 +136,7 @@ $(document).on('click','.like_comment',function(d){
 		$op+="</div>"+
 			"</div>";
 		if(ob.picture_id!=null){
-			$op+="<div class='post-image'><img src='image.php?id="+ob.picture_id+"' class='image show-in-modal' alt='image post'>" +
+			$op+="<div class='post-image'><img src='image.php?id="+ob.picture_id+"&s=m' class='image show-in-modal' alt='image post'>" +
 					"</div>";
 		}
 		$op+="                        <div class='post-description'>"+
