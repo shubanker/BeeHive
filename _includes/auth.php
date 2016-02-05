@@ -22,8 +22,10 @@ class Auth{
 		if (empty($db)){
 			return false;
 		}
-		if ($id=Cookies::verify_cookies(null, null, $db)){
-			$_SESSION['user_id']=$this->user_id=$id;
+		if ($user_id=Cookies::verify_cookies(null, null, $db)){
+			$_SESSION['user_id']=$this->user_id=$user_id;
+			$user=new User($user_id,$db);
+			$_SESSION['user_name']=$user->get_name();
 			$this->is_login=TRUE;
 		}
 	}
@@ -41,27 +43,15 @@ class Auth{
 			$this->set_error("Password Can not be Empty");
 			return false;
 		}
-		/*
-		 * Lets escape email.
-		 */
-		$s_email=$db->escape($email);
-		$sql=Db::create_sql(array('user_id','password','first_name','last_name'), array('users'),"email='$s_email' AND status=1");
-		if ($data=Db::fetch_array($db, $sql)){
-			/*
-			 * Making shure only one data is returned
-			 */
-			if (count($data)==1 && password::verify_password($password, $data[0]['password'])){
+		$user=new User();
+		if ($user->initialise_by_email($db, $email)){
+			if ($user->check_password($password)){
 				$this->is_login=TRUE;
-				$_SESSION ['user_id'] =(int)$data[0]['user_id'];
-				$_SESSION['user_name']=$data[0]['first_name']." ".$data[0]['last_name'];
-				return $this->user_id=(int)$data[0]['user_id'];
+				$_SESSION['user_name']=$user->get_name();
+				return $this->user_id=$_SESSION ['user_id'] =$user->get_user_id();
 			}
-			$this->set_error("Invalid email/password.");
-		}else {
-			$this->set_error("Something went wrong :( \nPlease try again after Sometime.");
 		}
-		
-		
+		$this->set_error("Invalid email/password.");//if we are still here
 		return false;
 	}
 	function get_userid(){

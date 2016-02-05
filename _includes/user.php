@@ -51,6 +51,9 @@ class User extends Struct{
 	function get_name(){
 		return $this->get("first_name")." ".$this->get("last_name");
 	}
+	function get_user_id(){
+		return $this->get($this->pk);
+	}
 	function set_first_name($first_name){
 		$this->set("first_name", $first_name);
 	}
