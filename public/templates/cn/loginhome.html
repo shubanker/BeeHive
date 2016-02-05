@@ -1,6 +1,8 @@
 <?php 
 $files = glob('templates/cn/_img/Friends/*.jpg');
 shuffle($files);
+echo clearNoteHtmlOp::get_head("::Login::");
+echo clearNoteHtmlOp::get_include_css();
 ?><body class="welcome-page animated fadeIn">
     <div class="row row-welcome">
         <div class="login-page">

@@ -1,9 +1,6 @@
 <?php
 
 require_once '_includes/include_all.php';
-echo clearNoteHtmlOp::get_head();
-echo clearNoteHtmlOp::get_include_css();
-
 if (isset($_GET['logout'])){
 	Auth::logout();
 }
