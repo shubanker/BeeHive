@@ -17,7 +17,13 @@ $(".hide-chat").click(function(e){
 
 /*show image in modal when click*/
 $(document).on('click','.show-in-modal',function(e){
-  $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+$(this).attr('src')+'" />');
+	if (/.*id=(\d+).*/i.test($(this).attr('src'))) {
+		r=r=$(this).attr('src').split(/.*id=(\d+).*/i);
+		imgscr="image.php?id="+r[1];
+	} else {
+		imgscr=$(this).attr('src');
+	}
+  $('#modal-show .img-content').html('<img class="img-responsive img-rounded" src="'+imgscr+'" />');
     $('#modal-show').modal('show');
     e.preventDefault();
 });
