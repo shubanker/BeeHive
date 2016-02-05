@@ -39,5 +39,3 @@ if (!empty($db) && $db->isinit()){
 	$db->close();
 }
 ?>
-</body>
-</html>

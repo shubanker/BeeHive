@@ -65,9 +65,9 @@ EOS;
 		return $op;
 	
 	}
-	static function get_footer(){
+	static function get_footer($footer_class="welcome-footer"){
 		$op=<<<EOT
-        <footer class="welcome-footer">
+        <footer class="$footer_class">
             <div class="container">
                 <p>
                     <div class="footer-links"><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Developers</a> | <a href="#">Contact</a> | <a href="#">About</a>
