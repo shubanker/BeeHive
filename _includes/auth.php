@@ -88,6 +88,7 @@ class Auth{
 				}
 				$auth=new Auth($db);
 				if ($auth->check_crediantials($_POST['email'], $_POST['password'], $db)){
+					Cookies::create_cookie($auth->user_id, $db);
 					session_regenerate_id();
 					redirect_to();
 					closendie("",$db);
