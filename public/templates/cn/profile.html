@@ -33,9 +33,9 @@ echo clearNoteHtmlOp::get_include_css();?>
         </div>
     </nav>
     <div class="row text-center cover-container">
-        <a href="#"><img src="image.php?user=<?=$friend_id ?>"> </a>
-        <h1 class="profile-name"><?=$user_name ?></h1>
-<!--         <p class="user-text">sharing awesome ideas with your friends, you can grow, grow fast</p> -->
+        <a href="#"><img src="image.php?user=<?=$friend_id; ?>"> </a>
+        <h1 class="profile-name"><?=$user_name; ?></h1>
+        <p class="user-text"><?=$friend->get_email(); ?></p>
     </div>
     <div class="container" style="margin-top:2px;">
         <div class="col-md-10 no-paddin-xs">

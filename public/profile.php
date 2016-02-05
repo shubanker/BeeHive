@@ -19,7 +19,10 @@ if ($auth->is_login()){
 	}
 	if (empty(trim($user_name))){
 		$friend_id=$user_id;
-		$user_name=$_SESSION['user_name'];
+		
+		$friend=new User($friend_id,$db);
+		$user_name=$friend->get_name();
+		$gender=$friend->get_gen();
 	}
 	/*
 	 * will load it through AJAX
