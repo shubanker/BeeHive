@@ -129,7 +129,7 @@ $(document).on('click','.like_comment',function(d){
 		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar' alt='user profile image'>";
 		$op+="</div>"+
 			"    <div class='pull-left meta'>"+
-			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+ob.first_name+" "+ob.last_name+"</a> "+
+			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name)+"</a> "+
 		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+"</div>";
 		
 		$op+="<h6 class='text-muted time'> "+ob.time+"</h6>";
