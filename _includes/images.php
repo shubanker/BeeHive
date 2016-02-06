@@ -138,4 +138,13 @@ class Image{
 		imagedestroy($thumbnail);
 	
 	}
+	static function image_exists($image_id,$db){
+		$simage_id=(int)$image_id;
+		$where="`image_id`='$simage_id' AND status='1'";
+		$sql=Db::create_sql('count(`image_id`)count', array('images'),
+				$where
+			);
+		$r=$db->qfetch($sql);
+		return $r['count']==1;
+	}
 }

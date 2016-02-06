@@ -141,8 +141,11 @@ $(document).on('click','.like_comment',function(d){
 			"    <span class='caret'></span>"+
 			"  </button>"+
 			"  <ul class='dropdown-menu' aria-labelledby='dropdownMenu2'>"+
-			"    <li><a href='#' class='edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a></li>"+
-			"    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a></li>"+
+			"    <li><a href='#' class='edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a></li>";
+			if(ob.picture_id!=null){
+				$op+="    <li><a href='#' class='make_dp' igm-id='"+ob.picture_id+"'><i class='glyphicon glyphicon-edit icon'></i> Make DP</a></li>";
+			}
+			$op+="    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a></li>"+
 			"  </ul>"+
 			"</div>";
 			$op+="</div>";
@@ -369,3 +372,14 @@ function make_image_html(ob){
 	"</li>";
 	return $op;
 }
+/* Change Dp */
+$(document).on('click','.make_dp',function(e){
+	e.preventDefault();
+	img_id=$(this).attr('igm-id');
+	$.post(req_page,{req_type:'change_dp',img_id:img_id}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			
+		}
+	});
+});

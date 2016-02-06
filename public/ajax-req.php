@@ -232,6 +232,19 @@ if (isset($_POST['req_type'])){
 			shuffle($result);
 			$responce=array_slice($result, 0,$limit);
 			break;
+		case 'change_dp':
+			$responce['success']=0;
+			$image_id=(int)$_POST['img_id'];
+			if (!empty($image_id)&&$image_id>0){
+				
+				//Checking if Image exists..
+				
+				
+				if (image::image_exists($image_id, $db) && UserData::edit_by_type($user_id, 'dp', $image_id, $db)){
+					$responce['success']=1;
+				}
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}
