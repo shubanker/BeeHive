@@ -133,8 +133,21 @@ $(document).on('click','.like_comment',function(d){
 		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+"</div>";
 		
 		$op+="<h6 class='text-muted time'> "+ob.time+"</h6>";
-		$op+="</div>"+
+		$op+="</div>";
+		if(ob.can_edit==1){
+			$op+="<div class='pull-right'>";
+			$op+="<div class='dropdown stat-item'>"+
+			"  <button class='btn btn-default dropdown-toggle' type='button' id='dropdownMenu2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"+
+			"    <span class='caret'></span>"+
+			"  </button>"+
+			"  <ul class='dropdown-menu' aria-labelledby='dropdownMenu2'>"+
+			"    <li><a href='#' class='edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a></li>"+
+			"    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a></li>"+
+			"  </ul>"+
 			"</div>";
+			$op+="</div>";
+		}
+		$op+="	</div>";
 		if(ob.picture_id!=null){
 			$op+="<div class='post-image'><img src='image.php?id="+ob.picture_id+"&s=m' class='image show-in-modal' alt='image post'>" +
 					"</div>";
@@ -144,10 +157,6 @@ $(document).on('click','.like_comment',function(d){
 		$op+="<div class='stats'>"+
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
 			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>";
-		if(ob.can_edit==1){
-			$op+="        <a href='#' class='btn btn-default stat-item edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a>";
-			$op+="        <a href='#' class='btn btn-danger stat-item del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a>";
-		}
 		$op+="    </div>"+
 			"</div>";
 		
