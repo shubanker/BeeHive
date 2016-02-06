@@ -143,7 +143,7 @@ $(document).on('click','.like_comment',function(d){
 			"  <ul class='dropdown-menu' aria-labelledby='dropdownMenu2'>"+
 			"    <li><a href='#' class='edit_post' data-toggle='modal' data-target='#editPost'><i class='glyphicon glyphicon-edit icon'></i> Edit</a></li>";
 			if(ob.picture_id!=null){
-				$op+="    <li><a href='#' class='make_dp' igm-id='"+ob.picture_id+"'><i class='glyphicon glyphicon-edit icon'></i> Make DP</a></li>";
+				$op+="    <li><a href='#' class='make_dp' igm-id='"+ob.picture_id+"'><i class='glyphicon glyphicon-picture icon'></i> Make DP</a></li>";
 			}
 			$op+="    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a></li>"+
 			"  </ul>"+
