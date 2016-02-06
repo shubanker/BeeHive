@@ -226,3 +226,13 @@ function get_notification_count_html(c){
 	}
 	return false;
 }
+$(document).on('click','#friend_action',function(e){
+	e.preventDefault();
+	$this=$(this);
+	$.post('ajax-req.php',{req_type:'friend_action',friend_id:friend_id}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			$this.find('span').html(ob.new_action);
+		}
+	});
+});

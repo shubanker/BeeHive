@@ -119,6 +119,14 @@ class Friendship{
 		),true);
 		return $db->query($sql)?$db->affected_rows():false;
 	}
+	static function cancle_friend_req($user_one,$user_two,$db){
+		$sql=Db::create_sql_delete('friends', array(
+				"user_one"=>$user_one,
+				"user_two"=>$user_two,
+				"status"=>1
+		));
+		return $db->query($sql)?$db->affected_rows():false;
+	}
 	static function unfriend($user_one,$user_two,$db){
 		$sql=Db::create_sql_delete('friends', "((`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')) AND status=2");
@@ -150,15 +158,18 @@ class Friendship{
 		));
 		return $db->query($sql)?$db->affected_rows():false;
 	}
-	static function get_relation($user_one,$user_two,$db){
-		$sql=Db::create_sql('status', self::$table,"(`user_one`='$user_two' AND `user_two`='$user_one') OR 
+	static function get_relation($user_one,$user_two,$db,$only_status=TRUE){
+		$sql=Db::create_sql(array('status','user_one','user_two'), self::$table,"(`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')");
 		if (empty($db)){
 			return $sql;
 		}
 		$result= $db->qnfetch($sql, $db);
-		
-		return empty($result)?0:$result['status'];
+		if (empty($result)){
+			return 0;
+		}else {
+			return $only_status?$result['status']:$result;
+		}
 	}
 	static function is_friend($user_one,$user_two,$db){
 		return self::get_relation($user_one, $user_two, $db)==2;

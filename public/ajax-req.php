@@ -245,6 +245,42 @@ if (isset($_POST['req_type'])){
 				}
 			}
 			break;
+		case 'friend_action':
+			$friend_id=(int)$_POST['friend_id'];
+			$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
+			if ($relation!=0){
+				if ($relation['status']==1){
+					if ($relation['user_one']==$user_id){
+						Friendship::cancle_friend_req($user_id, $friend_id, $db);
+						$responce['new_action']="Add Friend";
+						$responce['success']=1;
+					}else {
+						Friendship::accept_request($friend_id, $user_id, $db);
+						$responce['new_action']="Unfriend";
+						$responce['success']=1;
+					}
+				}elseif ($relation['status']==2){
+					Friendship::unfriend($user_id, $friend_id, $db);
+					$responce['new_action']="Add Friend";
+					$responce['success']=1;
+				}elseif ($relation['status']==0) {
+					
+					Friendship::send_friend_req($user_id, $friend_id, $db);
+					$responce['success']=1;
+					$responce['new_action']="Cancle Request";
+					
+				}elseif ($relation['status']==3){
+					//Block/Unblock option..
+					$responce['success']=0;
+				}
+			}else {
+				if (Friendship::send_friend_req($user_id, $friend_id, $db)){
+					$responce['success']=1;
+					$responce['new_action']="Cancle Request";
+				}
+				
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}

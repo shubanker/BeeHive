@@ -1740,3 +1740,6 @@ a:active, a:focus, a:hover {
 #chat_name>a{
 	color: #fff;
 }
+.friend-button{
+	width: 650px
+}
