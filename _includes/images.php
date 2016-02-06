@@ -38,25 +38,6 @@ class Image{
 	static function get_image($image_id,$size,$db,$isdp=false,$showdeleted=FALSE){
 		$qimage=$isdp?"($image_id)":"'$image_id'";
 		
-		switch ($size){
-			case "s":
-				$width=$height=160;
-				break;
-			case "es":
-				$width=$height=80;
-				break;
-			case "m":
-				$width=640;
-				$height=null;
-				break;
-			default:
-				if (is_array($size)){
-					$width=$size[0];
-					$height=$size[1];
-				}else {
-					$width=$height=0;
-				}
-		}
 		$status_condition=$showdeleted?"":" AND status='1' ";
 		$sql=Db::create_sql(array(
 				"loc"
@@ -65,9 +46,9 @@ class Image{
 		),
 				"`image_id`=$qimage $status_condition");
 		$image=Db::qnfetch($sql, $db);
-		self::thumbnail($image['loc'], $width, $height);
+		self::thumbnail($image['loc'], $size);
 	}
-	private static function thumbnail($image, $width, $height) {
+	private static function thumbnail($image, $size=NULL) {
 		/*
 		 if($image[0] != "/") { // Decide where to look for the image if a full path is not given
 			if(!isset($_SERVER["HTTP_REFERER"])) { // Try to find image if accessed directly from this script in a browser
@@ -94,15 +75,41 @@ class Image{
 		$image_height = $image_properties[1];
 		$image_ratio = $image_width / $image_height;
 		$type = $image_properties["mime"];
+		
+		switch ($size){
+			case "s":
+				$max_len=160;
+				break;
+			case "es":
+				$max_len=80;
+				break;
+			case "m":
+				$max_len=640;
+				break;
+			default:
+				if (is_array($size)){
+					$width=isset($size[0])?$size[0]:null;
+					$height=isset($size[1])?$size[1]:null;
+				}
+		}
+		if (isset($max_len)){
+			if ($image_width>$image_height){
+				$width=$image_width>$max_len?$max_len:$image_width;
+				$height=null;
+			}else {
+				$height=$image_height>$max_len?$max_len:$image_height;
+				$width=null;
+			}
+		}
 	
-		if(!$width && !$height) {
+		if(empty($width) && empty($height)) {
 			$width = $image_width;
 			$height = $image_height;
 		}
-		if(!$width) {
+		if(empty($width)) {
 			$width = round($height * $image_ratio);
 		}
-		if(!$height) {
+		if(empty($height)) {
 			$height = round($width / $image_ratio);
 		}
 	
