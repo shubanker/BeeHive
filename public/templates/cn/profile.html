@@ -18,7 +18,7 @@ echo clearNoteHtmlOp::get_include_css();?>
                     </form>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="profile.php"><img src="image.php?user=<?=$user_id ?>" class="img-nav"></a>
+                    <li><a href="profile.php"><img src="image.php?user=<?=$user_id ?>&s=m" class="img-nav"></a>
                     </li>
                     <li class="active"><a href="index.php"><i class="fa fa-bars"></i>&nbsp;Home</a>
                     </li>
@@ -33,7 +33,7 @@ echo clearNoteHtmlOp::get_include_css();?>
         </div>
     </nav>
     <div class="row text-center cover-container">
-        <a href="#"><img src="image.php?user=<?=$friend_id; ?>"> </a>
+        <a href="#"><img src="image.php?user=<?=$friend_id; ?>&s=m"> </a>
         <h1 class="profile-name"><?=$user_name; ?></h1>
         <p class="user-text"><?=$friend->get_email(); ?></p>
     </div>
