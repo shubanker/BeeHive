@@ -174,4 +174,34 @@ class Friendship{
 	static function is_friend($user_one,$user_two,$db){
 		return self::get_relation($user_one, $user_two, $db)==2;
 	}
+	static function get_action($user_id, $friend_id, $db){
+		$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
+		
+		if ($relation!=0){
+			$relation_status=$relation['status'];
+			switch ($relation['status']){
+				case 1:
+					if ($relation['user_one']==$user_id){
+						$friend_button="Cancle Request";
+					}else {
+						$friend_button="Accept Request";
+					}
+					break;
+				case 2:
+					$friend_button="Unfriend";
+					break;
+				case 0:
+					$friend_button="Add Friend";
+					break;
+				case 3://Blocked Users..
+					redirect_to();
+					closendie();
+					break;
+			}
+		}else{
+			$relation_status=0;
+			$friend_button="Add Friend";
+		}
+		return $friend_button;
+	}
 }
