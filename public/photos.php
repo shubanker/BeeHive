@@ -24,6 +24,9 @@ if ($auth->is_login()){
 		$gender=$friend->get_gen();
 	}
 	$is_self=$friend_id==$user_id;
+	if (!$is_self){
+		$friend_button=Friendship::get_action($user_id, $friend_id, $db);
+	}
 	include TEMPLATE.'photos.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);
