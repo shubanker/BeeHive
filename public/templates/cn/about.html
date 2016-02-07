@@ -72,7 +72,8 @@ echo clearNoteHtmlOp::get_include_css();
 	                	<div class="panel-body bio-graph-info">
 	                		<h1>Bio Graph</h1>
 	                		<div class="row">
-	                			<?php foreach ($abouts as $key=>$val){?>
+	                			<?php foreach ($abouts as $key=>$val){
+	                			if (empty($val))continue;?>
 	                			<div class="bio-row">
 	                				<p><span><?=$key; ?> </span>: <?=$val; ?></p>
 	                			</div>
