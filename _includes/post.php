@@ -239,6 +239,7 @@ class Feeds{
 		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
+		$following_list=Friendship::get_following_ids($user_id, null);
 		$sql=Db::create_sql(
 				"`first_name`,
 				`last_name`,
@@ -260,6 +261,10 @@ class Feeds{
 					(
 						`post`.`user_id` IN($friend_list) AND  				-- For including friends post
 						`post`.`access` < 3
+					) OR
+					(
+						`post`.`user_id` IN($following_list) AND  				-- For including friends post
+						`post`.`access` < 2
 					) OR
 						`post`.`user_id`='$user_id'  				-- For including own post's
 				) AND

@@ -37,6 +37,22 @@ class Friendship{
 		}
 		return $list;
 	}
+	static function get_following_ids($user_id,$db){
+		$sql=Db::create_sql(array('user_two'), array('friends'),
+				array(
+						"user_one"=>$user_id,
+						"status"=>1
+				)
+			);
+		if (empty($db)){
+			return $sql;
+		}
+		$list=array();
+		foreach (Db::fetch_array($db, $sql) as $friend){
+			$list[]=$friend['user_two'];
+		}
+		return $list;
+	}
 	static function get_friends_names($user_id,$db){
 		$sql="SELECT `user_id`,concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name FROM `users` WHERE `user_id` IN(SELECT
 		CASE
