@@ -37,6 +37,25 @@ class Friendship{
 		}
 		return $list;
 	}
+	static function get_all_connection_ids($user_id,$db){
+		$sql="SELECT
+		CASE
+			WHEN `user_one` = '$user_id' THEN `user_two`
+			ELSE `user_one`
+		END AS connected_user,
+		CASE
+			WHEN `status`=2 THEN 'friend'
+			WHEN `status`=1 AND `user_one` = '$user_id' THEN 'following'
+			WHEN `status`=1 AND `user_two` = '$user_id' THEN 'follower'
+			WHEN `status`=3 AND `user_one` = '$user_id' THEN 'blocker'
+			WHEN `status`=3 AND `user_two` = '$user_id' THEN 'isblocked'
+		END AS connection
+		FROM `friends` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') AND status>0 ";
+		if (empty($db)){
+			return $sql;
+		}
+		return Db::fetch_array($db, $sql);
+	}
 	static function get_following_ids($user_id,$db){
 		$sql=Db::create_sql(array('user_two'), array('friends'),
 				array(
