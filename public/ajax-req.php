@@ -282,7 +282,8 @@ if (isset($_POST['req_type'])){
 			}
 			break;
 		case 'get_connection_list':
-			$result=Friendship::get_all_connections($user_id, $db);
+			$friend_id=(int)$_POST['friend_id'];
+			$result=Friendship::get_all_connections($user_id, $db,$friend_id==$user_id);
 			$responce=array();
 			foreach ($result as $r){
 				if ($r['connection']=='isblocked'){//No users should know wo has blocked him/her
