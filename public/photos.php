@@ -25,7 +25,8 @@ if ($auth->is_login()){
 	}
 	$is_self=$friend_id==$user_id;
 	if (!$is_self){
-		$friend_button=Friendship::get_action($user_id, $friend_id, $db);
+		$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
+		$friend_button=Friendship::get_action($user_id, $friend_id, $db,$relation);
 	}
 	include TEMPLATE.'photos.html';
 	if (!empty($db) && $db->isinit()){

@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  
   $('.alert-info').hide();
+  $('.tip').tooltip();
   load_online_list();
   get_notification_count();
   

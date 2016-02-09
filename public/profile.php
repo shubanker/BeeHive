@@ -31,7 +31,8 @@ if ($auth->is_login()){
 // 	$feeds=Feeds::get_friends_feeds($user_id, $friend_id, $db); //uncomment this to load initial post's directly.
 	$is_self=$friend_id==$user_id;
 	if (!$is_self){
-		$friend_button=Friendship::get_action($user_id, $friend_id, $db);
+		$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
+		$friend_button=Friendship::get_action($user_id, $friend_id, $db,$relation);
 	}
 	
 	include TEMPLATE.'profile.html';

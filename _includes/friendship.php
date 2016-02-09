@@ -58,7 +58,7 @@ class Friendship{
         concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name
 		FROM `friends`,`users` WHERE
 			(`user_one`='$user_id' OR `user_two`='$user_id') AND 
-			if(`user_one` = '1',`user_two`,`user_one`)=`users`.`user_id` $status_condition";
+			((`user_two`='$user_id' AND `user_one`=`users`.`user_id`) OR (`user_one`='$user_id' AND `user_two`=`users`.`user_id`)) $status_condition";
 		if (empty($db)){
 			return $sql;
 		}
@@ -217,8 +217,8 @@ class Friendship{
 	static function is_friend($user_one,$user_two,$db){
 		return self::get_relation($user_one, $user_two, $db)==2;
 	}
-	static function get_action($user_id, $friend_id, $db){
-		$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
+	static function get_action($user_id, $friend_id, $db,$relation){
+		
 		
 		if ($relation!=0){
 			$relation_status=$relation['status'];
