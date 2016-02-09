@@ -37,20 +37,21 @@ class Friendship{
 		}
 		return $list;
 	}
-	static function get_all_connection_ids($user_id,$db){
+	static function get_all_connections($user_id,$db){
 		$sql="SELECT
 		CASE
 			WHEN `user_one` = '$user_id' THEN `user_two`
 			ELSE `user_one`
 		END AS connected_user,
 		CASE
-			WHEN `status`=2 THEN 'friend'
-			WHEN `status`=1 AND `user_one` = '$user_id' THEN 'following'
-			WHEN `status`=1 AND `user_two` = '$user_id' THEN 'follower'
-			WHEN `status`=3 AND `user_one` = '$user_id' THEN 'blocker'
-			WHEN `status`=3 AND `user_two` = '$user_id' THEN 'isblocked'
-		END AS connection
-		FROM `friends` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') AND status>0 ";
+			WHEN `friends`.`status`=2 THEN 'friend'
+			WHEN `friends`.`status`=1 AND `user_one` = '$user_id' THEN 'following'
+			WHEN `friends`.`status`=1 AND `user_two` = '$user_id' THEN 'follower'
+			WHEN `friends`.`status`=3 AND `user_one` = '$user_id' THEN 'blocker'
+			WHEN `friends`.`status`=3 AND `user_two` = '$user_id' THEN 'isblocked'
+		END AS connection,
+        concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name
+		FROM `friends`,`users` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') AND if(`user_one` = '1',`user_two`,`user_one`)=`users`.`user_id` AND `friends`.`status`>0 ";
 		if (empty($db)){
 			return $sql;
 		}
