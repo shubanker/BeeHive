@@ -49,11 +49,11 @@ class Friendship{
 			ELSE `user_one`
 		END AS connected_user,
 		CASE
-			WHEN `friends`.`status`=2 THEN 'friend'
+			WHEN `friends`.`status`=2 THEN 'friends'
 			WHEN `friends`.`status`=1 AND `user_one` = '$user_id' THEN 'following'
-			WHEN `friends`.`status`=1 AND `user_two` = '$user_id' THEN 'follower'
-			WHEN `friends`.`status`=3 AND `user_one` = '$user_id' THEN 'blocker'
-			WHEN `friends`.`status`=3 AND `user_two` = '$user_id' THEN 'isblocked'
+			WHEN `friends`.`status`=1 AND `user_two` = '$user_id' THEN 'followers'
+			WHEN `friends`.`status`=3 AND `user_one` = '$user_id' THEN 'blocked'
+			WHEN `friends`.`status`=3 AND `user_two` = '$user_id' THEN 'blockedby'
 		END AS connection,
         concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name
 		FROM `friends`,`users` WHERE
