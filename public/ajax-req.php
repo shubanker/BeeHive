@@ -281,6 +281,16 @@ if (isset($_POST['req_type'])){
 				
 			}
 			break;
+		case 'get_connection_list':
+			$result=Friendship::get_all_connections($user_id, $db);
+			$responce=array();
+			foreach ($result as $r){
+				if ($r['connection']=='isblocked'){//No users should know wo has blocked him/her
+					continue;
+				}
+				$responce[]=$r;
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}
