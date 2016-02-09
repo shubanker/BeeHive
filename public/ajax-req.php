@@ -28,6 +28,7 @@ if (!$auth->is_login()){
 $user_id=$auth->get_userid();
 User::update_last_active($user_id, $db);
 if (isset($_POST['req_type'])){
+	$responce=null;
 	switch ($_POST['req_type']){
 		case "get_comments":
 			$post_id=(int)$_POST['post_id'];
@@ -247,6 +248,10 @@ if (isset($_POST['req_type'])){
 			break;
 		case 'friend_action':
 			$friend_id=(int)$_POST['friend_id'];
+			if ($friend_id==$user_id){
+				$responce['error']="Cant Have relationship with self";
+				break;
+			}
 			$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
 			if ($relation!=0){
 				if ($relation['status']==1){
@@ -270,8 +275,15 @@ if (isset($_POST['req_type'])){
 					$responce['new_action']="Cancle Request";
 					
 				}elseif ($relation['status']==3){
-					//Block/Unblock option..
-					$responce['success']=0;
+					
+					if ($relation['user_one']==$user_id){
+						Friendship::unblock($user_id, $friend_id, $db);
+						$responce['success']=1;
+						$responce['new_action']="Add Friend";
+					}else {
+						$responce['success']=0;
+					}
+					
 				}
 			}else {
 				if (Friendship::send_friend_req($user_id, $friend_id, $db)){
