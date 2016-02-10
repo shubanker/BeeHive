@@ -75,11 +75,15 @@ echo clearNoteHtmlOp::get_include_css(array("templates/cn/_css/friends.css"));
                       		continue;
                       	}
                       ?>
-                        <li role="presentation"><a href="#<?=$tab;?>" aria-controls="<?=$tab;?>" role="tab" data-toggle="tab"><?=$tab;?></a></li><?php }?>
+                        <li role="presentation"><a href="#<?=$tab;?>" aria-controls="<?=$tab;?>" role="tab" data-toggle="tab"><?=ucwords($tab)." (".count($connections_arranged[$tab]).")";?></a></li><?php }?>
                       </ul>
 
                       <!-- Tab panes -->
-                      <div class="tab-content"><?php foreach ($tabs as $tab){?>
+                      <div class="tab-content"><?php foreach ($tabs as $tab){
+                      	if (!isset($connections_arranged[$tab])){
+                      		continue;
+                      	}
+                      	?>
 	                      <div role="tabpanel" class="tab-pane fade" id="<?=$tab;?>"><?php foreach ($connections_arranged[$tab] as $con){?>
 	                      	<div class="col-md-6 cols-sm-12 col-xs-12">
                                 <div class="media block-update-card">
