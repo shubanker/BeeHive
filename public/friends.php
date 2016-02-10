@@ -16,7 +16,7 @@ if ($auth->is_login()){
 		$user_name=$friend->get_name();
 		$gender=$friend->get_gen();
 	}
-	if (!isset($friend) || $friend->get_user_id()!=$friend_id){
+	if (!isset($friend) || empty($friend->get_user_id()) || $friend->get_user_id()!=$friend_id){
 		$friend_id=$user_id;
 		
 		$friend=new User($friend_id,$db);
