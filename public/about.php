@@ -61,7 +61,9 @@ if ($auth->is_login()){
 				);
 			}
 		}
-		UserData::insert_multiple($data, $db);
+		if (!empty($data)){
+			UserData::insert_multiple($data, $db);
+		}
 	}
 	$abouts["First Name"]=$friend->get('first_name');
 	$abouts["Last Name"]=$friend->get('last_name');
