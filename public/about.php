@@ -41,13 +41,34 @@ if ($auth->is_login()){
 			"High School",
 			"College"
 	);
-	$abouts=array(
-			"First Name"=>$friend->get('first_name'),
-			"Last Name"=>$friend->get('last_name'),
-			"Birthday"=>$friend->get_dob(),
-			"Email"=>$friend->get_email(),
-			"Gender"=>$friend->get_gen()=="M"?"Male":"Female"
-	);
+	if ($is_self && !empty($_POST)){
+		$friend->set_first_name($_POST['first_name']);
+		$friend->set_last_name($_POST['last_name']);
+		$friend->set_dob($_POST['birthday']);
+		$friend->set_email($_POST['email']);
+		$friend->set_gender($_POST['gender']);
+		$friend->update($db);
+		
+		$data=array();
+		foreach ($About_data_list as $about_list){
+			$about_list_key=strtolower(str_replace(" ", "_", $about_list));
+			if (!empty($_POST[$about_list_key])){
+				$data[]=array(
+						"user_id"=>$user_id,
+						"type"=>$about_list,
+						"data"=>$_POST[$about_list_key],
+						"status"=>1
+				);
+			}
+		}
+		UserData::insert_multiple($data, $db);
+	}
+	$abouts["First Name"]=$friend->get('first_name');
+	$abouts["Last Name"]=$friend->get('last_name');
+	$abouts["Birthday"]=$friend->get_dob();
+	$abouts["Email"]=$friend->get_email();
+	$abouts["Gender"]=$friend->get_gen()=='M'?'Male':'Female';
+
 	$user_data=UserData::get_all_data($friend_id, $db);
 	foreach ($user_data as $data){
 		if (in_array($data['type'], $About_data_list)){

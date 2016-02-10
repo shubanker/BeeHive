@@ -178,6 +178,10 @@ class UserData{
 		
 		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::rows_affected($db):false);
 	}
+	static function insert_multiple($data,$db){
+		$sql=Db::create_sql_insert_multiple(self::$table, $data,array("data","status"),$db);
+		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::rows_affected($db):false); 
+	}
 	static function remove_data($data_id,$db){
 		return self::edit_data($data_id, null, null, $db,0);
 	}

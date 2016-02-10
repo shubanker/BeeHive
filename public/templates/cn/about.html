@@ -70,7 +70,7 @@ echo clearNoteHtmlOp::get_include_css();
                 <div class="profile-info col-md-8">
 	                <div class="panel">
 	                	<div class="panel-body bio-graph-info">
-	                		<h1>Bio Graph</h1>
+	                		<h1>About <?=$is_self?"You":$user_name ?></h1>
 	                		<div class="row">
 	                		<?php if ($is_self){?>
 	                			<form action="" method="post" id="edit_about"><?php }?>
@@ -78,7 +78,7 @@ echo clearNoteHtmlOp::get_include_css();
 		                			<?php foreach ($abouts as $key=>$val){
 		                			if (empty($val) && !$is_self)continue;?>
 		                			<div class="bio-row">
-		                				<p><span><?=$key; ?> </span>: <?php if ($is_self){?><input type="text" value="<?=$val; ?>" name="<?=$key; ?>" /><?php }else {echo $val;}?></p>
+		                				<p><span><?=$key; ?> </span>: <?php if ($is_self){?><input type="text" value="<?=$val; ?>" name="<?=strtolower(str_replace(" ", "_", $key)); ?>" /><?php }else {echo $val;}?></p>
 		                			</div>
 		                			<?php }?>
 		                			
