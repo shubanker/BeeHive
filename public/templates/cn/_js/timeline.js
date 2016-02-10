@@ -379,7 +379,7 @@ $(document).on('click','.make_dp',function(e){
 	$.post(req_page,{req_type:'change_dp',img_id:img_id}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.success==1){
-			
+			$('.img-user').attr('src',$('.img-user').attr('src')+"&rand="+Math.random());
 		}
 	});
 });
