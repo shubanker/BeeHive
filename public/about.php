@@ -54,6 +54,11 @@ if ($auth->is_login()){
 			$abouts[$data['type']]=$data['data'];
 		}
 	}
+	if ($is_self){
+		foreach ($About_data_list as $about_list){
+			$abouts[$about_list]=isset($abouts[$about_list])?$abouts[$about_list]:null;
+		}
+	}
 	
 	
 	include TEMPLATE.'about.html';

@@ -72,12 +72,19 @@ echo clearNoteHtmlOp::get_include_css();
 	                	<div class="panel-body bio-graph-info">
 	                		<h1>Bio Graph</h1>
 	                		<div class="row">
-	                			<?php foreach ($abouts as $key=>$val){
-	                			if (empty($val))continue;?>
-	                			<div class="bio-row">
-	                				<p><span><?=$key; ?> </span>: <?=$val; ?></p>
-	                			</div>
-	                			<?php }?>
+	                		<?php if ($is_self){?>
+	                			<form action="" method="post" id="edit_about"><?php }?>
+	                			
+		                			<?php foreach ($abouts as $key=>$val){
+		                			if (empty($val) && !$is_self)continue;?>
+		                			<div class="bio-row">
+		                				<p><span><?=$key; ?> </span>: <?php if ($is_self){?><input type="text" value="<?=$val; ?>" name="<?=$key; ?>" /><?php }else {echo $val;}?></p>
+		                			</div>
+		                			<?php }?>
+		                			
+	                			<?php if ($is_self){ ?>
+	                			<input type="submit" value="Save Data" class="btn btn-primary pull-right"/>
+	                			</form><?php } ?>
 	                		</div>
 	                	</div>
 	                </div>
