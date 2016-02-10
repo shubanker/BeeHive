@@ -99,7 +99,7 @@ if (isset($_POST['req_type'])){
 			break;
 		case "new_post":
 			$post_msg=empty($_POST['post_msg'])?null:$_POST['post_msg'];
-			$post_msg_escaped=$db->escape($post_msg);
+// 			$post_msg_escaped=$db->escape($post_msg);
 			$image_id=null;
 			if (isset($_FILES['image']['name'])&&!empty($_FILES['image']['name'])){
 				$image_id=image::new_image("image", $db);
@@ -113,7 +113,7 @@ if (isset($_POST['req_type'])){
 			$post=new Post();
 			$post->set_user_id($user_id);
 			$post->set_picture_id($image_id);
-			$post->set_post_data($post_msg_escaped);
+			$post->set_post_data($post_msg);
 			$post->set_access(trim($_POST['privacy']));
 			$post_id=$post->create($db);
 			if (!empty($post_id)){
