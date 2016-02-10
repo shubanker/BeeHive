@@ -23,7 +23,7 @@ class Image{
 		
 	}
 	static function get_dp($user_id,$size,$db){
-		$sql=Db::create_sql("IFNULL(`data`,1)",
+		$sql=Db::create_sql("IFNULL(`data`,1) as image_id",
 				 array("userdata"),
 				"`user_id`='$user_id' AND
 				`type`='dp' AND
@@ -33,7 +33,11 @@ class Image{
 				1
 			);
 		
-		self::get_image($sql, $size, $db,true);
+// 		self::get_image($sql, $size, $db,true);
+		$r=Db::qnfetch($sql, $db);
+		$image_id=$r['image_id'];
+		redirect_to("image.php?id=$image_id&s=$size");
+		closendie(null,$db);
 	}
 	static function get_image($image_id,$size,$db,$isdp=false,$showdeleted=FALSE){
 		$qimage=$isdp?"($image_id)":"'$image_id'";
