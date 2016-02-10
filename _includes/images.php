@@ -36,7 +36,14 @@ class Image{
 // 		self::get_image($sql, $size, $db,true);
 		$r=Db::qnfetch($sql, $db);
 		$image_id=$r['image_id'];
-		redirect_to("image.php?id=$image_id&s=$size");
+		$location="image.php?id=$image_id";
+		foreach ($_GET as $key=>$val){
+			if ($key=="user" || $key=="rand"){
+				continue;
+			}
+			$location.="&$key=$val";
+		}
+		redirect_to($location);
 		closendie(null,$db);
 	}
 	static function get_image($image_id,$size,$db,$isdp=false,$showdeleted=FALSE){
