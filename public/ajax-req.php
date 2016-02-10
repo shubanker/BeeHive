@@ -124,7 +124,7 @@ if (isset($_POST['req_type'])){
 				$responce['picture_id']=$image_id;
 				$responce['comment_count']=$responce['like_count']=$responce['has_liked']=0;
 				$responce['post_id']=$post_id;
-				$responce['post_data']=htmlentities($post_msg);
+				$responce['post_data']=nl2br(htmlentities($post_msg));
 				$responce['user_id']=$user_id;
 				$responce['can_edit']=1;
 			}
@@ -321,7 +321,7 @@ function make_html_entity($arrays,$fields){
 			if (!isset($arrays[$i][$field])){
 				continue;
 			}
-				$arrays[$i][$field]=htmlentities($arrays[$i][$field]);
+				$arrays[$i][$field]=nl2br(htmlentities($arrays[$i][$field]));
 		}
 	}
 	return $arrays;
