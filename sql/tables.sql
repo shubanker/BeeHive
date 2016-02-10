@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 28, 2016 at 12:17 PM
+-- Generation Time: Feb 10, 2016 at 01:54 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -269,13 +269,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
- ADD PRIMARY KEY (`comment_id`), ADD KEY `user_id` (`user_id`), ADD KEY `post_id` (`post_id`);
+ ADD PRIMARY KEY (`comment_id`), ADD KEY `comments_ibfk_1` (`user_id`), ADD KEY `comments_ibfk_2` (`post_id`);
 
 --
 -- Indexes for table `friends`
 --
 ALTER TABLE `friends`
- ADD PRIMARY KEY (`friend_id`), ADD KEY `user_one` (`user_one`), ADD KEY `user_two` (`user_two`);
+ ADD PRIMARY KEY (`friend_id`), ADD KEY `friends_ibfk_1` (`user_one`), ADD KEY `friends_ibfk_2` (`user_two`);
 
 --
 -- Indexes for table `images`
@@ -299,25 +299,25 @@ ALTER TABLE `likes`
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
- ADD PRIMARY KEY (`message_id`), ADD KEY `user_two` (`user_two`), ADD KEY `user_one` (`user_one`);
+ ADD PRIMARY KEY (`message_id`), ADD KEY `messages_ibfk_1` (`user_two`), ADD KEY `messages_ibfk_2` (`user_one`);
 
 --
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
- ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `post_id` (`post_id`), ADD KEY `user_id_2` (`user_id`);
+ ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `user_id_2` (`user_id`), ADD KEY `notifications_ibfk_2` (`post_id`);
 
 --
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
- ADD PRIMARY KEY (`post_id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`post_id`), ADD KEY `post_ibfk_1` (`user_id`);
 
 --
 -- Indexes for table `userdata`
 --
 ALTER TABLE `userdata`
- ADD PRIMARY KEY (`data_id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`data_id`), ADD UNIQUE KEY `user_id_2` (`user_id`,`type`,`status`);
 
 --
 -- Indexes for table `users`
