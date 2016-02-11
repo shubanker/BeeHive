@@ -694,14 +694,16 @@ img.circle-border {
 }
 
 .friend-list li a .friend-name, .friend-list li a .friend-name:hover {
-	color: #777
+	color: #777;
+	padding-left: 3.7em;
 }
 
 .friend-list li a .last-message {
 	width: 65%;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	overflow: hidden
+	overflow: hidden;
+	padding-left: .5em;
 }
 
 .friend-list li a .time {
@@ -723,7 +725,7 @@ img.circle-border {
 }
 
 .chat-message {
-	padding: 60px 20px 115px;
+	padding: 20px;
 	background: #f9f9f9
 }
 
@@ -1742,4 +1744,8 @@ a:active, a:focus, a:hover {
 }
 .friend-button{
 	width: 650px
+}
+.chat{
+	max-height: 450px;
+	overflow-x: hidden;
 }

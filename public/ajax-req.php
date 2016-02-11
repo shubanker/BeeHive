@@ -304,6 +304,11 @@ if (isset($_POST['req_type'])){
 				$responce[]=$r;
 			}
 			break;
+		case 'messages_list':
+			$recent_messages=Message::get_recent_message_list($user_id, $db,0,15);
+			$recent_messages=make_time_redable($recent_messages);
+			$responce=make_html_entity($recent_messages, array("message","first_name","last_name"));
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}

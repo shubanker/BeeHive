@@ -1,0 +1,56 @@
+<?php 
+// $user_name="";
+// $friend=new User(1,$db);
+echo clearNoteHtmlOp::get_head("Messages");
+echo clearNoteHtmlOp::get_include_css();
+?><body class="animated fadeIn">
+    <?=clearNoteHtmlOp::get_nav($user_id); ?>
+    <div class="container" style="margin-top:80px;">
+        <div class="col-md-10 col-md-offset-1 no-paddin-xs">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 bg-white ">
+                        <div class=" row border-bottom padding-sm" style="height: 40px;"></div>
+                        <ul class="friend-list">
+                        	<?php foreach ($recent_messages as $list){?>
+                            <li<?=$list['user_one']!=$user_id && $list['status']==1?' class="active bounceInDown"':"" ?>>
+                                <a href="#" class="clearfix"><img src="image.php?user=<?=$list['user_id'] ?>&s=s" alt="" class="img-circle">
+                                    <div class="friend-name"><strong> <?=$list['first_name']." ".$list['last_name'] ?></strong>
+                                    </div>
+                                    <div class="last-message text-muted"> <?=$list['message'] ?></div><small class="time text-muted"><?=Feeds::get_age($list['time']) ?> </small><small class="chat-alert text-muted"><i class="fa <?=$list['user_one']==$list['user_id']?" fa-mail-forward":($list['status']==2?"fa-check":"fa-send") ?>"></i></small>
+                                </a>
+                            </li>
+                            <?php }?>
+                        </ul>
+                    </div>
+                    <div class="col-md-8 bg-white hidden" id="chat_div">
+                        <div class="chat-message">
+                        	<input type="hidden" id="current_msg_user_id" />
+                        	<input type="hidden" id="current_msg_user_name" />
+                            <ul class="chat">
+                            </ul>
+                        </div>
+                        <form action="" method="post">
+	                        <div class="panel profile-info panel-danger">
+	                        	<textarea class="form-control input-lg p-text-area" rows="3" placeholder="Write a message..." name="msg" id="message_textarea"></textarea>
+	                            <div class="panel-footer">
+	                                <button type="submit" class="btn btn-info pull-right" id="send_msg">Send</button>
+	                                <ul class="nav nav-pills">
+	                                </ul>
+	                            </div>
+	                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?=clearNoteHtmlOp::get_chat_sidebar(); ?>
+    <?=clearNoteHtmlOp::get_chat_box(); ?>
+<?=clearNoteHtmlOp::get_footer() ?>
+<?=clearNoteHtmlOp::get_js(array("messages.js"));?>
+<script>
+	friend_id=<?=$friend_id; ?>
+</script>
+</body>
+</html>

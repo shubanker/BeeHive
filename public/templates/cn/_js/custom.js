@@ -111,7 +111,7 @@ function make_chat_html(ob){
 }
 /* ============= Messages ============== */
 chat_timer=0;
-can_load_upper_msg=true;
+can_load_upper_chat=true;
 function load_chat(friendid,lastsync=0){
 	$('.msg_container_base').html('');
 	sync_chat(lastsync);
@@ -139,7 +139,7 @@ function sync_chat(lastsync=null,fillbefore=false){
 			}
 			if(fillbefore){
 				$('.msg_container_base').prepend(op);
-				can_load_upper_msg=true;
+				can_load_upper_chat=true;
 			}else{
 				$('.msg_container_base').append(op);
 				$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
@@ -150,8 +150,8 @@ function sync_chat(lastsync=null,fillbefore=false){
 	});
 }
 $('.msg_container_base').on('scroll',function(){
-	if($(this).scrollTop()<150 && can_load_upper_msg){
-		can_load_upper_msg=false;
+	if($(this).scrollTop()<150 && can_load_upper_chat){
+		can_load_upper_chat=false;
 		friendid=$('#current_chat_user_id').val();
 		sync_chat(null,true);
 	}
