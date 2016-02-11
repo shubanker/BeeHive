@@ -113,6 +113,10 @@ function make_msg_html(ob,friendid){
 $(document).on('click','.userleft',function(){
 	$('#current_msg_user_id').val($(this).find('input').val());
 	$('#current_msg_user_name').val($(this).find('strong').html());
+	
+	clearTimeout(msg_timer);
+	msg_timer=0;
+	
 	load_msg();
 });
 $(document).on('click','#send_msg',function(e){
