@@ -1,37 +1,7 @@
 <?php echo clearNoteHtmlOp::get_head();
 echo clearNoteHtmlOp::get_include_css();
 ?><body class="animated fadeIn">
-    <nav class="navbar navbar-default navbar-fixed-top navbar-principal">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="index.php"><img src="img/logo.png" class="img-logo"> <b>Bee-Hive</b> </a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <div class="col-md-5 col-sm-4">
-                    <form class="navbar-form">
-                        <div class="form-group" style="display:inline;">
-                            <div class="input-group" style="display:table;">
-                                <input class="form-control" name="search" placeholder="Search..." autocomplete="off" type="text"> <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="profile.php"><img src="image.php?user=<?=$user_id ?>&s=m" class="img-nav"></a>
-                    </li>
-                    <li class="active"><a href="index.php"><i class="fa fa-bars"></i>&nbsp;Home</a>
-                    </li>
-                    <li><a href="messages.php" id="messages"><i class="fa fa-comments"></i></a>
-                    </li>
-                    <li><a href="notifications.php" id="notifications"><i class="fa fa-globe"></i></a>
-                    </li>
-                    <li><a href="#" class="nav-controller hide-chat"><i class="fa fa-user"></i>Users</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?=clearNoteHtmlOp::get_nav($user_id); ?>
     <div class="row text-center color-container">
         <h1 class="profile-name"><?=isset($_SESSION['user_name'])?htmlspecialchars($_SESSION['user_name']):"Welcome" ?></h1>
     </div>
