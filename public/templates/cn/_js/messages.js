@@ -11,17 +11,17 @@ function refresh_recent_messages_list(){
 			op+=make_recent_messages_html(ob[i]);
 		}
 		$(".friend-list").html(op);
+		
 		if(start_sync){
 			start_sync=false;
 			if(friend_id==0){
 				first_msg=$('.friend-list>li');
 				$('#current_msg_user_id').val(first_msg.find('input').val());
 				$('#current_msg_user_name').val(first_msg.find('strong').html());
-				load_msg();
 			}else{
 				$('#current_msg_user_id').val(friend_id);
-				
 			}
+			load_msg();
 		}
 	});
 	setTimeout('refresh_recent_messages_list()',7000);

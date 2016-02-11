@@ -18,12 +18,15 @@ if ($auth->is_login()){
 			redirect_to();
 			closendie();
 		}
+		$friend=new User($friend_id,$db);
+		$friend_name=$friend->get_name();
 	}
 	$recent_messages=array();
 // 	$recent_messages=Message::get_recent_message_list($user_id, $db);
-	if (!isset($friend_id)||empty($friend_id)){
+	if (!isset($friend_id)||empty($friend_id) || $friend->get_user_id()!=$friend_id){
 // 		$friend_id=$recent_messages[0]['user_id'];
 		$friend_id=0;
+		$friend_name="";
 	}
 	include TEMPLATE.'messages.html';
 	if (!empty($db) && $db->isinit()){
