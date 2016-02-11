@@ -100,8 +100,12 @@ function make_msg_html(ob,friendid){
 	"<div class='chat-body clearfix'>"+
 	"<div class='header'><strong class='primary-font'>"+name+"</strong> <small class='pull-right text-muted'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
 	"</div>"+
-	"<p>"+ob.message+"</p>"+
-	"<input type='hidden' value='"+ob.message_id+"'/>"+
+	"<p>"+ob.message+"</p>";
+	if(!isreceived){
+		icon=ob.status>1?"fa-check":"fa-send"
+		$op+="<small class='pull-right chat-alert text-muted'><i class='fa "+icon+"'></i></small>";
+	}
+	$op+="<input type='hidden' value='"+ob.message_id+"'/>"+
 	"</div>"+
 	"</li>";
 	return $op;
@@ -110,4 +114,12 @@ $(document).on('click','.userleft',function(){
 	$('#current_msg_user_id').val($(this).find('input').val());
 	$('#current_msg_user_name').val($(this).find('strong').html());
 	load_msg();
+});
+$(document).on('click','#send_msg',function(e){
+	e.preventDefault();
+	firendid=$('#current_chat_user_id').val();
+	msg=$('#message_textarea').val();
+	if(msg!=null && msg!=""){
+		send_msg(msg,friendid);
+	}
 });

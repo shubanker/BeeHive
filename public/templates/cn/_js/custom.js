@@ -178,6 +178,7 @@ function send_msg(msg,friendid){
 //			op=make_chat_msg__html(ob,friendid);
 //			$('.msg_container_base').append(op).scrollTop($('.msg_container_base')[0].scrollHeight);
 			$('.chat_input').val('');
+			$('#message_textarea').val('');
 		}
 		
 	});

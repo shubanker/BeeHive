@@ -199,9 +199,9 @@ if (isset($_POST['req_type'])){
 			if (empty(trim($_POST['msg']))||!is_numeric($_POST['friendid'])){
 				$responce['error']="Invalid request";
 			}else {
-				$smsg=$db->escape(trim($_POST['msg']));
+				$msg=trim($_POST['msg']);
 				$friend_id=(int)$_POST['friendid'];
-				$message_id=Message::send_message($user_id, $friend_id, $smsg, $db);
+				$message_id=Message::send_message($user_id, $friend_id, $msg, $db);
 				if ($message_id){
 // 					$responce['message_id']=$message_id;
 // 					$responce['user_one']=$user_id;
