@@ -67,7 +67,7 @@ function sync_messages(lastsync=null,fillbefore=false){
 			for (var i = 0; i < ob.length; i++) {
 				op+=make_msg_html(ob[i],friendid);
 			}
-			$('#chat_div').removeClass('hidden');
+			
 			if(fillbefore){
 				$('.chat').prepend(op);
 				can_load_upper_msg=true;
@@ -94,7 +94,7 @@ function make_msg_html(ob,friendid){
 	}
 	isreceived=ob.user_one==friendid;
 	direction=isreceived?"left":"right";
-	name=$('#current_msg_user_name').val();
+	name=isreceived?$('#current_msg_user_name').val():"You";
 	
 	$op="<li class='"+direction+" clearfix'><span class='chat-img pull-"+direction+"'><img src='image.php?user="+ob.user_one+"&s=s' alt='"+name+"'> </span>"+
 	"<div class='chat-body clearfix'>"+

@@ -725,7 +725,7 @@ img.circle-border {
 }
 
 .chat-message {
-	padding: 20px;
+	padding: 10px;
 	background: #f9f9f9
 }
 
@@ -1746,6 +1746,7 @@ a:active, a:focus, a:hover {
 	width: 650px
 }
 .chat{
-	max-height: 450px;
+	min-height:350px;
+	max-height: 350px;
 	overflow-x: hidden;
 }

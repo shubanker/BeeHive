@@ -61,7 +61,7 @@ echo clearNoteHtmlOp::get_include_css(array("templates/cn/_css/friends.css"));
                                     <div class="media-body update-card-body">
                                         <h4 class="media-heading"><a href="profile.php?id=<?=$con['connected_user'];  ?>" class="friend_list_link"><?=$con['name']; ?></a></h4>
                                         <div class="btn-toolbar card-body-social" role="toolbar"><?php if ($con['connected_user']!=$user_id){?>
-                                            <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message" href="message.php?id=<?=$con['connected_user']; ?>"></a><?php } if ($is_self){ ?>
+                                            <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message" href="messages.php?id=<?=$con['connected_user']; ?>"></a><?php } if ($is_self){ ?>
                                             <button type="button" class="btn btn-success btn-xs" id="friend_action" value="<?=$con['connected_user']; ?>"><i class="glyphicon glyphicon-user"></i> <span><?=$action_button_text[$tab] ?></span></button><?php }?>
                                         </div>
                                     </div>
