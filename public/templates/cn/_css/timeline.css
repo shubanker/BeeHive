@@ -1087,7 +1087,7 @@ div.about-tab div.about-tab-content:not (.active ){
 }
 
 .chat-sidebar .connected-status {
-	color: green !important
+	color: #2ebf34 !important
 }
 
 .chat-sidebar .absent-status {

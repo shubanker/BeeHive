@@ -64,6 +64,7 @@ class Message{
 				"first_name",
 				"last_name",
 				"users.user_id",
+				"user_one",
 				"message",
 				"time",
 				"messages.status"

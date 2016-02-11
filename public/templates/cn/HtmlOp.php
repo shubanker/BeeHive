@@ -90,7 +90,7 @@ EOS;
                     </li>
                     <li><a href="messages.php" id="messages"><i class="fa fa-comments"></i></a>
                     </li>
-                    <li><a href="notifications.php" id="notifications"><i class="fa fa-globe"></i></a>
+                    <li><a href="notifications.php" id="notifications"><i class="fa fa-bell-o"></i></a>
                     </li>
                     <li><a href="#" class="nav-controller hide-chat"><i class="fa fa-user"></i>Users</a>
                     </li>

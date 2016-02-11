@@ -101,7 +101,7 @@ function load_online_list(){
 }
 function make_chat_html(ob){
 	$op="<a href='#' class='list-group-item'><i class='fa ";
-		$op+=ob.data>200?"fa-times-circle absent-status":"fa-check-circle connected-status";
+		$op+=ob.data>200?"fa-circle absent-status":"fa-circle connected-status";
 	$op+="'></i>";
 	$op+="<input type='hidden' value='"+ob.user_id+"'/>";
 	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail'> <span class='chat-user-name'>";
