@@ -30,7 +30,7 @@ function make_recent_messages_html(ob){
 	name=(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name);
 	
 	$op="<li class='"+(ob.user_one==ob.user_id && ob.status==1?"active bounceInDown":"")+"'>"+
-	"<a href='#' class='clearfix'><img src='image.php?user="+ob.user_id+"&s=s' alt='"+name+"' class='img-circle'>"+
+	"<a href='#' class='clearfix userleft'><img src='image.php?user="+ob.user_id+"&s=s' alt='"+name+"' class='img-circle'>"+
 	"<div class='friend-name'><strong> "+name+"</strong>"+
 	"<input type='hidden' value='"+ob.user_id+"'/>"+
 	"</div>"+
@@ -106,3 +106,8 @@ function make_msg_html(ob,friendid){
 	"</li>";
 	return $op;
 }
+$(document).on('click','.userleft',function(){
+	$('#current_msg_user_id').val($(this).find('input').val());
+	$('#current_msg_user_name').val($(this).find('strong').html());
+	load_msg();
+});
