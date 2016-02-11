@@ -88,7 +88,7 @@ EOS;
                     </li>
                     <li class="active"><a href="index.php"><i class="fa fa-bars"></i>&nbsp;Home</a>
                     </li>
-                    <li><a href="messages.php" id="messages"><i class="fa fa-comments"></i></a>
+                    <li><a href="messages.php" id="messages"><i class="fa fa-envelope"></i></a>
                     </li>
                     <li><a href="notifications.php" id="notifications"><i class="fa fa-bell-o"></i></a>
                     </li>
