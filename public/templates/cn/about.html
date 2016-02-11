@@ -16,6 +16,7 @@ echo clearNoteHtmlOp::get_include_css();
                             <p><?=$friend->get_email(); ?></p>
                             <?php if (!$is_self){?>
                             <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span><?=$friend_button ?></span></button>
+                            <button data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" onclick="window.location='messages.php?id=<?=$friend_id ?>'"> Message</button>
                             <?php }?>
                         </div>
                          <ul class="nav nav-pills nav-stacked">
