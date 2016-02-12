@@ -309,6 +309,18 @@ if (isset($_POST['req_type'])){
 			$recent_messages=make_time_redable($recent_messages);
 			$responce=make_html_entity($recent_messages, array("message","first_name","last_name"));
 			break;
+		case 'get_notifications':
+			$responce=Notifications::get_notifications($user_id,null,$db,null,(int)$_POST['limit']);
+			$responce=make_time_redable($responce);
+			$responce=make_html_entity($responce,array('message'));
+			$notification_ids=array();
+			foreach ($responce as $noti){
+				$notification_ids[]=$noti['notification_id'];
+			}
+			if (!empty($notification_ids)){
+				Notifications::mark_read($notification_ids, $db);
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}
