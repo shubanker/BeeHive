@@ -101,6 +101,64 @@ EOS;
 EOT;
 		return $op;
 	}
+	/*
+	 * @user user() object
+	 * @active-active menu among (profile,about,friends,photos,edit)
+	 * @enable_edit-to show to edit menu or not.
+	 */
+	static function get_left_menu($user,$active=null,$enable_edit=FALSE,$friend_button=NULL,$enable_head=true){
+		$user_id=$user->get_user_id();
+		$name=$user->get_name();
+		$email=$user->get_email();
+		$profile=$about=$friends=$photos=$edit="";
+		if (!empty($active)){
+			$$active=" class='active' ";
+		}
+		$op='<div class="panel">';
+		if ($enable_head){
+			$op.=<<<EOT
+                        <div class="user-heading round">
+                            <a href="#"><img src="image.php?user=$user_id&s=m" alt=""> </a>
+                            <h1>$name</h1>
+                            <p>$email</p>
+EOT;
+			if (!$enable_edit){
+				$friend_button=empty($friend_button)?"":$friend_button;
+				$op.=<<<EOT
+			<button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span>$friend_button</span></button>
+                            <button data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" onclick="window.location='messages.php?id=$user_id'"> Message</button>
+EOT;
+			}
+			$op.="                        </div>";
+		}
+		$op.=<<<EOT
+                         <ul class="nav nav-pills nav-stacked">
+                            <li$profile><a href="profile.php?id=$user_id"><i class="fa fa-user"></i>Profile</a>
+                            </li>
+                            <li$about>
+                                <a href="about.php?id=$user_id"> <i class="fa fa-info-circle"></i>About</a>
+                            </li>
+                            <li$friends>
+                                <a href="friends.php?id=$user_id"> <i class="fa fa-users"></i>Friends</a>
+                            </li>
+                            <li$photos>
+                                <a href="photos.php?id=$user_id"> <i class="fa fa-file-image-o"></i>Photos</a>
+                            </li>
+EOT;
+		if ($enable_edit){
+			$op.=<<<EOT
+                            <li$edit>
+                                <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
+                            </li>
+		
+EOT;
+		}
+		$op.=<<<EOT
+                        </ul>
+                    </div>
+EOT;
+		return $op;
+	}
 	static function get_footer($footer_class="welcome-footer"){
 		$op=<<<EOT
         <footer class="$footer_class">

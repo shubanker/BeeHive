@@ -8,31 +8,8 @@ echo clearNoteHtmlOp::get_include_css();
     <div class="container" style="margin-top:50px;">
         <div class="row">
             <div class="col-md-10 no-paddin-xs">
-                <div class="profile-nav col-md-4">
-                    <div class="panel">
-                        <div class="user-heading round">
-                            <a href="#"><img src="image.php?user=<?=$user_id ?>&s=m" alt=""> </a>
-                            <h1><?=$user->get_name(); ?></h1>
-                            <p><?=$user->get_email(); ?></p>
-                            
-                        </div>
-                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="profile.php"><i class="fa fa-user"></i>Profile</a>
-                            </li>
-                            <li>
-                                <a href="about.php"> <i class="fa fa-info-circle"></i>About</a>
-                            </li>
-                            <li>
-                                <a href="friends.php"> <i class="fa fa-users"></i>Friends</a>
-                            </li>
-                            <li>
-                                <a href="photos.php"> <i class="fa fa-file-image-o"></i>Photos</a>
-                            </li>
-                            <li>
-                                <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
-                            </li>
-                        </ul>
-                    </div>
+            	<div class="profile-nav col-md-4">
+                <?=clearNoteHtmlOp::get_left_menu($user, null,true); ?>
                 </div>
                 <div class="profile-info col-md-8 notifications">
                 </div>

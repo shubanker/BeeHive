@@ -8,36 +8,9 @@ echo clearNoteHtmlOp::get_include_css();
     <div class="container" style="margin-top:50px;">
         <div class="row">
             <div class="col-md-10 no-paddin-xs">
-                <div class="profile-nav col-md-4">
-                    <div class="panel">
-                        <div class="user-heading round">
-                            <a href="#"><img src="image.php?user=<?=$friend_id ?>&s=m" alt=""> </a>
-                            <h1><?=$user_name ?></h1>
-                            <p><?=$friend->get_email(); ?></p>
-                            <?php if (!$is_self){?>
-                            <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span><?=$friend_button ?></span></button>
-                            <button data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" onclick="window.location='messages.php?id=<?=$friend_id ?>'"> Message</button>
-                            <?php }?>
-                        </div>
-                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="profile.php<?=$is_self?"":"?id=$friend_id" ?>"><i class="fa fa-user"></i>Profile</a>
-                            </li>
-                            <li class="active">
-                                <a href="about.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-info-circle"></i>About</a>
-                            </li>
-                            <li>
-                                <a href="friends.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-users"></i>Friends</a>
-                            </li>
-                            <li>
-                                <a href="photos.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-file-image-o"></i>Photos</a>
-                            </li>
-                            <?php if ($is_self){?>
-                            <li>
-                                <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
-                            </li><?php }?>
-                        </ul>
-                    </div>
-                </div>
+            <div class="profile-nav col-md-4">
+            <?=clearNoteHtmlOp::get_left_menu($friend,'about',$is_self,isset($friend_button)?$friend_button:null) ?>
+            </div>  
                 <div class="profile-info col-md-8">
 	                <div class="panel">
 	                	<div class="panel-body bio-graph-info">

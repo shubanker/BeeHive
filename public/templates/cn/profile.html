@@ -19,25 +19,7 @@ echo clearNoteHtmlOp::get_include_css();?>
         <div class="col-md-10 no-paddin-xs">
             <div class="row">
                 <div class="profile-nav col-md-4">
-                    <div class="panel">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="profile.php<?=$is_self?"":"?id=$friend_id" ?>"><i class="fa fa-user"></i>Profile</a>
-                            </li>
-                            <li>
-                                <a href="about.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-info-circle"></i>About</a>
-                            </li>
-                            <li>
-                                <a href="friends.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-users"></i>Friends</a>
-                            </li>
-                            <li>
-                                <a href="photos.php<?=$is_self?"":"?id=$friend_id" ?>"> <i class="fa fa-file-image-o"></i>Photos</a>
-                            </li>
-                            <?php if ($is_self){?>
-                            <li>
-                                <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
-                            </li><?php }?>
-                        </ul>
-                    </div>
+                    <?=clearNoteHtmlOp::get_left_menu($friend,'profile',$is_self,isset($friend_button)?$friend_button:null,false) ?>
                     <div class="panel panel-white panel-friends">
                         <div class="panel-heading"><a href="friends.php<?=$is_self?"":"?id=$friend_id" ?>" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
                             <h3 class="panel-title"><?=$is_self?"Your ":"Mutual " ?>Friends</h3>
