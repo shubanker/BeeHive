@@ -42,11 +42,14 @@ function make_recent_messages_html(ob){
 /* ============= Messages ============== */
 msg_timer=0;
 can_load_upper_msg=true;
-function load_msg(lastsync=0){
+function load_msg(lastsync){
+	if(lastsync === undefined){lastsync=0}
 	$('.chat').html('');
 	sync_messages(lastsync);
 }
-function sync_messages(lastsync=null,fillbefore=false){
+function sync_messages(lastsync,fillbefore){
+	if(lastsync === undefined){last_sync=null}
+	if(fillbefore === undefined){fillbefore=false}
 	if(lastsync==null){
 		if(!fillbefore){
 			lastsync=$('.chat').find('input').last().val();

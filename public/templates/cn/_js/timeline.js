@@ -78,7 +78,8 @@ req_page='ajax-req.php';
 	  e.toggleClass('btn-primary');
 	  lcount.html(Number(lcount.html())+Number(liked?-1:1));
   }
-  function like($this,isComment=false){
+  function like($this,isComment){
+	  if(isComment === undefined){isComment=false}
 	  toggle_like($this);
 	  if(!isComment){
 		  postid=$this.parents('.panel-shadow').find(".postid").val();
@@ -175,7 +176,10 @@ $(document).on('click','.like_comment',function(d){
 			"</div>";
 		return $op;
   }
-function sync_post(last_sync=null,toend=false){
+function sync_post(last_sync,toend){
+
+	if(last_sync === undefined){last_sync=null}
+	if(toend === undefined){toend=false}
 	toend_data=toend?1:0;
 //	alert($('.postid').val());
 	if(last_sync==null){

@@ -128,11 +128,14 @@ function make_chat_html(ob){
 /* ============= Messages ============== */
 chat_timer=0;
 can_load_upper_chat=true;
-function load_chat(friendid,lastsync=0){
+function load_chat(friendid,lastsync){
+	if(lastsync === undefined){lastsync=0}
 	$('.msg_container_base').html('');
 	sync_chat(lastsync);
 }
-function sync_chat(lastsync=null,fillbefore=false){
+function sync_chat(lastsync,fillbefore){
+	if(lastsync === undefined){lastsync=null}
+	if(fillbefore === undefined){fillbefore=false}
 	if(lastsync==null){
 		if(!fillbefore){
 			lastsync=$('.messages>input').last().val();
