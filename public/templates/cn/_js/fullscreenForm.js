@@ -446,6 +446,9 @@
 					    );
 					}
 				}else if(input.type === 'password'){
+					if(input.id=== 'rep_pass' && document.getElementById('pass').value!=input.value){
+						error = 'PWDMISSMATCH';
+					}
 					if(!/.{7,35}/i.test(input.value)){
 						error = 'INPASSWORD';
 					}
@@ -489,6 +492,9 @@
 				break;
 			case 'EMAILEXISTS':
 				message = 'Email Already Registered :( .';
+				break;
+			case 'PWDMISSMATCH':
+				message = 'Password didnot Match Previous Password :(';
 				break;
 		};
 		this.msgError.innerHTML = message;
