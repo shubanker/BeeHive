@@ -185,7 +185,7 @@ function sync_post(last_sync,toend){
 	if(last_sync==null){
 		last_sync=$('.postid').val()==null?0:$('.postid').val();
 	}
-	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data,friend_id,friend_id}).done(function(d){
+	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data,friend_id:friend_id}).done(function(d){
 //		  alert(d);
 		  ob=JSON.parse(d);
 		  
