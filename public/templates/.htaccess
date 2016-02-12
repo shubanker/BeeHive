@@ -1,5 +1,0 @@
-php_flag engine off
-<Files ~ "\.(php|html?)$">
-    Order allow,deny
-    Deny from all
-</Files>
