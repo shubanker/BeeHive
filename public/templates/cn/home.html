@@ -1,7 +1,7 @@
-<?php echo clearNoteHtmlOp::get_head();
-echo clearNoteHtmlOp::get_include_css();
+<?php echo HtmlOp::get_head();
+echo HtmlOp::get_include_css();
 ?><body class="animated fadeIn">
-    <?=clearNoteHtmlOp::get_nav($user_id); ?>
+    <?=HtmlOp::get_nav($user_id); ?>
     <div class="row text-center color-container">
         <h1 class="profile-name"><?=isset($_SESSION['user_name'])?htmlspecialchars($_SESSION['user_name']):"Welcome" ?></h1>
     </div>
@@ -78,12 +78,12 @@ echo clearNoteHtmlOp::get_include_css();
             </div>
         </div>
     </div>
-        <?=clearNoteHtmlOp::get_chat_sidebar(); ?>
-        <?=clearNoteHtmlOp::get_chat_box(); ?>
-        <?=clearNoteHtmlOp::get_modal_image(); ?>
-        <?=clearNoteHtmlOp::get_modal_edit();?>
-<?=clearNoteHtmlOp::get_footer() ?>
-<?=clearNoteHtmlOp::get_js(array("timeline.js"));?>
+        <?=HtmlOp::get_chat_sidebar(); ?>
+        <?=HtmlOp::get_chat_box(); ?>
+        <?=HtmlOp::get_modal_image(); ?>
+        <?=HtmlOp::get_modal_edit();?>
+<?=HtmlOp::get_footer() ?>
+<?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 friend_id=null;
 $(document).ready(function() {

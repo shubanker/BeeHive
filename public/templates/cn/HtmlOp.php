@@ -1,5 +1,5 @@
 <?php
-class clearNoteHtmlOp{
+class HtmlOp{
 	static function get_head($current_page="Home",$title="Bee-Hive"){
 		$op=<<<EOS
 <!DOCTYPE html>

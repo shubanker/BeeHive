@@ -1,7 +1,7 @@
-<?php echo clearNoteHtmlOp::get_head($user_name);
-echo clearNoteHtmlOp::get_include_css();?>
+<?php echo HtmlOp::get_head($user_name);
+echo HtmlOp::get_include_css();?>
 <body class="animated fadeIn">
-    <?=clearNoteHtmlOp::get_nav($user_id); ?>
+    <?=HtmlOp::get_nav($user_id); ?>
     <div class="row text-center cover-container">
         <a href="#"><img src="image.php?user=<?=$friend_id; ?>&s=m"> </a>
         <h1 class="profile-name"><?=$user_name; ?></h1>
@@ -19,7 +19,7 @@ echo clearNoteHtmlOp::get_include_css();?>
         <div class="col-md-10 no-paddin-xs">
             <div class="row">
                 <div class="profile-nav col-md-4">
-                    <?=clearNoteHtmlOp::get_left_menu($friend,'profile',$is_self,isset($friend_button)?$friend_button:null,false) ?>
+                    <?=HtmlOp::get_left_menu($friend,'profile',$is_self,isset($friend_button)?$friend_button:null,false) ?>
                     <div class="panel panel-white panel-friends">
                         <div class="panel-heading"><a href="friends.php<?=$is_self?"":"?id=$friend_id" ?>" class="pull-right">View all&nbsp;<i class="fa fa-share-square-o"></i></a>
                             <h3 class="panel-title"><?=$is_self?"Your ":"Mutual " ?>Friends</h3>
@@ -96,12 +96,12 @@ echo clearNoteHtmlOp::get_include_css();?>
             </div>
         </div>
     </div>
-        <?=clearNoteHtmlOp::get_chat_sidebar(); ?>
-        <?=clearNoteHtmlOp::get_chat_box(); ?>
-        <?=clearNoteHtmlOp::get_modal_image(); ?>
-        <?=clearNoteHtmlOp::get_modal_edit();?>
-<?=clearNoteHtmlOp::get_footer() ?>
-<?=clearNoteHtmlOp::get_js(array("timeline.js"));?>
+        <?=HtmlOp::get_chat_sidebar(); ?>
+        <?=HtmlOp::get_chat_box(); ?>
+        <?=HtmlOp::get_modal_image(); ?>
+        <?=HtmlOp::get_modal_edit();?>
+<?=HtmlOp::get_footer() ?>
+<?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 var friend_id=<?=$friend_id; ?>;
 $(document).ready(function() {
