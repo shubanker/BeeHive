@@ -14,6 +14,22 @@ $(".hide-chat").click(function(e){
 	e.preventDefault();
 	$('.chat-sidebar').toggleClass('focus');
 });
+/*Password Eye */
+$(".password").on("keyup",function(){
+    var icon=$(this).parent().children("span");
+    if($(this).val())
+    	icon.show();
+    else
+    	icon.hide();
+    
+});
+$(".glyphicon-eye-open").mousedown(function(){
+		$(".password").attr('type','text');
+    }).mouseup(function(){
+    	$(".password").attr('type','password');
+    }).mouseout(function(){
+    	$(".password").attr('type','password');
+    });
 
 /*show image in modal when click*/
 $(document).on('click','.show-in-modal',function(e){
