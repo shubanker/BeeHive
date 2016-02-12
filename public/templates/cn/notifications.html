@@ -45,7 +45,7 @@ echo clearNoteHtmlOp::get_include_css();
 <?=clearNoteHtmlOp::get_js();?>
 <script>
 $(document).ready(function() {
-	  load_notifications(20,true);
+	  load_notifications(0,true);
 });
 function make_notifications_html(ob){
 	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
@@ -61,8 +61,9 @@ function make_notifications_html(ob){
 	return $op;
 }
 /* ========== Load Notifications ======*/
-function load_notifications(limit,add_at=null){
-	$.post('ajax-req.php',{req_type:'get_notifications',limit:limit}).done(function(d){
+function load_notifications(lastsync,add_at=null){
+	$.post('ajax-req.php',{req_type:'get_notifications',lastsync:lastsync}).done(function(d){
+		alert(d);
 		ob=JSON.parse(d);
 		op="";
 		for (var i = ob.length-1; i >=0 ; i--) {
@@ -73,12 +74,24 @@ function load_notifications(limit,add_at=null){
 		}else{
 			if(add_at){
 				$('.notifications').append(op);
+				ready_to_scroll=true;
 			}else{
 				$('.notifications').prepend(op);
 			}
 		}
 	});
 }
+/* ========== Scroll ==========*/
+var ready_to_scroll=true;
+$(document).on('scroll',function(){
+	if($(this).innerHeight()-$(this).scrollTop()<1200){
+		if(ready_to_scroll){
+			ready_to_scroll=false;
+			last_id=$('.post-heading').last().find("input").val();
+			load_notifications(last_id,true);
+		}
+	}
+});
 </script>
 </body>
 </html>

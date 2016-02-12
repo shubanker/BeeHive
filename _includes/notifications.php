@@ -66,14 +66,14 @@ class Notifications{
 	 * 1-unread
 	 * null-all
 	 */
-	static function get_notifications($user_id,$status=NULL,$db=NULL,$start=NULL,$limit=NULL,$after=NULL){
+	static function get_notifications($user_id,$status=NULL,$db=NULL,$start=NULL,$limit=NULL,$before=NULL){
 		$status_condition = $status===0||$status===1?"AND `status`='$status'":"";
 		
 		$start=$start==null?0:$start;
 		$limit=$limit==null?10:$limit;
 		$limit_sql=" LIMIT $start,$limit";
 		
-		$after_sql=empty($after)?"":" AND notification_id>'$after' ";
+		$before_sql=empty($before)?"":" AND notification_id<'$before' ";
 		/*$sql="SELECT
 		`notification_id`,
 				CASE 
@@ -96,7 +96,7 @@ FROM
     notifications AS n 
 WHERE 
     n.user_id='$user_id' $status_condition";
-		$sql.=$after_sql.$limit_sql;
+		$sql.=$before_sql.$limit_sql;
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }

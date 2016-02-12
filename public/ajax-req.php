@@ -310,7 +310,8 @@ if (isset($_POST['req_type'])){
 			$responce=make_html_entity($recent_messages, array("message","first_name","last_name"));
 			break;
 		case 'get_notifications':
-			$responce=Notifications::get_notifications($user_id,null,$db,null,(int)$_POST['limit']);
+			$after=!empty($_POST['lastsync']) && is_numeric($_POST['lastsync'])?(int)$_POST['lastsync']:null;
+			$responce=Notifications::get_notifications($user_id,null,$db,null,null,$after);
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce,array('message'));
 			$notification_ids=array();
