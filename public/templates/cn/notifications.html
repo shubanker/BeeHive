@@ -45,7 +45,7 @@ echo clearNoteHtmlOp::get_include_css();
 <?=clearNoteHtmlOp::get_js();?>
 <script>
 $(document).ready(function() {
-	  load_notifications(20);
+	  load_notifications(20,true);
 });
 function make_notifications_html(ob){
 	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
@@ -61,11 +61,21 @@ function make_notifications_html(ob){
 	return $op;
 }
 /* ========== Load Notifications ======*/
-function load_notifications(limit){
+function load_notifications(limit,add_at=null){
 	$.post('ajax-req.php',{req_type:'get_notifications',limit:limit}).done(function(d){
 		ob=JSON.parse(d);
-		for (var i = 0; i < ob.length; i++) {
-			$('.notifications').append(make_notifications_html(ob[i]));
+		op="";
+		for (var i = ob.length-1; i >=0 ; i--) {
+			op+=make_notifications_html(ob[i]);
+		}
+		if(add_at==null){
+			$('.notifications').html(op);
+		}else{
+			if(add_at){
+				$('.notifications').append(op);
+			}else{
+				$('.notifications').prepend(op);
+			}
 		}
 	});
 }

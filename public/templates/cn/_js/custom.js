@@ -234,6 +234,13 @@ function get_notification_count(){
 		$('.notification_count').remove();
 		$('#notifications').append(get_notification_count_html(ob.notification_count));
 		$('#messages').append(get_notification_count_html(ob.message_count));
+		if(Number(ob.notification_count)>0){
+			try{//This should work only in notifications page.
+				load_notifications(20,null);
+			}catch(e){
+				
+			}
+		}
 	});
 	notification_count_timer=setTimeout("get_notification_count()",6000);
 }
