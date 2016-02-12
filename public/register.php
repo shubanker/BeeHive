@@ -51,6 +51,6 @@ if (!empty($_POST)){
 	}
 }
 
-include 'templates/cn/reg-form.html';
+include 'templates/beehive/reg-form.html';
 
 ?>

@@ -16,6 +16,6 @@ define('DBUSER', 'beehive');
 define('DBPASSWORD', 'beehive');
 define('DBHOST', 'localhost');
 
-define("TEMPLATE", "templates/cn/");
+define("TEMPLATE", "templates/beehive/");
 define("IMAGEDIR", "../Images");
 define("IMAGE_SIZE_LIMIT", "2");#Value in Mb
