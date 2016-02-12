@@ -110,7 +110,9 @@ function make_msg_html(ob,friendid){
 	"</li>";
 	return $op;
 }
-$(document).on('click','.userleft',function(){
+$(document).on('click','.userleft',function(e){
+	e.preventDefault();
+	can_load_upper_msg=true;
 	$('#current_msg_user_id').val($(this).find('input').val());
 	$('#current_msg_user_name').val($(this).find('strong').html());
 	
