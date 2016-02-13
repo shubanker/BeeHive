@@ -293,6 +293,16 @@ if (isset($_POST['req_type'])){
 				
 			}
 			break;
+		case 'block_user':
+			$friend_id=(int)$_POST['friend_id'];
+			if (!empty($friend_id)){
+				if (Friendship::block($user_id, $friend_id, $db)){
+					$responce['success']=1;
+				}
+			}else {
+				$responce['error']=1;
+			}
+			break;
 		case 'get_connection_list':
 			$friend_id=(int)$_POST['friend_id'];
 			$result=Friendship::get_all_connections($user_id, $db,$friend_id==$user_id);

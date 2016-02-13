@@ -266,3 +266,14 @@ $(document).on('click','#friend_action',function(e){
 		}
 	});
 });
+$(document).on('click','#block_user',function(e){
+	e.preventDefault();
+	$this=$(this);
+	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
+	$.post('ajax-req.php',{req_type:"block_user",friend_id:fid}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			window.location='index.php';
+		}
+	});
+});

@@ -125,8 +125,17 @@ EOT;
 			if (!$enable_edit){
 				$friend_button=empty($friend_button)?"":$friend_button;
 				$op.=<<<EOT
-			<button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span>$friend_button</span></button>
-                            <button data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" onclick="window.location='messages.php?id=$user_id'"> Message</button>
+			<div class="btn-group">
+				  <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span> $friend_button </span></button>
+				  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    <span class="caret"></span>
+				    <span class="sr-only">More</span>
+				  </button>
+				  <ul class="dropdown-menu">
+				    <li><a href="#" id='block_user'>Block User</a></li>
+				  </ul>
+			</div>
+               <button data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" onclick="window.location='messages.php?id=$user_id'"> Message</button>
 EOT;
 			}
 			$op.="                        </div>";

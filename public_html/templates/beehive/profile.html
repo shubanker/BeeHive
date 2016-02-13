@@ -9,8 +9,17 @@ echo HtmlOp::get_include_css();?>
         <?php if (!$is_self){?>
         <div class="friend-button container">
         	<div class="pull-right">
-        	<button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span><?=$friend_button ?></span></button>
-        	<a data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" href="messages.php?id=8"> Message</a>
+	        	<div class="btn-group">
+				  <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span><?=$friend_button ?></span></button>
+				  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    <span class="caret"></span>
+				    <span class="sr-only">More</span>
+				  </button>
+				  <ul class="dropdown-menu">
+				    <li><a href="#" id='block_user'>Block User</a></li>
+				  </ul>
+				</div>
+        	<a data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" href="messages.php?id=<?=$friend_id ?>"> Message</a>
         	</div>
         </div>
         <?php }?>
