@@ -15,7 +15,8 @@ function make_notifications_html(ob){
 	return $op;
 }
 /* ========== Load Notifications ======*/
-function load_notifications(lastsync,add_at=null){
+function load_notifications(lastsync,add_at){
+	if(add_at === undefined){add_at=null}
 	$.post('ajax-req.php',{req_type:'get_notifications',lastsync:lastsync}).done(function(d){
 		ob=JSON.parse(d);
 		op="";

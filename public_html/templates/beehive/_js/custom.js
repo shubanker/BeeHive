@@ -2,7 +2,7 @@ $(document).ready(function() {
   $('.alert-info').hide();
   $('.tip').tooltip();
   load_online_list();
-  get_notification_count();
+  get_notification_count(false);
   
 });
 /*============ Chat sidebar ========*/
@@ -231,15 +231,17 @@ function make_chat_msg__html(ob,friendid){
 }
 /*========== Notification count ========*/
 notification_count_timer=0;
-function get_notification_count(){
+function get_notification_count(refresh_notification){
+	if(refresh_notification === undefined){refresh_notification=true}
 	$.post('ajax-req.php',{req_type:'notification_count'}).done(function(d){
 		ob=JSON.parse(d);
 		$('.notification_count').remove();
 		$('#notifications').append(get_notification_count_html(ob.notification_count));
 		$('#messages').append(get_notification_count_html(ob.message_count));
-		if(Number(ob.notification_count)>0){
+		if(Number(ob.notification_count)>0 && refresh_notification){
 			try{//This should work only in notifications page.
-				load_notifications(20,null);
+//				load_notifications(0,null);
+				setTimeout('load_notifications(0,null)',2000);
 			}catch(e){
 				
 			}
