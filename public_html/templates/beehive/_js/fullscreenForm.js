@@ -452,6 +452,10 @@
 					if(!/.{7,35}/i.test(input.value)){
 						error = 'INPASSWORD';
 					}
+				}else if(input.type === 'text' && input.id === 'q1'){
+					if(!/^[a-z][a-z. ]{1,30}[a-z]$/i.test(input.value)){
+						error = 'INNAME';
+					}
 				}
 				break;
 
@@ -496,6 +500,11 @@
 			case 'PWDMISSMATCH':
 				message = 'Password didnot Match Previous Password :(';
 				break;
+			case 'INNAME':
+				message = 'Invalid Name';
+				break;
+			default:
+				message = err;
 		};
 		this.msgError.innerHTML = message;
 		this._showCtrl( this.msgError );

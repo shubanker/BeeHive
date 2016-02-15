@@ -94,7 +94,17 @@
 			});
 			$(document).on('keyup','#q1',function(e){
 				if(13!=e.keyCode){
-					first_name=$(this).val().split(" ")[0];
+					names=$(this).val().split(" ");
+					first_name="";
+					for(i=0;i<names.length;i++){
+						if (/[a-z]{3,}/i.test(names[i])) {
+							first_name=names[i];
+							break;
+						}
+					}
+					if(first_name==""){
+						first_name=names[0];
+					}
 					  $('.user_entered_name').html(first_name);
 				  }
 				});
