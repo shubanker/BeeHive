@@ -14,12 +14,20 @@ EOS;
 		return $op;
 	}
 	static function get_include_css($include_css=array()){
-		$default_css=array(
-				TEMPLATE."_css/bootstrap.min.css",
-				TEMPLATE."_css/animate.min.css",
-				TEMPLATE."_css/font-awesome.min.css",
-				TEMPLATE."_css/timeline.css"
-		);
+		if (isLocal()){
+			$default_css=array(
+					TEMPLATE."_css/bootstrap.min.css",
+					TEMPLATE."_css/animate.min.css",
+					TEMPLATE."_css/font-awesome.min.css"
+			);
+		}else {
+			$default_css=array(
+					"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css",
+					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"
+			);
+		}
+		$default_css[]=TEMPLATE."_css/timeline.css";
 		foreach ($include_css as $css){
 			$default_css[]=$css;
 		}
@@ -181,11 +189,19 @@ EOT;
 		return $op;
 	}
 	static function get_js($includes=array()){
-		$default=array(
+		
+		if (isLocal()){
+			$default=array(
 				TEMPLATE."_js/jquery.js",
-				TEMPLATE."_js/bootstrap.min.js",
-				TEMPLATE."_js/custom.js"
+				TEMPLATE."_js/bootstrap.min.js"
 		);
+		}else {
+			$default=array(
+					"https://code.jquery.com/jquery-2.1.1.min.js",
+					"http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"
+			);
+		}
+		$default[]=TEMPLATE."_js/custom.js";
 		foreach ($includes as $value) {
 			$default[]=TEMPLATE."_js/$value";
 		}
