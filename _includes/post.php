@@ -16,7 +16,7 @@
 class Post extends Struct{
 	
 	function __construct($post_id=null,$db=null){
-		$this->table="Post";
+		$this->table="post";
 		$this->pk="post_id";
 		$this->data=array();
 		
