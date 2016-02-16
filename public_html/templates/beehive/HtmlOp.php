@@ -118,7 +118,7 @@ EOT;
 		$user_id=$user->get_user_id();
 		$name=$user->get_name();
 		$email=$user->get_email();
-		$profile=$about=$friends=$photos=$edit="";
+		$profile=$about=$friends=$photos=$account="";
 		if (!empty($active)){
 			$$active=" class='active' ";
 		}
@@ -164,8 +164,8 @@ EOT;
 EOT;
 		if ($enable_edit){
 			$op.=<<<EOT
-                            <li$edit>
-                                <a href="edit-profile.php"> <i class="fa fa-edit"></i>Edit profile</a>
+                            <li$account>
+                                <a href="account.php"> <i class="fa fa-edit"></i>Account</a>
                             </li>
 		
 EOT;
