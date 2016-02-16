@@ -1,6 +1,7 @@
 $(document).ready(function() {
   $('.alert-info').hide();
   $('.tip').tooltip();
+  vanish_placeholder($('input[autofocus],textarea[autofocus]'));
   load_online_list();
   get_notification_count(false);
   
@@ -279,3 +280,16 @@ $(document).on('click','#block_user',function(e){
 		}
 	});
 });
+/* Placeholder Vanisher */
+$(document).on('focusin','input,textarea',function(){
+	vanish_placeholder($(this));
+}).on('focusout','input,textarea',function(){
+	appear_placeholder($(this));
+});
+function vanish_placeholder($this){
+	$this.attr('placeholderback',$this.attr('placeholder'));
+	$this.attr('placeholder','');
+}
+function appear_placeholder($this){
+	$this.attr('placeholder',$this.attr('placeholderback'));
+}
