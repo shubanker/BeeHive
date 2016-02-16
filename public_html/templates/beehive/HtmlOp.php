@@ -74,12 +74,13 @@ EOS;
 	
 	}
 	static function get_nav($user_id){
+		$logo=TEMPLATE."logo.png";
 		$op=<<<EOT
 <nav class="navbar navbar-default navbar-fixed-top navbar-principal">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="index.php"><img src="img/logo.png" class="img-logo"> <b>Bee-Hive</b> </a>
+                <a class="navbar-brand" href="index.php"><img src="$logo" class="img-logo"> <b>Bee-Hive</b> </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <div class="col-md-5 col-sm-4">
