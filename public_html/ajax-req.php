@@ -2,6 +2,9 @@
 require_once '../_includes/include_all.php';
 require_once '../_includes/images.php';
 $db=new Db(DBUSER, DBPASSWORD, DATABASE);
+if (!$db->isinit()){
+	closendie(json_encode(array("error"=>"Database Error")));
+}
 $auth=new Auth($db);
 if (isset($_REQUEST['email_exists'])){
 	$result['email_exists']=User::email_registered(trim($_REQUEST['email_exists']), $db)?1:0;
@@ -196,10 +199,10 @@ if (isset($_POST['req_type'])){
 			}
 			break;
 		case "send_msg":
-			if (empty(trim($_POST['msg']))||!is_numeric($_POST['friendid'])){
+			$msg=trim($_POST['msg']);
+			if (empty($msg)||!is_numeric($_POST['friendid'])){
 				$responce['error']="Invalid request";
 			}else {
-				$msg=trim($_POST['msg']);
 				$friend_id=(int)$_POST['friendid'];
 				$message_id=Message::send_message($user_id, $friend_id, $msg, $db);
 				if ($message_id){
