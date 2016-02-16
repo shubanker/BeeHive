@@ -287,8 +287,10 @@ $(document).on('focusin','input,textarea',function(){
 	appear_placeholder($(this));
 });
 function vanish_placeholder($this){
-	$this.attr('placeholderback',$this.attr('placeholder'));
-	$this.attr('placeholder','');
+	if($this.attr('placeholder')!=""){
+		$this.attr('placeholderback',$this.attr('placeholder'));
+		$this.attr('placeholder','');
+	}
 }
 function appear_placeholder($this){
 	$this.attr('placeholder',$this.attr('placeholderback'));
