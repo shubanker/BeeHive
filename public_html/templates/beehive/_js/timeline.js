@@ -42,7 +42,7 @@ req_page='ajax-req.php';
 			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'" alt="avatar"> </a>';
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
-				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+ob.first_name+' '+ob.last_name+'</a></h4>';
+				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+(ob.first_name==null?"":ob.first_name)+' '+(ob.last_name==null?"":ob.last_name)+'</a></h4>';
 				$op+='<h6 class="text-muted time"><i class="fa fa-clock-o"></i> '+ob.time+'</h6>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
