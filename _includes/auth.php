@@ -84,7 +84,18 @@ class Auth{
 					closendie("",$db);
 				}
 			}elseif (isset($_POST['forgot'])){
-				
+				if (!empty($_POST['email'])&&validate::email($_POST['email'])){
+					if (User::email_registered(trim($_POST['email']), $db)){
+						$user=new User();
+						$user->initialise_by_email($db, trim($_POST['email']));
+						$_SESSION['forgot_key']=Keys::gen_key($user->get_user_id(), "24 hours", $db);
+					}
+					$_SESSION['msg']="Email Sent Check Your Inbox";
+					$_SESSION['msg_type']="success";
+				}else {
+					$_SESSION['msg']="Invalid Email.";
+					$_SESSION['msg_type']="danger";
+				}
 			}else {
 				$_SESSION['msg']="Unknown request.";
 				$_SESSION['msg_type']="danger";
