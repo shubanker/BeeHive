@@ -113,6 +113,7 @@ echo HtmlOp::get_include_css();?>
 <?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 var friend_id=<?=$friend_id; ?>;
+var user_id=<?=$user_id; ?>;
 $(document).ready(function() {
 	/*==============  Loading Post ===============*/
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();

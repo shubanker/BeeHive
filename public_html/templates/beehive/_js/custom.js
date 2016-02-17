@@ -110,7 +110,7 @@ function load_online_list(){
 		ob=JSON.parse(d);
 		$op="";
 		if(ob.go_to_friends_page==1){//If user has No friends..
-			if($('#connection_tab').length==0){//If user is not on friends page.
+			if($(".post-box-top").length!=0 && (typeof user_id=== 'undefined' || user_id==friend_id)){//If user is  on home or timeline page.
 				window.location='friends.php';
 			}
 		}else{
