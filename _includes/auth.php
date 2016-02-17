@@ -7,7 +7,7 @@ class Auth{
 		$this->is_login=$this->user_id=false;
 		$this->error=array();
 		
-		if(isset($_SESSION['user_id'])){
+		if(isset($_SESSION['user_id'])&&is_numeric($_SESSION['user_id'])){
 			$this->user_id=$_SESSION['user_id'];
 			$this->is_login=true;
 		}else {
@@ -15,7 +15,7 @@ class Auth{
 		}
 	}
 	function check_user($db){
-		if (isset($_SESSION['user_id'])){
+		if (isset($_SESSION['user_id'])&&is_numeric($_SESSION['user_id'])){
 			$this->is_login=true;
 			return $this->user_id=$_SESSION['user_id'];
 		}

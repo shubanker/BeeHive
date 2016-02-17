@@ -21,6 +21,8 @@ class Register{
 			if($user_id=$this->user->create($db)){
 				self::add_essential_userdata($user_id, $db);
 				return $user_id;
+			}else {
+				return false;
 			}
 		}
 		return $this->user;
@@ -59,15 +61,23 @@ class Register{
 		}
 		
 	}
-	function email($email){
+	function email($email,$db){
 		if (validate::email($email)){
-			$this->user->set_email($email);
+			if (!User::email_registered($email, $db)){
+				$this->user->set_email($email);
+			}else {
+				$this->error['email']="Email Already Registered";
+			}
 		}else{
 			$this->error['email']="Invalid Email";
 		}
 	}
 	function dob($date){
-		$this->user->set_dob($date);
+		if (strtotime($date)!=null && strtotime($date)<strtotime("now")){
+			$this->user->set_dob($date);
+		}else {
+			$this->error['dob']="Invalid date of birth";
+		}
 	}
 	function password($password){
 		if (validate::password($password)){

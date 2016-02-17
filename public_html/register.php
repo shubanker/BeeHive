@@ -32,7 +32,7 @@ if (!empty($_POST)){
 	$register=new Register();
 	$register->name($_POST['name']);
 	$register->dob($_POST['dob']);
-	$register->email($_POST['email']);
+	$register->email($_POST['email'],$db);
 	$register->gender($_POST['gender']);
 	$register->password($_POST['password']);
 	
@@ -46,7 +46,10 @@ if (!empty($_POST)){
 			unset($_SESSION['show_over']);
 			redirect_to();
 		}else {
-			$errors[]="Something Went Wrong :( <br/>Please try after sometime.";
+			$errors=$register->get_error();
+			if (empty($errors)){
+				$errors[]="Something Went Wrong :( <br/>Please try after sometime.";
+			}
 		}
 	}
 }

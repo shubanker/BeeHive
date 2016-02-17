@@ -1,7 +1,6 @@
 <?php
 
 require_once '_includes/include_all.php';
-
 if (isset($_GET['logout'])){
 	Auth::logout();
 }
