@@ -28,19 +28,6 @@ if ($auth->is_login()){
 		$relation=Friendship::get_relation($user_id, $friend_id, $db,false);
 		$friend_button=Friendship::get_action($user_id, $friend_id, $db,$relation);
 	}
-	
-	/*
-	 * List of What possible details can be displayed/Added in about Page.
-	 */
-	$About_data_list=array(
-			"Mobile",
-			"Phone",
-			"Occupation",
-			"Country",
-			"School",
-			"High School",
-			"College"
-	);
 	if ($is_self && !empty($_POST)){
 		$friend->set_first_name($_POST['first_name']);
 		$friend->set_last_name($_POST['last_name']);
