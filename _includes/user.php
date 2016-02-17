@@ -138,7 +138,7 @@ class User extends Struct{
 		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
-	static function search($user_id,$text,$db,$start=0,$limit=15){
+	static function search($text,$db,$start=0,$limit=15){
 		$user_search_list=array(
 				"email",
 				"name"

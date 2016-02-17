@@ -75,6 +75,7 @@ EOS;
 	}
 	static function get_nav($user_id){
 		$logo=TEMPLATE."logo.png";
+		$search_val=isset($_GET['s'])?urldecode($_GET['s']):"";
 		$op=<<<EOT
 <nav class="navbar navbar-default navbar-fixed-top navbar-principal">
         <div class="container">
@@ -84,10 +85,11 @@ EOS;
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <div class="col-md-5 col-sm-4">
-                    <form class="navbar-form">
+                    <form class="navbar-form" method="get" action="search.php">
                         <div class="form-group" style="display:inline;">
                             <div class="input-group" style="display:table;">
-                                <input class="form-control" name="search" placeholder="Search..." autocomplete="off" type="text"> <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
+                                <input class="form-control" name="s" placeholder="Search..." autocomplete="off" type="search" value="$search_val">
+                                <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
                             </div>
                         </div>
                     </form>
