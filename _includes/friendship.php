@@ -247,4 +247,20 @@ class Friendship{
 		}
 		return $friend_button;
 	}
+	static function suggestd_friends($user_id,$db,$start=0,$limit=15){
+		global $About_data_list;
+		$friend_list=Friendship::get_friend_ids($user_id, null);
+		$type_list=implode("','", $About_data_list);
+		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null);
+		$sql="SELECT  FROM `userdata` WHERE 
+			";
+		$sql=Db::create_sql('DISTINCT `user_id`', array('userdata'),"
+			`type` IN('$type_list') AND
+			`user_id` NOT IN($friend_list) AND
+			`user_id`!='$user_id' AND
+			`data` IN($user_data_sql)",
+			null,null,
+			"$start,$limit"
+			);
+	}
 }

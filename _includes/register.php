@@ -25,13 +25,20 @@ class Register{
 		}
 		return $this->user;
 	}
+	private static function get_defaults($type){
+		switch ($type){
+			case 'Country':return "India";
+			default:return null;
+		}
+	}
 	static function add_essential_userdata($user_id,$db){
-		$types=array("dp","lastactive");
+		$types=array("dp","lastactive","Country");
 		$data=array();
 		foreach ($types as $type){
 			$data[]=array(
 					"user_id"=>$user_id,
-					"type"=>$type
+					"type"=>$type,
+					"data"=>self::get_defaults($type)
 			);
 		}
 		$sql=db::create_sql_insert_multiple("userdata", $data);
