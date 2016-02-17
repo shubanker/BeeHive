@@ -247,7 +247,7 @@ class Friendship{
 		}
 		return $friend_button;
 	}
-	static function suggestd_friends($user_id,$db,$start=0,$limit=15){
+	static function suggested_friends($user_id,$db,$start=0,$limit=15){
 		global $About_data_list;
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$type_list=implode("','", $About_data_list);
@@ -258,9 +258,13 @@ class Friendship{
 			`type` IN('$type_list') AND
 			`user_id` NOT IN($friend_list) AND
 			`user_id`!='$user_id' AND
-			`data` IN($user_data_sql)",
-			null,null,
-			"$start,$limit"
+			`data` IN($user_data_sql)"
+			);
+		$sql=Db::create_sql("`user_id`,concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name", 
+				array('users'),
+				"`user_id` IN($sql)",
+				null,null,
+				"$start,$limit"
 			);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
