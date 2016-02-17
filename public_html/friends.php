@@ -51,6 +51,18 @@ if ($auth->is_login()){
 		$tabs[]="blocked";
 	}
 	
+	if ($is_self){
+		/*Suggested friends*/
+		$tabs[]='suggested_friends';
+		$suggested_list=Friendship::suggested_friends($user_id, $db);
+		foreach ($suggested_list as $suggection){
+			$connections_arranged['suggested_friends'][]=array(
+					"connected_user"=>$suggection['user_id'],
+					"name"=>$suggection['name']
+			);
+		}
+	}
+// 	print_r($connections_arranged);
 	/*
 	 * Index of Buttons action.
 	 */
@@ -58,7 +70,8 @@ if ($auth->is_login()){
 			"friends"=>"Un Friend",
 			"following"=>"Cancle Request",
 			"followers"=>"Accept Request",
-			"blocked"=>"Un Block"
+			"blocked"=>"Un Block",
+			"suggested_friends"=>"Add Friend"
 	);
 	include TEMPLATE.'friends.html';
 	if (!empty($db) && $db->isinit()){

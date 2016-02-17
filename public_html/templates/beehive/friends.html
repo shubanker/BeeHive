@@ -19,7 +19,7 @@ echo HtmlOp::get_include_css(array("templates/beehive/_css/friends.css"));
                       		continue;
                       	}
                       ?>
-                        <li role="presentation"><a href="#<?=$tab;?>" aria-controls="<?=$tab;?>" role="tab" data-toggle="tab"><?=ucwords($tab)." (".count($connections_arranged[$tab]).")";?></a></li><?php }?>
+                        <li role="presentation"><a href="#<?=$tab;?>" aria-controls="<?=$tab;?>" role="tab" data-toggle="tab"><?=ucwords(str_replace("_", " ", $tab))." (".count($connections_arranged[$tab]).")";?></a></li><?php }?>
                       </ul>
 
                       <!-- Tab panes -->
@@ -58,7 +58,7 @@ echo HtmlOp::get_include_css(array("templates/beehive/_css/friends.css"));
 <script>
 var friend_id=<?=$friend_id; ?>;
 $(document).ready(function() {
-	$('#connection_tab a[href="#friends"]').tab('show');
+	$('#connection_tab a').first().tab('show');
 });
 </script>
 </body>
