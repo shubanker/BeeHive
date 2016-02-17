@@ -31,7 +31,7 @@ echo HtmlOp::get_include_css(array("templates/beehive/_css/friends.css"));
 	                      <div role="tabpanel" class="tab-pane fade" id="<?=$tab;?>"><?php foreach ($connections_arranged[$tab] as $con){?>
 	                      	<div class="col-md-6 cols-sm-12 col-xs-12">
                                 <div class="media block-update-card">
-                                    <a class="pull-left" href="profile.php?id=<?=$con['connected_user'] ?>"><img class="media-object update-card-MDimentions" src="http://beehive.com/image.php?user=<?=$con['connected_user'] ?>&s=m" alt="<?=$con['name'] ?>"> </a>
+                                    <a class="pull-left" href="profile.php?id=<?=$con['connected_user'] ?>"><img class="media-object update-card-MDimentions" src="image.php?user=<?=$con['connected_user'] ?>&s=m" alt="<?=$con['name'] ?>"> </a>
                                     <div class="media-body update-card-body">
                                         <h4 class="media-heading"><a href="profile.php?id=<?=$con['connected_user'];  ?>" class="friend_list_link"><?=$con['name']; ?></a></h4>
                                         <div class="btn-toolbar card-body-social" role="toolbar"><?php if ($con['connected_user']!=$user_id){?>
