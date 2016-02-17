@@ -132,20 +132,25 @@ class UserData{
 		),null,$db);
 		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::last_inserted_id($db):false);
 	}
-	static function get_user_data($user_id,$type,$db){
+	static function get_user_data($user_id,$type,$db,$rows=NULL){
+		if (empty($rows)){
+			$rows=array(
+				"data_id",
+				"type",
+				"data"
+			);
+		}
 		
 		$where="`user_id`='$user_id' AND `status`=1 ";
+		
 		if (is_array($type)){
 			$typelist=implode("','", $type);
 			$where.="AND `type` IN('$typelist')";
 		}elseif($type!=null) {
 				$where.=" AND `type` = '$type' ";
 		}
-		$sql=Db::create_sql(array(
-				"data_id",
-				"type",
-				"data"
-		), self::$table,
+		
+		$sql=Db::create_sql($rows, self::$table,
 				$where);
 		return empty($db)?$sql:db::fetch_array($db, $sql);
 	}

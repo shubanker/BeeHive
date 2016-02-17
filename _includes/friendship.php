@@ -251,7 +251,7 @@ class Friendship{
 		global $About_data_list;
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$type_list=implode("','", $About_data_list);
-		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null);
+		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null,array('data'));
 		$sql="SELECT  FROM `userdata` WHERE 
 			";
 		$sql=Db::create_sql('DISTINCT `user_id`', array('userdata'),"
@@ -262,5 +262,6 @@ class Friendship{
 			null,null,
 			"$start,$limit"
 			);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }
