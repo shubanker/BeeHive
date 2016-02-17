@@ -174,6 +174,9 @@ if (isset($_POST['req_type'])){
 			for ($i=0;$i<count($responce);$i++){
 				$responce[$i]['data']=$now-$responce[$i]['data'];
 			}
+			if (count($responce)==0){
+				$responce['go_to_friends_page']=1;
+			}
 			break;
 		case "get_msg":
 			if (is_numeric($_POST['friendid']) &&(int)$_POST['friendid']>0){

@@ -109,10 +109,17 @@ function load_online_list(){
 	$.post("ajax-req.php",{req_type:"online_list"}).done(function(d){
 		ob=JSON.parse(d);
 		$op="";
-		for (var i = 0; i < ob.length; i++) {
-			$op+=make_chat_html(ob[i]);
+		if(ob.go_to_friends_page==1){//If user has No friends..
+			if($('#connection_tab').length==0){//If user is not on friends page.
+				window.location='friends.php';
+			}
+		}else{
+			for (var i = 0; i < ob.length; i++) {
+				$op+=make_chat_html(ob[i]);
+			}
+			$(".chat_list").html($op);
 		}
-		$(".chat_list").html($op);
+		
 	});
 	load_online_list_timer=setTimeout('load_online_list()',15000);
 }
