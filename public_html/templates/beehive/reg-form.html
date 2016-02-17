@@ -88,7 +88,6 @@
 			})();
 			$(document).ready(function() {
 				$(".alert").delay(5000).fadeOut(2500);
-				vanish_placeholder($('input[autofocus],textarea[autofocus]'));
 			});
 			$(".close").on("click",function(){
 				$(".alert").hide();
@@ -109,21 +108,6 @@
 					  $('.user_entered_name').html(first_name);
 				  }
 				});
-			/* Placeholder Vanisher */
-			$(document).on('focusin','input,textarea',function(){
-				vanish_placeholder($(this));
-			}).on('focusout','input,textarea',function(){
-				appear_placeholder($(this));
-			});
-			function vanish_placeholder($this){
-				if($this.attr('placeholder')!=""){
-					$this.attr('placeholderback',$this.attr('placeholder'));
-					$this.attr('placeholder','');
-				}
-			}
-			function appear_placeholder($this){
-				$this.attr('placeholder',$this.attr('placeholderback'));
-			}
 		</script>
 	</body>
 </html>
