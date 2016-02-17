@@ -133,12 +133,13 @@ class UserData{
 		return empty($db)?$sql:(Db::queryy($sql, $db)?Db::last_inserted_id($db):false);
 	}
 	static function get_user_data($user_id,$type,$db){
-		$where=array(
-						"user_id"=>$user_id,
-						"status"=>1
-				);
-		if ($type!=null){
-			$where["type"]=$type;
+		
+		$where="`user_id`='$user_id' AND `status`=1 ";
+		if (is_array($type)){
+			$typelist=implode("','", $type);
+			$where.="AND `type` IN('$typelist')";
+		}elseif($type!=null) {
+				$where.=" AND `type` = '$type' ";
 		}
 		$sql=Db::create_sql(array(
 				"data_id",
