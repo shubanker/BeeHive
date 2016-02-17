@@ -21,19 +21,20 @@ class Friendship{
 	
 	private static $table="friends";
 	
-	static function get_friend_ids($user_id,$db){
+	static function get_friend_ids($user_id,$db,$get_only_friends=TRUE){
+		$status_condition=$get_only_friends?"AND status=2 ":"";
 		$sql="SELECT
 		CASE
 		WHEN `user_one` = '$user_id' THEN `user_two`
 		ELSE `user_one`
-		END AS FRIENDS
-		FROM `friends` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') AND status=2 ";
+		END AS user_id
+		FROM `friends` WHERE (`user_one`='$user_id' OR `user_two`='$user_id') $status_condition";
 		if (empty($db)){
 			return $sql;
 		}
 		$list=array();
 		foreach (Db::fetch_array($db, $sql) as $friend){
-			$list[]=$friend['FRIENDS'];
+			$list[]=$friend['user_id'];
 		}
 		return $list;
 	}
@@ -249,7 +250,7 @@ class Friendship{
 	}
 	static function suggested_friends($user_id,$db,$start=0,$limit=15){
 		global $About_data_list;
-		$friend_list=Friendship::get_friend_ids($user_id, null);
+		$friend_list=Friendship::get_friend_ids($user_id, null,false);
 		$type_list=implode("','", $About_data_list);
 		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null,array('data'));
 		$sql="SELECT  FROM `userdata` WHERE 
