@@ -96,20 +96,81 @@ class User extends Struct{
 	function deactivate_user(){
 		$this->set_status(2);
 	}
-	static function search_users_by_name($name,$db,$start=0,$limit=10){
-		$name=strtolower($name);
+	private function search_user_by($column,$data,$db,$start=0,$limit=10){
+		if (empty($column) || strlen($data)<3){
+			return null;
+		}
+		$data=strtolower($data);
 		$sql=Db::create_sql(array(
 				"user_id",
 				"first_name",
 				"last_name"
-		), 
+		),
 				'users',
-				"lower(concat(`first_name`,`last_name`)) LIKE '%$name%' AND
+				"$column LIKE '%$data%' AND
 				status=1",
 				null,null,
 				"$start,$limit");
 		
+				return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+	static function search_users_by_name($name,$db,$start=0,$limit=10){
+		return self::search_user_by("lower(concat(`first_name`,`last_name`))",
+				$name, $db,$start=0,$limit=10);
+	}
+	static function search_by_userdata($type,$data,$db){
+		$data=strtolower($data);
+		$sql=Db::create_sql(array(
+				"first_name",
+				"last_name",
+				"users.user_id"
+		), array(
+				"userdata",
+				"users"
+		),
+				"`users`.`user_id`=`userdata`.`user_id` AND
+				`type`='$type' AND 
+				lower(`data`) LIKE '%$data%' AND 
+				`userdata`.`status`=1 "
+		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+	static function search($user_id,$text,$db,$start=0,$limit=15){
+		$user_search_list=array(
+				"email",
+				"name"
+		);
+		$user_data_search_list=array(
+				"Mobile",
+				"Phone",
+				"Occupation",
+				"Country",
+				"School",
+				"High School",
+				"College"
+		);
+		if (0<$pos=strpos($text, ":")){//Advance search
+			
+			$key_word= substr($text, 0,$pos);//getting key
+			$data=substr($text, $pos+1); //Getting search text
+			
+			if (strlen(trim($data))<3){
+				return null;
+			}
+			if (in_array($key_word, $user_search_list)){//If we need to lookup in user table only
+				if ($key_word=="email" && validate::email($data)){
+					return self::search_user_by("email", trim($data), $db);
+				}else {
+					return self::search_users_by_name(trim($data), $db);
+				}
+			}elseif (in_array(ucwords(strtolower(trim($key_word))), $user_data_search_list)){//We need to look on userdata table.
+				return self::search_by_userdata(ucwords(strtolower(trim($key_word))), trim($data), $db);
+			}else {
+				return self::search_users_by_name(trim($data), $db);//Lets search by name only instead.
+			}
+		}else {//Search By Name
+			return self::search_users_by_name($text, $db);
+		}
 	}
 	static function email_registered($email,$db){
 		$semail=$db->escape($email);
