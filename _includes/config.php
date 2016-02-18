@@ -25,8 +25,9 @@ define("IMAGE_SIZE_LIMIT", "2");#Value in Mb
  */
 $About_data_list=array(
 		"Mobile",
-		"Phone",
 		"Occupation",
+		"City",
+		"State",
 		"Country",
 		"School",
 		"High School",
@@ -38,12 +39,4 @@ $user_search_list=array(
 		"email",
 		"name"
 );
-$user_data_search_list=array(
-		"Mobile",
-		"Phone",
-		"Occupation",
-		"Country",
-		"School",
-		"High School",
-		"College"
-);
+$user_data_search_list=&$About_data_list;//Can limtit keywords if u wish
