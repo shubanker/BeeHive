@@ -181,11 +181,12 @@ EOT;
 	}
 	static function get_footer($footer_class="welcome-footer"){
 		$op=<<<EOT
-        <footer class="$footer_class">
+        <footer class="footer">
             <div class="container">
                 <p>
-                    <div class="footer-links"><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a> | <a href="#">Developers</a> | <a href="#">Contact</a> | <a href="#">About</a>
-                    </div>Copyright &copy; Company - All rights reserved</p>
+                    <div class="footer-links">
+        				Made With <span class="fa fa-heart pink-color"></span> in <a href="http://diatm.rahul.ac.in/"> D.I.A.T.M</a> ,INDIA
+                    </div>Copyright &copy; - All rights reserved</p>
             </div>
         </footer>
 EOT;
