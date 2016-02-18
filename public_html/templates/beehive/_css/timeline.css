@@ -1763,15 +1763,3 @@ a:active, a:focus, a:hover {
 .grey-bg{
 	background-color: #f1f5fc
 }
-/*  Chat Bar  */
-@media only screen and (min-width:585px) {
-	.chat-sidebar {
-		display: block;
-	}
-}
-
-@media only screen and (max-width:585px) {
-	.chat-sidebar {
-		display: none;
-	}
-}

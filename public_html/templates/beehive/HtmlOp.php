@@ -263,7 +263,7 @@ EOS;
 	}
 	static function get_chat_sidebar(){
 		$op=<<<EOS
-    <div class="chat-sidebar focus">
+    <div class="chat-sidebar focus hidden-xs">
         <div class="list-group text-left">
             <p class="text-center visible-xs"><a href="#" class="hide-chat">Hide</a>
             </p>
