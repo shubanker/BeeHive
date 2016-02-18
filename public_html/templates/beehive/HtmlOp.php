@@ -103,7 +103,7 @@ EOS;
                     </li>
                     <li><a href="notifications.php" id="notifications"><i class="fa fa-bell-o"></i></a>
                     </li>
-                    <li><a href="#" class="nav-controller hide-chat"><i class="fa fa-user"></i>Users</a>
+                    <li><a href="?logout" class="nav-controller" title="Log Off"><i class="fa fa-power-off"></i></a>
                     </li>
                 </ul>
             </div>
