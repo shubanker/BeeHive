@@ -252,19 +252,22 @@ class Friendship{
 		global $About_data_list;
 		$friend_list=Friendship::get_friend_ids($user_id, null,false);
 		$type_list=implode("','", $About_data_list);
+		
 		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null,array('data'));
-		$sql="SELECT  FROM `userdata` WHERE 
-			";
-		$sql=Db::create_sql('DISTINCT `user_id`', array('userdata'),"
+		
+		$sql_for_id=Db::create_sql('`user_id` as uid,count(`user_id`)matches', array('userdata'),"
 			`type` IN('$type_list') AND
 			`user_id` NOT IN($friend_list) AND
 			`user_id`!='$user_id' AND
-			`data` IN($user_data_sql)"
+			`data` IN($user_data_sql)",
+				null,
+				'`user_id`'
 			);
 		$sql=Db::create_sql("`user_id`,concat(`first_name` ,' ',IFNULL(`last_name`,'')) as name", 
-				array('users'),
-				"`user_id` IN($sql)",
-				null,null,
+				"`users`,($sql_for_id)as id",
+				"`users`.`user_id` = id.`uid`",
+				"id.`matches` DESC",
+				null,
 				"$start,$limit"
 			);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
