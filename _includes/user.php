@@ -101,6 +101,7 @@ class User extends Struct{
 			return null;
 		}
 		$data=strtolower($data);
+		$data=$db->escape($data,true);
 		$sql=Db::create_sql(array(
 				"user_id",
 				"first_name",
@@ -122,6 +123,7 @@ class User extends Struct{
 	}
 	static function search_by_userdata($type,$data,$db){
 		$data=strtolower($data);
+		$data=$db->escape($data,true);
 		$sql=Db::create_sql(array(
 				"first_name",
 				"last_name",

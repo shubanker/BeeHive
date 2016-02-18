@@ -23,8 +23,12 @@ class Db{
 	function getdb(){
 		return $this->db;
 	}
-	function escape($string){
-		return $this->db->real_escape_string($string);
+	function escape($string,$escape_others=false){
+		$new_str= $this->db->real_escape_string($string);
+		if ($escape_others){
+			$new_str=addcslashes($new_str, '%_');
+		}
+		return $new_str;
 	}
 	
 	function query($sql){
