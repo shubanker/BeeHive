@@ -111,7 +111,6 @@ class User extends Struct{
 				status=1",
 				null,null,
 				"$start,$limit");
-		
 				return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 	static function search_users_by_name($name,$db,$start=0,$limit=10){
@@ -139,24 +138,11 @@ class User extends Struct{
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 	static function search($text,$db,$start=0,$limit=15){
-		$user_search_list=array(
-				"email",
-				"name"
-		);
-		$user_data_search_list=array(
-				"Mobile",
-				"Phone",
-				"Occupation",
-				"Country",
-				"School",
-				"High School",
-				"College"
-		);
+		global $user_search_list,$user_data_search_list;
 		if (0<$pos=strpos($text, ":")){//Advance search
 			
 			$key_word= substr($text, 0,$pos);//getting key
 			$data=substr($text, $pos+1); //Getting search text
-			
 			if (strlen(trim($data))<3){
 				return null;
 			}

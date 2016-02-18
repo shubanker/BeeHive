@@ -32,3 +32,18 @@ $About_data_list=array(
 		"High School",
 		"College"
 );
+
+/* Advance Search options*/
+$user_search_list=array(
+		"email",
+		"name"
+);
+$user_data_search_list=array(
+		"Mobile",
+		"Phone",
+		"Occupation",
+		"Country",
+		"School",
+		"High School",
+		"College"
+);
