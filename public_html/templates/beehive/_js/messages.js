@@ -17,7 +17,7 @@ function refresh_recent_messages_list(){
 			if(friend_id==0){
 				first_msg=$('.friend-list>li');
 				$('#current_msg_user_id').val(first_msg.find('input').val());
-				$('#current_msg_user_name').val(first_msg.find('strong').html());
+				$('#current_msg_user_name').val(first_msg.find('strong').attr('fullname'));
 			}else{
 				$('#current_msg_user_id').val(friend_id);
 			}
@@ -28,10 +28,12 @@ function refresh_recent_messages_list(){
 }
 function make_recent_messages_html(ob){
 	name=(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name);
+
+	shortname=name.length>10?(name.substr(0,10)+"..."):name;//Making Name shorter if too long..
 	
 	$op="<li class='"+(ob.user_one==ob.user_id && ob.status==1?"active bounceInDown":"")+"'>"+
 	"<a href='#' class='clearfix userleft'><img src='image.php?user="+ob.user_id+"&s=s' alt='"+name+"' class='img-circle'>"+
-	"<div class='friend-name'><strong> "+name+"</strong>"+
+	"<div class='friend-name'><strong fullname='"+name+"'> "+shortname+"</strong>"+
 	"<input type='hidden' value='"+ob.user_id+"'/>"+
 	"</div>"+
 	"<div class='last-message text-muted'> "+ob.message+"</div><small class='time text-muted'> "+ob.time+" </small><small class='chat-alert text-muted'><i class='fa  "+(ob.user_id==ob.user_one?" fa-mail-forward":(ob.status>1?"fa-check":"fa-send"))+"'></i></small>"+
@@ -117,7 +119,7 @@ $(document).on('click','.userleft',function(e){
 	e.preventDefault();
 	can_load_upper_msg=true;
 	$('#current_msg_user_id').val($(this).find('input').val());
-	$('#current_msg_user_name').val($(this).find('strong').html());
+	$('#current_msg_user_name').val($(this).find('strong').attr('fullname'));
 	
 	clearTimeout(msg_timer);
 	msg_timer=0;
