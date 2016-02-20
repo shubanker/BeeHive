@@ -338,6 +338,15 @@ if (isset($_POST['req_type'])){
 				Notifications::mark_read($notification_ids, $db);
 			}
 			break;
+		case 'get_post':
+			$post_id=(int)$_POST['post_id'];
+			if (!empty($post_id)){
+				$responce[0]=Feeds::get_feeds($user_id, $db,null,null,null,null,$post_id)[0];
+				$responce['success']=1;
+			}else {
+				$responce['error']="Invalid Request";
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}

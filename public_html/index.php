@@ -16,6 +16,7 @@ if ($auth->is_login()){
 	$feeds=array();
 // 	$feeds=Feeds::get_feeds($user_id, $db); //uncomment this to load initial post's directly.
 	
+	$post_id=isset($_GET['post'])&&is_numeric($_GET['post'])?(int)$_GET['post']:null;
 	include TEMPLATE.'home.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);

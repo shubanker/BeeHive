@@ -5,7 +5,7 @@ function make_notifications_html(ob){
 	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
 	"    <div class='post-heading'>"+
 	"        <div class='pull-left meta'>"+
-	"        <div class='title h5'> "+ob.message+" <a href='post.php?id="+ob.post_id+"'>Post</a>"+
+	"        <div class='title h5'> "+ob.message+" <a href='index.php?post="+ob.post_id+"'>Post</a>"+
 	"        </div>"+
 	"        <h6 class='text-muted time'>"+ob.time+"</h6>"+
 	"        </div>"+

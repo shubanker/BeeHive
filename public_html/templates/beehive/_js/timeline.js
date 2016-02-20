@@ -176,6 +176,7 @@ $(document).on('click','.like_comment',function(d){
 			"</div>";
 		return $op;
   }
+/* Sync Post */
 function sync_post(last_sync,toend){
 
 	if(last_sync === undefined){last_sync=null}
@@ -209,6 +210,18 @@ function sync_post(last_sync,toend){
 		  
 	  });
 	  
+}
+/* Loading Specific Post */
+function load_post(postid){
+	$.post(req_page,{req_type:"get_post",post_id:postid}).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			$op=make_post_html(ob[0]);
+			$('.post-box-top').after($op);
+		}
+	}).fail(function(){
+		setTimeout("load_post("+postid+")",4000);
+	});
 }
 /* ========= Making Post ============*/
 $(document).on('click','#make_post',function(e){
@@ -331,7 +344,6 @@ $(document).on('click','.comment_del',function(e){
 });
 
 /* ========== Scroll ==========*/
-var ready_to_scroll=true;
 $(document).on('scroll',function(){
 	if($(this).innerHeight()-$(this).scrollTop()<1200){
 		if(ready_to_scroll){

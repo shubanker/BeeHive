@@ -86,10 +86,15 @@ echo HtmlOp::get_include_css();
 <?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 friend_id=null;
+var ready_to_scroll=<?=empty($post_id)?"true":"false"; ?>;
 $(document).ready(function() {
+	
+	<?php if (empty($post_id)){?>
 	/*==============  Loading Post ===============*/
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();
-	  sync_post(last_sysn);
+	  sync_post(last_sysn);<?php }else {?>
+	  load_post(<?=$post_id; ?>);
+	  <?php }?>
 });
 </script>
 </body>
