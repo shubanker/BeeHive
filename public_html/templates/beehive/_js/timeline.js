@@ -240,12 +240,12 @@ $(document).on('click','#make_post',function(e){
         },
         //Ajax events
         beforeSend: function(){
-        	$('#make_post').toggleClass('hidden');
-        	$('.progress_bar').toggleClass('hidden');
+        	$('.progress_bar').removeClass('hidden');
+        	$('#make_post_right').addClass('hidden');
         },
         success: function(e){
-        	$('#make_post').toggleClass('hidden');
-        	$('.progress_bar').toggleClass('hidden');
+        	$('#make_post_right').removeClass('hidden');
+        	$('.progress_bar').addClass('hidden');
         	ob=JSON.parse(e);
         	if(ob.success==1){
         		$('.post-box-top').after(make_post_html(ob));
@@ -254,9 +254,8 @@ $(document).on('click','#make_post',function(e){
         	}
         },
         error: function(){
-
-        	$('#make_post').toggleClass('hidden');
-        	$('.progress_bar').toggleClass('hidden');
+        	$('#make_post_right').removeClass('hidden');
+        	$('.progress_bar').addClass('hidden');
         },
         // Form data
         data: formData,
