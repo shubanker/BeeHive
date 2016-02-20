@@ -124,6 +124,7 @@ class User extends Struct{
 	static function search_by_userdata($type,$data,$db){
 		$data=strtolower($data);
 		$data=$db->escape($data,true);
+		$type=$db->escape(strtolower($type),true);
 		$sql=Db::create_sql(array(
 				"first_name",
 				"last_name",
@@ -133,7 +134,7 @@ class User extends Struct{
 				"users"
 		),
 				"`users`.`user_id`=`userdata`.`user_id` AND
-				`type`='$type' AND 
+				lower(`type`) LIKE '%$type%' AND 
 				lower(`data`) LIKE '%$data%' AND 
 				`userdata`.`status`=1 "
 		);
