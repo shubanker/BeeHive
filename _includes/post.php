@@ -231,12 +231,18 @@ class Feeds{
 	/*
 	 * Function returnds the posts of friends to be displayed in homepage.
 	 */
-	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">"){
+	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL){
 		// 		$db=new Db($user, $password, $database);
 		$start=empty($start)?0:$start;
 		$limit=empty($limit)?10:$limit;
 		$equality=$equality=="<"?"<":">";
 		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		
+		if (!empty($specific_post_id)){
+			$after_post_id="`post`.`post_id` = '$specific_post_id' AND ";
+			$start=0;
+			$limit=1;
+		}
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$following_list=Friendship::get_following_ids($user_id, null);
