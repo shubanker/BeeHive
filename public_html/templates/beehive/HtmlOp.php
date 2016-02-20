@@ -185,7 +185,7 @@ EOT;
             <div class="container">
                 <p>
                     <div class="footer-links">
-        				Made With <span class="fa fa-heart pink-color"></span> in <a href="http://diatm.rahul.ac.in/"> D.I.A.T.M</a> ,INDIA
+        				Made With <span class="fa fa-heart pink-color"></span> in <a href="http://diatm.rahul.ac.in/" target="_blank"> D.I.A.T.M</a> ,INDIA
                     </div>Copyright &copy; - All rights reserved</p>
             </div>
         </footer>
