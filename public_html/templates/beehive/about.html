@@ -15,21 +15,25 @@ echo HtmlOp::get_include_css();
 	                <div class="panel">
 	                	<div class="panel-body bio-graph-info">
 	                		<h1>About <?=$is_self?"You":$user_name ?></h1>
-	                		<div class="row">
 	                		<?php if ($is_self){?>
 	                			<form action="" method="post" id="edit_about"><?php }?>
-	                			
-		                			<?php foreach ($abouts as $key=>$val){
-		                			if (empty($val) && !$is_self)continue;?>
-		                			<div class="bio-row">
-		                				<p><span><?=$key; ?> </span>: <?php if ($is_self){?><input type="text" value="<?=$val; ?>" name="<?=strtolower(str_replace(" ", "_", $key)); ?>" /><?php }else {echo $val;}?></p>
-		                			</div>
+	                			<?php foreach ($About_data_list as $key=>$alist){
+	                				if (empty($alist)){continue;}
+	                			?>
+	                				<h4><?=$key ?></h4>
+		                			<div class="row">
+		                				
+		                			<?php foreach ($alist as $list){
+		                					if (empty($abouts[$list]) && !$is_self)continue;?>
+		                				<div class="bio-row">
+		                					<p><span><?=$list; ?> </span>: <?php if ($is_self){?><input type="text" value="<?=$abouts[$list]; ?>" name="<?=strtolower(str_replace(" ", "_", $list)); ?>" /><?php }else {echo $abouts[$list];}?></p>
+		                				</div>
 		                			<?php }?>
-		                			
-	                			<?php if ($is_self){ ?>
-	                			<input type="submit" value="Save Data" class="btn btn-primary pull-right"/>
-	                			</form><?php } ?>
-	                		</div>
+		                			</div>
+	                			<?php }?>
+	                		<?php if ($is_self){?>
+	                		<input type="submit" value="Save Data" class="btn btn-primary pull-right"/>
+	                		</form><?php } ?>
 	                	</div>
 	                </div>
 	             </div>

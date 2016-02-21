@@ -37,7 +37,7 @@ if ($auth->is_login()){
 		$friend->update($db);
 		
 		$data=array();
-		foreach ($About_data_list as $about_list){
+		foreach ($user_data_search_list as $about_list){
 			$about_list_key=strtolower(str_replace(" ", "_", $about_list));
 			if (!empty($_POST[$about_list_key])){
 				$data[]=array(
@@ -57,15 +57,19 @@ if ($auth->is_login()){
 	$abouts["Birthday"]=$friend->get_dob();
 	$abouts["Email"]=$friend->get_email();
 	$abouts["Gender"]=$friend->get_gen()=='M'?'Male':'Female';
-
+	
+	//Merging data for listing in About
+	$About_data_list['About']=array_merge(array("First Name","Last Name","Birthday","Gender"),$About_data_list['About']);
+	$About_data_list['Contact Details']=array_merge(array("Email"),$About_data_list['Contact Details']);
+	
 	$user_data=UserData::get_all_data($friend_id, $db);
 	foreach ($user_data as $data){
-		if (in_array($data['type'], $About_data_list)){
+		if (in_array($data['type'], $user_data_search_list)){
 			$abouts[$data['type']]=$data['data'];
 		}
 	}
 	if ($is_self){
-		foreach ($About_data_list as $about_list){
+		foreach ($user_data_search_list as $about_list){
 			$abouts[$about_list]=isset($abouts[$about_list])?$abouts[$about_list]:null;
 		}
 	}

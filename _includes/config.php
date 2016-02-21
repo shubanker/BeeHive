@@ -33,10 +33,26 @@ $About_data_list=array(
 		"High School",
 		"College"
 );
+$About_data_list=array(
+		"About"=>array(
+				"Occupation"
+		),
+		"Education"=>array(
+			"School",
+			"High School",
+			"College"
+		),
+		"Contact Details"=>array(
+				"Mobile",
+				"City",
+				"State",
+				"Country"
+		)
+);
 
 /* Advance Search options*/
 $user_search_list=array(
 		"email",
 		"name"
 );
-$user_data_search_list=&$About_data_list;//Can limtit keywords if u wish
+$user_data_search_list=call_user_func_array('array_merge', $About_data_list);//Can limtit keywords if u wish

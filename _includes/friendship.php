@@ -249,11 +249,11 @@ class Friendship{
 		return $friend_button;
 	}
 	static function suggested_friends($user_id,$db,$start=0,$limit=15){
-		global $About_data_list;
+		global $user_data_search_list;
 		$friend_list=Friendship::get_friend_ids($user_id, null,false);
-		$type_list=implode("','", $About_data_list);
+		$type_list=implode("','", $user_data_search_list);
 		
-		$user_data_sql=UserData::get_user_data($user_id, $About_data_list, null,array('data'));
+		$user_data_sql=UserData::get_user_data($user_id, $user_data_search_list, null,array('data'));
 		
 		$sql_for_id=Db::create_sql('`user_id` as uid,count(`user_id`)matches', array('userdata'),"
 			`type` IN('$type_list') AND
