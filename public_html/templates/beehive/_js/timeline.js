@@ -218,6 +218,10 @@ function load_post(postid){
 		if(ob.success==1){
 			$op=make_post_html(ob[0]);
 			$('.post-box-top').after($op);
+			var comments_list=$('.panel-shadow').find(".comments-list");
+			  if(comments_list.children().length==0){
+				  load_comments(ob[0].post_id,comments_list);
+			  }
 		}
 	}).fail(function(){
 		setTimeout("load_post("+postid+")",4000);
