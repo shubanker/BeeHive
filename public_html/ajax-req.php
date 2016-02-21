@@ -94,7 +94,7 @@ if (isset($_POST['req_type'])){
 			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
 			$responce['time']=Feeds::get_age("now");
 			$responce['user_id']=$user_id;
-			$responce['first_name']=htmlentities($_SESSION['user_name']);
+			$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
 			$responce['last_name']="";
 			$responce['comment']=htmlentities($_POST['comment']);
 			$responce['can_edit']=1;
@@ -121,7 +121,7 @@ if (isset($_POST['req_type'])){
 			$post_id=$post->create($db);
 			if (!empty($post_id)){
 				$responce['success']=1;
-				$responce['first_name']=htmlentities($_SESSION['user_name']);
+				$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
 				$responce['last_name']="";
 				$responce['time']=Feeds::get_age("now");
 				$responce['picture_id']=$image_id;
