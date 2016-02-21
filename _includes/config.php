@@ -24,18 +24,9 @@ define("IMAGE_SIZE_LIMIT", "2");#Value in Mb
  * List of What possible details can be displayed/Added in about Page.
  */
 $About_data_list=array(
-		"Mobile",
-		"Occupation",
-		"City",
-		"State",
-		"Country",
-		"School",
-		"High School",
-		"College"
-);
-$About_data_list=array(
 		"About"=>array(
-				"Occupation"
+				"Occupation",
+				"Relationship Status"
 		),
 		"Education"=>array(
 			"School",
