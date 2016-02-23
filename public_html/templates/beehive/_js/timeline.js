@@ -125,6 +125,20 @@ $(document).on('click','.like_comment',function(d){
 });
   /*==============  Loading Post ===============*/
   function make_post_html(ob){
+	  MAX_LENGTH=250;
+	  MAX_LINES=2;
+	  post_data=ob.post_data==null?"":ob.post_data;
+	  seemore=false;
+	  seemore_data="";
+	  if(post_data.length>MAX_LENGTH){
+		  seemore=true;
+		  MAX_LENGTH=MAX_LENGTH-10+post_data.substr(MAX_LENGTH-10,10).split(/\s[^\/>]/i)[0].length;//Finding newarby word and / to escape splitting <br /> tabs.
+	  }
+	  if(seemore){
+		  seemore_data=post_data.slice(MAX_LENGTH);
+		  post_data=post_data.slice(0,MAX_LENGTH);
+		  post_data+="<span class='seemore'> ...</span>";
+	  }
 	  $op="<div class='panel panel-white post panel-shadow'>\n" +
 			"<div class='post-heading'>\n    <div class='pull-left image'>";
 		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar' alt='user profile image'>";
@@ -157,7 +171,12 @@ $(document).on('click','.like_comment',function(d){
 					"</div>";
 		}
 		$op+="                        <div class='post-description'>"+
-			"    <p>"+(ob.post_data==null?"":ob.post_data)+"</p>";
+			"    <p>"+post_data;
+		if(seemore){
+			$op+="<a href='#' class='seemore'>See More</a>" +
+					"<span class='hidden_status hidden'>"+seemore_data+"</span>";
+		}
+		$op+="</p>";
 		$op+="<div class='stats'>"+
 			"        <a href='#' class='btn "+(ob.has_liked==1?'btn-primary':'btn-default')+" stat-item like'><i class='fa fa-thumbs-up icon'></i><span class='count'>"+ob.like_count+"</span> </a>"+
 			"        <a href='#' class='btn btn-default stat-item'><i class='glyphicon glyphicon-comment icon'></i><span class='c_count'>"+ob.comment_count+"</span> </a>";
@@ -176,6 +195,11 @@ $(document).on('click','.like_comment',function(d){
 			"</div>";
 		return $op;
   }
+  $(document).on('click','.seemore',function(e){
+	    e.preventDefault();
+	    $(this).parent().find('.seemore').addClass('hidden');
+	    $(this).parent().find('span.hidden_status').removeClass('hidden');
+	});
 /* Sync Post */
 function sync_post(last_sync,toend){
 
