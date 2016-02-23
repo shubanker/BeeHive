@@ -303,7 +303,7 @@ $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
-    $('#editPostTextarea').val(post_data);
+    $('#editPostTextarea').val(post_data.replace(/<.*>/g, ""));//removing tags.
     $('#editPostId').val(postid);
     $('#editType').val(1);
 });
@@ -311,7 +311,7 @@ $(document).on('click','.edit_comment',function(){
     comment=$(this).parents('.comment-body');
     post_data=comment.find('p').html();
     postid=comment.find(".comment_id").val();
-    $('#editPostTextarea').val(post_data);
+    $('#editPostTextarea').val(post_data.replace(/<.*>/g, ""));
     $('#editPostId').val(postid);
     $('#editType').val(2);
 });
@@ -323,7 +323,7 @@ $(document).on('click','#editPostSubmit',function(){
 		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
-				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data);
+				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data.replace(/\n/g, "<br>"));
 			}
 			$('#editPost').modal('hide');
 		});
