@@ -126,13 +126,20 @@ $(document).on('click','.like_comment',function(d){
   /*==============  Loading Post ===============*/
   function make_post_html(ob){
 	  MAX_LENGTH=250;
-	  MAX_LINES=2;
 	  post_data=ob.post_data==null?"":ob.post_data;
 	  seemore=false;
 	  seemore_data="";
 	  if(post_data.length>MAX_LENGTH){
 		  seemore=true;
 		  MAX_LENGTH=MAX_LENGTH-10+post_data.substr(MAX_LENGTH-10,10).split(/\s[^\/>]/i)[0].length;//Finding newarby word and / to escape splitting <br /> tabs.
+	  }
+	  
+	  //Limitting Max number of lines
+	  lines=post_data.match(/(([\s\S])*?<br\s?\/?>){6}/i);
+	  if(lines!=null ){
+		  len=lines[0].length;
+		  MAX_LENGTH=len>MAX_LENGTH?MAX_LENGTH:len;//Checking where we can get shortest.
+		  seemore=true;
 	  }
 	  if(seemore){
 		  seemore_data=post_data.slice(MAX_LENGTH);
