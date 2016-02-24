@@ -96,7 +96,9 @@ FROM
     notifications AS n 
 WHERE 
     n.user_id='$user_id' $status_condition";
-		$sql.=$before_sql.$limit_sql;
+		$sql.=$before_sql;
+		$sql.="ORDER BY n.time DESC";
+		$sql.=$limit_sql;
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }

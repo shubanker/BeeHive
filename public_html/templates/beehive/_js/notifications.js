@@ -20,7 +20,7 @@ function load_notifications(lastsync,add_at){
 	$.post('ajax-req.php',{req_type:'get_notifications',lastsync:lastsync}).done(function(d){
 		ob=JSON.parse(d);
 		op="";
-		for (var i = ob.length-1; i >=0 ; i--) {
+		for (var i = 0; i <ob.length ; i++) {
 			op+=make_notifications_html(ob[i]);
 		}
 		if(add_at==null){
