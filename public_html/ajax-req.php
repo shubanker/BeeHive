@@ -342,6 +342,7 @@ if (isset($_POST['req_type'])){
 			$post_id=(int)$_POST['post_id'];
 			if (!empty($post_id)){
 				$responce[0]=Feeds::get_feeds($user_id, $db,null,null,null,null,$post_id)[0];
+				$responce[0]['post_data']=nl2br($responce[0]['post_data']);
 				$responce['success']=1;
 			}else {
 				$responce['error']="Invalid Request";
