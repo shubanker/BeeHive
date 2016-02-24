@@ -442,9 +442,12 @@ body {
 	color: #aaa
 }
 
-.post .post-heading .meta .time {
+.post .post-heading .meta .time,.post-access {
 	margin-top: 8px;
 	color: #999
+}
+.post-access {
+    cursor: pointer;
 }
 
 .post .post-image .image {

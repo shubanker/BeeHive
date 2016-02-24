@@ -146,13 +146,30 @@ $(document).on('click','.like_comment',function(d){
 		  post_data=post_data.slice(0,MAX_LENGTH);
 		  post_data+="<span class='seemore'> ...</span>";
 	  }
+	  
+	  /* Access Icon */
+	  switch(ob.access){
+	  case "2":
+		  title="Friends";
+		  access_icon="fa-users";
+		  break;
+	  case "3":
+		  title="Only Me";
+		  access_icon="fa-user";
+		  break;
+	  default:
+		  title="Public";
+		  access_icon="fa-globe";
+	  }
+	  access_icon=' <i title="'+title+'" class="post-access fa '+access_icon+'"></i> ';
+	  
 	  $op="<div class='panel panel-white post panel-shadow'>\n" +
 			"<div class='post-heading'>\n    <div class='pull-left image'>";
 		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar' alt='user profile image'>";
 		$op+="</div>"+
 			"    <div class='pull-left meta'>"+
 			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name)+"</a> "+
-		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+"</div>";
+		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+access_icon+"</div>";
 		
 		$op+="<h6 class='text-muted time'> <i class='fa fa-clock-o'></i> "+ob.time+"</h6>";
 		$op+="</div>";

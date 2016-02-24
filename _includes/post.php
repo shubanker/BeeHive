@@ -257,7 +257,8 @@ class Feeds{
 				`time`,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
 				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count,
-				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1' AND `likes`.`user_id`='$user_id') as has_liked",
+				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1' AND `likes`.`user_id`='$user_id') as has_liked,
+				`access`",
 
 				array(
 				"users",
@@ -311,7 +312,8 @@ class Feeds{
 				`time`,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
 				(SELECT  count(*) FROM comments WHERE `comments`.`post_id` =`post`.`post_id` AND `status` ='1')as comment_count,
-				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1' AND `likes`.`user_id`='$user_one') as has_liked"
+				(SELECT count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1' AND `likes`.`user_id`='$user_one') as has_liked,
+				`access`"
 				, array(
 				"users",
 				"post"
