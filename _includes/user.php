@@ -118,7 +118,7 @@ class User extends Struct{
 		if (validate::email($name)){//if user directly puts email in searchbox
 			return self::search_user_by("email", $name, $db,$start=0,$limit=10);
 		}
-		return self::search_user_by("lower(concat(`first_name`,`last_name`))",
+		return self::search_user_by("lower(concat(`first_name`,' ',`last_name`))",
 				$name, $db,$start=0,$limit=10);
 	}
 	static function search_by_userdata($type,$data,$db){
