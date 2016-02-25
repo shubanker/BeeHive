@@ -24,7 +24,11 @@ class Db{
 		return $this->db;
 	}
 	function escape($string,$escape_others=false){
-		$new_str= $this->db->real_escape_string($string);
+		if ($this->isinit){
+			$new_str= $this->db->real_escape_string($string);
+		}else {
+			$new_str=addcslashes($string, "'\\");
+		}
 		if ($escape_others){
 			$new_str=addcslashes($new_str, '%_');
 		}

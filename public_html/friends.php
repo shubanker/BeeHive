@@ -30,7 +30,7 @@ if ($auth->is_login()){
 		
 		if (!isset($relation['status'])||$relation['status']!=2){//Stopping from Public view.
 			redirect_to();
-			closedir();
+			closendie();
 		}
 	}
 	
