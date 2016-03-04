@@ -227,7 +227,11 @@ function make_chat_msg__html(ob,friendid){
 	op+="<div class='col-md-10 col-xs-10'>" +
 			"<div class='messages "+(isreceived?"msg_receive":"msg_sent")+"'>";
 	op+="<p>"+ob.message+"</p>" +
-			"<time>"+ob.time+"</time>" +
+			"<time>";
+	if(!isreceived){
+		op+="<i class='fa  "+(ob.status>1?"fa-check":"fa-send")+"'></i> ";
+	}
+	op+=ob.time+"</time>" +
 					"<input type='hidden' value='"+ob.message_id+"'/>" +
 					"</div>" +
 				"</div>";
