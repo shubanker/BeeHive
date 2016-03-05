@@ -125,7 +125,7 @@ $(document).on('click','.like_comment',function(d){
 });
   /*==============  Loading Post ===============*/
 function manage_postdata_tags(postdata){
-	return postdata.replace(/\n/g, "<br>");
+	return postdata.replace(/\n/g, "<br>").replace(/(#)([\w]{1,10})/ig, '<a href="index.php?hastag=$2">$&</a>');
 }
   function make_post_html(ob){
 	  MAX_LENGTH=250;
