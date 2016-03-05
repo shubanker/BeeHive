@@ -252,7 +252,7 @@ class Feeds{
 		if (!empty($hash_tag)){
 			
 			$hash=Db::escapee($hash_tag,true);
-			$post_search_statement=" `post_data` LIKE '%#$hash%' AND ";
+			$post_search_statement=" `post_data` REGEXP '#$hash([[:>:]]|$)' AND ";
 			
 			$following_list_condition=" -- For Including post from all over the world..";
 			
