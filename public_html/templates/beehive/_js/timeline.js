@@ -330,7 +330,7 @@ $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
-    $('#editPostTextarea').val(post_data.replace(/<.*>/g, ""));//removing tags.
+    $('#editPostTextarea').val(post_data.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, ""));//removing tags.
     $('#editPostId').val(postid);
     $('#editType').val(1);
 });
@@ -338,7 +338,7 @@ $(document).on('click','.edit_comment',function(){
     comment=$(this).parents('.comment-body');
     post_data=comment.find('p').html();
     postid=comment.find(".comment_id").val();
-    $('#editPostTextarea').val(post_data.replace(/<.*>/g, ""));
+    $('#editPostTextarea').val(post_data.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, ""));
     $('#editPostId').val(postid);
     $('#editType').val(2);
 });
