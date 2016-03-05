@@ -127,7 +127,7 @@ if (isset($_POST['req_type'])){
 				$responce['picture_id']=$image_id;
 				$responce['comment_count']=$responce['like_count']=$responce['has_liked']=0;
 				$responce['post_id']=$post_id;
-				$responce['post_data']=nl2br(htmlentities($post_msg));
+				$responce['post_data']=htmlentities($post_msg);
 				$responce['user_id']=$user_id;
 				$responce['can_edit']=1;
 			}
@@ -343,7 +343,7 @@ if (isset($_POST['req_type'])){
 			if (!empty($post_id)){
 				$result=Feeds::get_feeds($user_id, $db,null,null,null,null,$post_id);
 				$responce[0]=isset($result[0])?$result[0]:array();
-				$responce[0]['post_data']=nl2br($responce[0]['post_data']); 
+				$responce[0]['post_data']=$responce[0]['post_data']; 
 				$responce=make_time_redable($responce);
 				$responce['success']=1;
 			}else {
@@ -367,7 +367,7 @@ function make_html_entity($arrays,$fields){
 			if (!isset($arrays[$i][$field])){
 				continue;
 			}
-				$arrays[$i][$field]=nl2br(htmlentities($arrays[$i][$field]));
+				$arrays[$i][$field]=htmlentities($arrays[$i][$field]);
 		}
 	}
 	return $arrays;

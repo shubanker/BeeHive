@@ -124,9 +124,12 @@ $(document).on('click','.like_comment',function(d){
 	like($this,true);
 });
   /*==============  Loading Post ===============*/
+function manage_postdata_tags(postdata){
+	return postdata.replace(/\n/g, "<br>");
+}
   function make_post_html(ob){
 	  MAX_LENGTH=250;
-	  post_data=ob.post_data==null?"":ob.post_data;
+	  post_data=ob.post_data==null?"":manage_postdata_tags(ob.post_data);
 	  seemore=false;
 	  seemore_data="";
 	  if(post_data.length>MAX_LENGTH){
@@ -347,7 +350,7 @@ $(document).on('click','#editPostSubmit',function(){
 		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
-				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(post_data.replace(/\n/g, "<br>"));
+				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
 			}
 			$('#editPost').modal('hide');
 		});
