@@ -231,12 +231,14 @@ class Feeds{
 	/*
 	 * Function returnds the posts of friends to be displayed in homepage.
 	 */
-	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL){
+	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL,$hash_tag=NULL){
 		// 		$db=new Db($user, $password, $database);
 		$start=empty($start)?0:$start;
 		$limit=empty($limit)?10:$limit;
 		$equality=$equality=="<"?"<":">";
 		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		
+		$post_search_statement="";
 		
 		if (!empty($specific_post_id)){
 			$after_post_id="`post`.`post_id` = '$specific_post_id' AND ";
@@ -246,6 +248,26 @@ class Feeds{
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$following_list=Friendship::get_following_ids($user_id, null);
+		$following_list_condition="`post`.`user_id` IN($following_list) AND  				-- For including friends post";
+		if (!empty($hash_tag)){
+			
+			$hash=Db::escapee($hash_tag,true);
+			$post_search_statement=" `post_data` LIKE '%#$hash%' AND ";
+			
+			$following_list_condition=" -- For Including post from all over the world..";
+			
+		}
+		$privacy_condition="(
+					(
+						`post`.`user_id` IN($friend_list) AND  				-- For including friends post
+						`post`.`access` < 3
+					) OR
+					(
+						$following_list_condition
+						`post`.`access` < 2
+					) OR
+						`post`.`user_id`='$user_id'  				-- For including own post's
+				)";
 		$sql=Db::create_sql(
 				"`first_name`,
 				`last_name`,
@@ -264,18 +286,9 @@ class Feeds{
 				"users",
 				"post"
 		),
-				"(
-					(
-						`post`.`user_id` IN($friend_list) AND  				-- For including friends post
-						`post`.`access` < 3
-					) OR
-					(
-						`post`.`user_id` IN($following_list) AND  				-- For including friends post
-						`post`.`access` < 2
-					) OR
-						`post`.`user_id`='$user_id'  				-- For including own post's
-				) AND
+				"$privacy_condition AND
 				$after_post_id
+				$post_search_statement
 				`post`.`status`='1' AND
 				`post`.`user_id`=`users`.`user_id`",
 				"`post_id` DESC",

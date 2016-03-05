@@ -86,11 +86,14 @@ echo HtmlOp::get_include_css();
 <?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 friend_id=null;
-var ready_to_scroll=<?=empty($post_id)?"true":"false"; ?>;
+var ready_to_scroll=<?=empty($post_id)&&empty($hash_tag)?"true":"false"; ?>;
 $(document).ready(function() {
-	
-	<?php if (empty($post_id)){?>
 	/*==============  Loading Post ===============*/
+	<?php if(!empty($hash_tag)){?>
+	hash_tag="<?=$hash_tag ?>";
+	load_hash_posts(hash_tag);
+		<?php }elseif (empty($post_id)){?>
+		
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();
 	  sync_post(last_sysn);<?php }else {?>
 	  load_post(<?=$post_id; ?>);

@@ -34,6 +34,11 @@ class Db{
 		}
 		return $new_str;
 	}
+	static function escapee($string,$escape_others=false){
+		$escape_chars="'\\";
+		$escape_chars.=$escape_others?'%_':"";
+		return addcslashes($string, $escape_chars);
+	}
 	
 	function query($sql){
 		if (!$this->isinit){

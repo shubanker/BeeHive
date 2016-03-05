@@ -125,7 +125,7 @@ $(document).on('click','.like_comment',function(d){
 });
   /*==============  Loading Post ===============*/
 function manage_postdata_tags(postdata){
-	return postdata.replace(/\n/g, "<br>").replace(/(#)([\w]{1,10})/ig, '<a href="index.php?hastag=$2">$&</a>');
+	return postdata.replace(/\n/g, "<br>").replace(/(#)([\w]{1,10})/ig, '<a href="index.php?hashtag=$2">$&</a>');
 }
   function make_post_html(ob){
 	  MAX_LENGTH=250;
@@ -276,6 +276,19 @@ function load_post(postid){
 		}
 	}).fail(function(){
 		setTimeout("load_post("+postid+")",4000);
+	});
+}
+/* Loading hashtags Post */
+function load_hash_posts(hash_tag){
+	$.post(req_page,{req_type:"get_hash_post",hash_tag:hash_tag}).done(function(d){
+		ob=JSON.parse(d);
+		$op="";
+		  for(i=0;i<ob.length;i++){
+			    $op+=make_post_html(ob[i]);
+		  }
+		  $('.post-box-top').after($op);
+	}).fail(function(){
+		setTimeout("load_hash_posts("+hash_tag+")",4000);
 	});
 }
 /* ========= Making Post ============*/

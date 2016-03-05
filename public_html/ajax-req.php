@@ -350,6 +350,18 @@ if (isset($_POST['req_type'])){
 				$responce['error']="Invalid Request";
 			}
 			break;
+		case 'get_hash_post':
+			$hash=trim($_POST['hash_tag']);
+			$responce=Feeds::get_feeds($user_id, $db,null,null,null,null,null,$hash);
+			
+			$responce=make_time_redable($responce);
+			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));
+				
+			#Can he edit/delete post
+			for ($i = 0; $i < count($responce); $i++) {
+			$responce[$i]['can_edit']=$responce[$i]['user_id']==$user_id?1:0;
+			}
+			break;
 		default:$responce['error']="Invalid Request";
 		
 	}
