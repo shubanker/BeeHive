@@ -58,7 +58,11 @@ if (isset($_POST['req_type'])){
 			$last_post_id=isset($_POST['last_sync'])?(int)$_POST['last_sync']:0;
 			$equality=$_POST['from_end']==1?"<":">";
 			if (empty($_POST['friend_id'])){
-				$responce=Feeds::get_feeds($user_id, $db,null,null,$last_post_id,$equality);
+				$options=array(
+						"after_post_id"=>$last_post_id,
+						"equality"=>$equality
+				);
+				$responce=Feeds::get_feeds($user_id, $db,$options);
 			}else {
 				$responce=Feeds::get_friends_feeds($user_id, (int)$_POST['friend_id'], $db,null,null,$last_post_id,$equality);
 			}
@@ -341,7 +345,7 @@ if (isset($_POST['req_type'])){
 		case 'get_post':
 			$post_id=(int)$_POST['post_id'];
 			if (!empty($post_id)){
-				$result=Feeds::get_feeds($user_id, $db,null,null,null,null,$post_id);
+				$result=Feeds::get_feeds($user_id, $db,array("specific_post_id"=>$post_id));
 				$responce[0]=isset($result[0])?$result[0]:array();
 				$responce[0]['post_data']=$responce[0]['post_data']; 
 				$responce=make_time_redable($responce);
@@ -359,7 +363,10 @@ if (isset($_POST['req_type'])){
 					break;
 				case "inpost":default:$inpost_key=$search_key;
 			}
-			$responce=Feeds::get_feeds($user_id, $db,null,null,null,null,null,$hash,$inpost_key);
+			$options=array("hash_tag"=>$hash,
+					"in_post"=>$inpost_key
+			);
+			$responce=Feeds::get_feeds($user_id, $db,$options);
 			
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));

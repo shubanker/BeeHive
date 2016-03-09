@@ -231,31 +231,35 @@ class Feeds{
 	/*
 	 * Function returnds the posts of friends to be displayed in homepage.
 	 */
-	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL,$hash_tag=NULL,$in_post=NULL){
+	static function get_feeds($user_id,$db,$options=array()){
 		// 		$db=new Db($user, $password, $database);
-		$start=empty($start)?0:$start;
-		$limit=empty($limit)?10:$limit;
-		$equality=$equality=="<"?"<":">";
-		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		$options["start"]=!isset($options["start"]) || empty($options["start"])?0:$options["start"];
+		$options["limit"]=!isset($options["limit"]) || empty($options["limit"])?10:$options["limit"];
+		
+		$equality=isset($options["equality"]) && $options["equality"]=="<"?"<":">";
+		
+		$after_post_id=!isset($options["after_post_id"]) || empty($options["after_post_id"])?"":"`post`.`post_id` $equality '{$options['after_post_id']}' AND ";
 		
 		$post_search_statement="";
 		
-		if (!empty($specific_post_id)){
-			$after_post_id="`post`.`post_id` = '$specific_post_id' AND ";
-			$start=0;
-			$limit=1;
+		if (isset($options["specific_post_id"]) && !empty($options["specific_post_id"])){
+			$options["after_post_id"]="`post`.`post_id` = '{$options['specific_post_id']}' AND ";
+			$options["start"]=0;
+			$options["limit"]=1;
 		}
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$following_list=Friendship::get_following_ids($user_id, null);
 		$following_list_condition="`post`.`user_id` IN($following_list) AND  				-- For including friends post";
 		
-		if(!empty($in_post)){
-			$search_key=Db::escapee($in_post,true);
-			$post_search_statement=" `post_data` LIKE '%$search_key%' AND ";
-		}elseif (!empty($hash_tag)){
+		if(isset($options["in_post"]) && !empty($options["in_post"])){
 			
-			$hash=Db::escapee($hash_tag,true);
+			$search_key=Db::escapee($options["in_post"],true);
+			$post_search_statement=" `post_data` LIKE '%$search_key%' AND ";
+			
+		}elseif (isset($options["hash_tag"]) && !empty($options["hash_tag"])){
+			
+			$hash=Db::escapee($options["hash_tag"],true);
 			$post_search_statement=" `post_data` REGEXP '#$hash([[:>:]]|$)' AND ";
 			
 			$following_list_condition=" -- For Including post from all over the world..";
@@ -298,7 +302,7 @@ class Feeds{
 				`post`.`user_id`=`users`.`user_id`",
 				"`post_id` DESC",
 				null,
-				"$start,$limit"
+				"{$options['start']},{$options['limit']}"
 		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	
