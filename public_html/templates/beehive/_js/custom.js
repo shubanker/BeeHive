@@ -306,3 +306,8 @@ function vanish_placeholder($this){
 function appear_placeholder($this){
 	$this.attr('placeholder',$this.attr('placeholderback'));
 }
+
+/* Search js*/
+$( document ).on('keyup', '#search_box' ,function(d){
+	$('#search_form').attr('action',/^inpost:.*/i.test($(this).val())?'index.php':'search.php');
+});

@@ -85,10 +85,10 @@ EOS;
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <div class="col-md-5 col-sm-4">
-                    <form class="navbar-form" method="get" action="search.php">
+                    <form class="navbar-form" method="get" action="search.php" id="search_form">
                         <div class="form-group" style="display:inline;">
                             <div class="input-group" style="display:table;">
-                                <input class="form-control" name="s" placeholder="Search..." autocomplete="off" type="search" value="$search_val">
+                                <input class="form-control" name="s" placeholder="Search..." id="search_box" autocomplete="off" type="search" value="$search_val">
                                 <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
                             </div>
                         </div>

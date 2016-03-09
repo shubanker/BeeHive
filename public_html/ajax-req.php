@@ -350,9 +350,16 @@ if (isset($_POST['req_type'])){
 				$responce['error']="Invalid Request";
 			}
 			break;
-		case 'get_hash_post':
-			$hash=trim($_POST['hash_tag']);
-			$responce=Feeds::get_feeds($user_id, $db,null,null,null,null,null,$hash);
+		case 'search_in_post':
+			$search_key=trim($_POST['search_key']);
+			$hash=$inpost_key=null;
+			switch ($_POST['req']){
+				case "hash":
+					$hash=$search_key;
+					break;
+				case "inpost":default:$inpost_key=$search_key;
+			}
+			$responce=Feeds::get_feeds($user_id, $db,null,null,null,null,null,$hash,$inpost_key);
 			
 			$responce=make_time_redable($responce);
 			$responce=make_html_entity($responce, array('post_data','first_name','last_name'));

@@ -231,7 +231,7 @@ class Feeds{
 	/*
 	 * Function returnds the posts of friends to be displayed in homepage.
 	 */
-	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL,$hash_tag=NULL){
+	static function get_feeds($user_id,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">",$specific_post_id=NULL,$hash_tag=NULL,$in_post=NULL){
 		// 		$db=new Db($user, $password, $database);
 		$start=empty($start)?0:$start;
 		$limit=empty($limit)?10:$limit;
@@ -249,7 +249,11 @@ class Feeds{
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$following_list=Friendship::get_following_ids($user_id, null);
 		$following_list_condition="`post`.`user_id` IN($following_list) AND  				-- For including friends post";
-		if (!empty($hash_tag)){
+		
+		if(!empty($in_post)){
+			$search_key=Db::escapee($in_post,true);
+			$post_search_statement=" `post_data` LIKE '%$search_key%' AND ";
+		}elseif (!empty($hash_tag)){
 			
 			$hash=Db::escapee($hash_tag,true);
 			$post_search_statement=" `post_data` REGEXP '#$hash([[:>:]]|$)' AND ";
@@ -257,6 +261,7 @@ class Feeds{
 			$following_list_condition=" -- For Including post from all over the world..";
 			
 		}
+		
 		$privacy_condition="(
 					(
 						`post`.`user_id` IN($friend_list) AND  				-- For including friends post

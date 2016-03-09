@@ -18,6 +18,15 @@ if ($auth->is_login()){
 	
 	$post_id=isset($_GET['post'])&&is_numeric($_GET['post'])?(int)$_GET['post']:null;
 	$hash_tag=isset($_GET['hashtag'])?trim($_GET['hashtag']):null;
+	$in_post=null;
+	if (isset($_GET['s'])){//if we have a inpost search.
+		$search_item=rawurldecode($_GET['s']);
+		if (preg_match('/^inpost:.*/i', $search_item)) {
+			$in_post=substr($search_item, 7);
+		} else {
+			redirect_to("search.php?s=".$_GET['s']);//redirecting to search page if this is not a in_post search.
+		}
+	}
 	include TEMPLATE.'home.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);

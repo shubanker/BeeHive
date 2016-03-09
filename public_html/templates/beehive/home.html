@@ -86,12 +86,17 @@ echo HtmlOp::get_include_css();
 <?=HtmlOp::get_js(array("timeline.js"));?>
 <script>
 friend_id=null;
-var ready_to_scroll=<?=empty($post_id)&&empty($hash_tag)?"true":"false"; ?>;
+var ready_to_scroll=<?=empty($post_id)&&empty($hash_tag)&&empty($in_post)?"true":"false"; ?>;
 $(document).ready(function() {
 	/*==============  Loading Post ===============*/
-	<?php if(!empty($hash_tag)){?>
-	hash_tag="<?=$hash_tag ?>";
-	load_hash_posts(hash_tag);
+	<?php if(!empty($in_post)){?>
+	
+	load_searched_posts("<?=$in_post ?>",'inpost');
+	
+	<?php }elseif(!empty($hash_tag)){?>
+	
+	load_searched_posts("<?=$hash_tag ?>",'hash');
+	
 		<?php }elseif (empty($post_id)){?>
 		
 	  last_sysn=$(".postid").val()==null?0:$(".postid").val();

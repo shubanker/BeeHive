@@ -279,8 +279,17 @@ function load_post(postid){
 	});
 }
 /* Loading hashtags Post */
-function load_hash_posts(hash_tag){
-	$.post(req_page,{req_type:"get_hash_post",hash_tag:hash_tag}).done(function(d){
+function load_searched_posts(search_key,type){
+	req_type="search_in_post";
+	switch(type){
+		case "hash":
+			req="hash";
+			break;
+		case "inpost":default:
+			req="inpost";
+			break;
+	}
+	$.post(req_page,{req_type:req_type,req:req,search_key:search_key}).done(function(d){
 		ob=JSON.parse(d);
 		$op="";
 		  for(i=0;i<ob.length;i++){
