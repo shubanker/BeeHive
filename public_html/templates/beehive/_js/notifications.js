@@ -3,9 +3,18 @@ $(document).ready(function() {
 });
 function make_notifications_html(ob){
 	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
-	"    <div class='post-heading'>"+
-	"        <div class='pull-left meta'>"+
-	"        <div class='title h5'> "+ob.message+" <a href='index.php?post="+ob.post_id+"'>Post</a>"+
+	"    <div class='post-heading'>";
+	if(null != ob.post_img){
+		$op+="<div class='pull-left image'>" +
+			"<img src='image.php?id="+ob.post_img+"&s=s' class='avatar' alt='user profile image'>" +
+			"</div>";
+		post_type="Image";
+	}else{
+		post_type="Post";
+	}
+	
+	$op+="        <div class='pull-left meta'>"+
+	"        <div class='title h5'> "+ob.message+" <a href='index.php?post="+ob.post_id+"'>"+post_type+"</a>"+
 	"        <h6 class='text-muted time notification-time'><i class='fa fa-clock-o'></i> "+ob.time+"</h6>"+
 	"        </div>"+
 	'        <h6>"'+ob.post_data+'..."<h6>'+

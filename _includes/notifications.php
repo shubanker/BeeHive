@@ -86,10 +86,11 @@ class Notifications{
 		$sql="SELECT n.notification_id,
     CASE 
     WHEN n.msg IS NOT NULL THEN n.msg
-    WHEN type=1 THEN concat((SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id),' person have Liked your post')
-    WHEN type=2 THEN concat((SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id),' person have Commented on your post')
+    WHEN type=1 THEN concat((SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id),' person have Liked your ')
+    WHEN type=2 THEN concat((SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id),' person have Commented on your ')
     END AS message,
     (SELECT SUBSTRING(`post_data`,1,25) from `post` where `post_id`=n.post_id) AS post_data,
+    (SELECT `picture_id` from `post` where `post_id`=n.post_id) AS post_img,
     n.post_id,
     n.time,
     n.status
