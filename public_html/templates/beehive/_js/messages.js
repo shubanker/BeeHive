@@ -106,7 +106,7 @@ function make_msg_html(ob,friendid){
 	
 	$op="<li class='"+direction+" clearfix'><span class='chat-img pull-"+direction+"'><img src='image.php?user="+ob.user_one+"&s=s' alt='"+name+"'> </span>"+
 	"<div class='chat-body clearfix'>"+
-	"<div class='header'><strong class='primary-font'>"+name+"</strong> <small class='pull-right text-muted'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
+	"<div class='header'><a class='primary-font' href='profile.php?id="+ob.user_one+"'>"+name+"</a> <small class='pull-right text-muted'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
 	"</div>"+
 	"<p>"+ob.message+"</p>";
 	if(!isreceived){
