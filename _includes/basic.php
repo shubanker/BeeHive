@@ -1,6 +1,11 @@
 <?php
 function isLocal() {
-	return $_SERVER ["SERVER_ADDR"] == "::1" || $_SERVER ["SERVER_ADDR"] == "127.0.0.1";
+	$local_address=array(
+			"::1",
+			"127.0.0.1",
+			"192.168.172.1"
+	);
+	return in_array($_SERVER ["SERVER_ADDR"], $local_address);
 }
 function redirect_to($location = "index.php") {
 	headers_sent () ? die ( "<META HTTP-EQUIV=\"refresh\" content=\"0; URL='$location'\">" ) : header ( "location: $location" );

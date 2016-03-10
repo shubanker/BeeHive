@@ -97,6 +97,9 @@ function make_msg_html(ob,friendid){
 	if(friendid!=$('#current_msg_user_id').val()){//Avoiding loading of chats from diff user inCase though.
 		return '';
 	}
+	if($('.chat-body>input[value="'+ob.message_id+'"]').length>0){//Avoiding repetation of messages..
+		return '';
+	}
 	isreceived=ob.user_one==friendid;
 	direction=isreceived?"left":"right";
 	name=isreceived?$('#current_msg_user_name').val():"You";

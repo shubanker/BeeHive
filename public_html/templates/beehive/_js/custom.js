@@ -115,7 +115,7 @@ function load_online_list(){
 			}
 		}else{
 			for (var i = 0; i < ob.length; i++) {
-				$op+=make_chat_html(ob[i]);
+				$op+=make_chatlist_html(ob[i]);
 			}
 			$(".chat_list").html($op);
 		}
@@ -123,7 +123,7 @@ function load_online_list(){
 	});
 	load_online_list_timer=setTimeout('load_online_list()',15000);
 }
-function make_chat_html(ob){
+function make_chatlist_html(ob){
 	$op="<a href='#' class='list-group-item'><i class='fa ";
 		$op+=ob.data>200?"fa-circle absent-status":"fa-circle connected-status";
 	$op+="'></i>";
@@ -162,7 +162,7 @@ function sync_chat(lastsync,fillbefore){
 			lastsync=ob[ob.length-1].message_id;
 			op="";
 			for (var i = 0; i < ob.length; i++) {
-				op+=make_chat_msg__html(ob[i],friendid);
+				op+=make_chat_msg_html(ob[i],friendid);
 			}
 			if(fillbefore){
 				$('.msg_container_base').prepend(op);
@@ -202,7 +202,7 @@ function send_msg(msg,friendid){
 	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.success==1){
-//			op=make_chat_msg__html(ob,friendid);
+//			op=make_chat_msg_html(ob,friendid);
 //			$('.msg_container_base').append(op).scrollTop($('.msg_container_base')[0].scrollHeight);
 			$('.chat_input').val('');
 			$('#message_textarea').val('');
@@ -210,12 +210,14 @@ function send_msg(msg,friendid){
 		
 	});
 }
-function make_chat_msg__html(ob,friendid){
+function make_chat_msg_html(ob,friendid){
 	
 	if(friendid!=$('#current_chat_user_id').val()){//Avoiding loading of chats from diff user inCase though.
 		return '';
 	}
-	
+	if($('.messages>input[value="'+ob.message_id+'"]').length>0){//Avoiding repetation of messages..
+		return '';
+	}
 	isreceived=ob.user_one==friendid;
 	op="<div class='row msg_container "+(isreceived?"base_receive":"base_sent")+"'>";
 	image="<div class='col-md-2 col-xs-2 avatar-chat-box'>" +
