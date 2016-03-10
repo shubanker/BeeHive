@@ -39,7 +39,7 @@ req_page='ajax-req.php';
 		  $op+="<button type='button' class='close comment_del' title='Delete Comment' >&times;</button>";
 	  }
 		$op+='<a class="pull-left" href="profile.php?id='+ob.user_id+'">';
-			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'" alt="avatar"> </a>';
+			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'&s=s" alt="avatar"> </a>';
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
 				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+(ob.first_name==null?"":ob.first_name)+' '+(ob.last_name==null?"":ob.last_name)+'</a></h4>';
