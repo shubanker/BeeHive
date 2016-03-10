@@ -1869,3 +1869,6 @@ footer:hover .fa-heart.pink-color{
 	-ms-transition-timing-function: ease-in
     }
 }
+.notification-time{
+	display: inline;
+}
