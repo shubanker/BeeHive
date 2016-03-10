@@ -233,8 +233,8 @@ class Feeds{
 	 */
 	static function get_feeds($user_id,$db,$options=array()){
 		// 		$db=new Db($user, $password, $database);
-		$options["start"]=!isset($options["start"]) || empty($options["start"])?0:$options["start"];
-		$options["limit"]=!isset($options["limit"]) || empty($options["limit"])?10:$options["limit"];
+		$start=!isset($options["start"]) || empty($options["start"])?0:$options["start"];
+		$limit=!isset($options["limit"]) || empty($options["limit"])?10:$options["limit"];
 		
 		$equality=isset($options["equality"]) && $options["equality"]=="<"?"<":">";
 		
@@ -243,9 +243,9 @@ class Feeds{
 		$post_search_statement="";
 		
 		if (isset($options["specific_post_id"]) && !empty($options["specific_post_id"])){
-			$options["after_post_id"]="`post`.`post_id` = '{$options['specific_post_id']}' AND ";
-			$options["start"]=0;
-			$options["limit"]=1;
+			$after_post_id="`post`.`post_id` = '{$options['specific_post_id']}' AND ";
+			$start=0;
+			$limit=1;
 		}
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
@@ -302,7 +302,7 @@ class Feeds{
 				`post`.`user_id`=`users`.`user_id`",
 				"`post_id` DESC",
 				null,
-				"{$options['start']},{$options['limit']}"
+				"$start,$limit"
 		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	
