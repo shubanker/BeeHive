@@ -51,7 +51,7 @@ $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (
   
   clearTimeout(chat_timer);
   chat_timer=0;
-  
+  can_load_upper_chat=true;
   //Chatbox user name
   name=$(this).find('.chat-user-name').html();
   friendid=$(this).find('input').val();
