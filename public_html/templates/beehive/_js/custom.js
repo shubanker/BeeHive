@@ -136,10 +136,19 @@ function make_chatlist_html(ob){
 /* ============= Messages ============== */
 chat_timer=0;
 can_load_upper_chat=true;
+msg_data={};
 function load_chat(friendid,lastsync){
-	if(lastsync === undefined){lastsync=0}
-	$('.msg_container_base').html('');
-	sync_chat(lastsync);
+	if(lastsync === undefined){lastsync=0;}
+	cache_msg='';
+	/* populating with cached data */
+	if(msg_data[friendid] !== undefined ){
+		for (i in msg_data[friendid]) {
+			cache_msg+=make_chat_msg_html(msg_data[friendid][i],friendid);
+		}
+	}
+	$('.msg_container_base').html(cache_msg);
+	$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+	sync_chat();
 }
 function sync_chat(lastsync,fillbefore){
 	if(lastsync === undefined){lastsync=null}
@@ -161,7 +170,9 @@ function sync_chat(lastsync,fillbefore){
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;
 			op="";
+			if(msg_data[friendid] === undefined ){msg_data[friendid]={};}//initialising cache for friend id
 			for (var i = 0; i < ob.length; i++) {
+				msg_data[friendid][ob[i].message_id]=ob[i];//saving for cache data.
 				op+=make_chat_msg_html(ob[i],friendid);
 			}
 			if(fillbefore){
