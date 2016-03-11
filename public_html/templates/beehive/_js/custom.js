@@ -117,7 +117,10 @@ function load_online_list(){
 			for (var i = 0; i < ob.length; i++) {
 				$op+=make_chatlist_html(ob[i]);
 			}
-			$(".chat_list").html($op);
+			if(ob.length>0){
+				$(".chat_list").html($op);
+			}
+			
 		}
 		
 	});
@@ -206,19 +209,50 @@ $( document ).on('keyup', '.chat_input' ,function(d){
 	  send_msg(msg,friendid);
   }
 });
-function send_msg(msg,friendid){
+function send_msg(msg,friendid,from_messsage){
+	if(from_messsage === undefined){from_messsage=false}
 	if(msg==null||msg==""){
 		return false;
 	}
+	random_id="temp_"+Math.floor(Math.random()*1000);
+	temp_ob={"message_id":random_id,"user_one":user_id,"user_two":friendid,"message":msg,"time":"sending","status":"1"};
+	
+	/*
+	 * This functions handles both for message page as wel as chatbox,
+	 * and both have different classes,id's,functions to work with.
+	 * So we define them and use them in the function.
+	*/
+	if(from_messsage){
+		msg_box='#message_textarea';
+		to_append='.chat';
+		remove_base='.clearfix';
+		remove_up='li';
+		html_func=make_msg_html;
+	}else{
+		msg_box='.chat_input';
+		to_append='.msg_container_base';
+		remove_base='.messages';
+		remove_up='.msg_container';
+		html_func=make_chat_msg_html;
+	}
+	$(to_append).append(html_func(temp_ob,friendid)).scrollTop($('.chat')[0].scrollHeight);
+	$(msg_box).val('');
+	
 	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid}).done(function(d){
+		$(remove_base+'>input[value="'+random_id+'"]').parents(remove_up).remove();//removing temporary message.
+		
 		ob=JSON.parse(d);
+		
 		if(ob.success==1){
-//			op=make_chat_msg_html(ob,friendid);
-//			$('.msg_container_base').append(op).scrollTop($('.msg_container_base')[0].scrollHeight);
-			$('.chat_input').val('');
-			$('#message_textarea').val('');
+			$(to_append).append(make_msg_html(ob,friendid)).scrollTop($(to_append)[0].scrollHeight);
+			msg_data[friendid][ob.message_id]=ob;
+		}else{
+			$(msg_box).val(msg);
 		}
 		
+	}).fail(function(){
+		$(remove_base+'>input[value="'+random_id+'"]').parents(remove_up).remove();//removing temporary message.
+		$(msg_box).val(msg);
 	});
 }
 function make_chat_msg_html(ob,friendid){

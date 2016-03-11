@@ -216,7 +216,11 @@ EOT;
 	
 EOS;
 		}
-	
+		$op.=<<<EOS
+		<script>
+			var user_id={$GLOBALS['user_id']};
+		</script>
+EOS;
 		return $op;
 	}
 	static function get_modal_edit(){

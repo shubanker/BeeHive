@@ -10,7 +10,10 @@ function refresh_recent_messages_list(){
 		for (var i = 0; i < ob.length; i++) {
 			op+=make_recent_messages_html(ob[i]);
 		}
-		$(".friend-list").html(op);
+		if(ob.length>0){
+			$(".friend-list").html(op);
+		}
+		
 		
 		if(start_sync){
 			start_sync=false;
@@ -146,6 +149,6 @@ $(document).on('click','#send_msg',function(e){
 	firendid=$('#current_chat_user_id').val();
 	msg=$('#message_textarea').val();
 	if(msg!=null && msg!=""){
-		send_msg(msg,friendid);
+		send_msg(msg,friendid,true);
 	}
 });

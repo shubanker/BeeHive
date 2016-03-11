@@ -213,12 +213,12 @@ if (isset($_POST['req_type'])){
 				$friend_id=(int)$_POST['friendid'];
 				$message_id=Message::send_message($user_id, $friend_id, $msg, $db);
 				if ($message_id){
-// 					$responce['message_id']=$message_id;
-// 					$responce['user_one']=$user_id;
-// 					$responce['user_two']=$friend_id;
-// 					$responce['message']=$_POST['msg'];
-// 					$responce['time']=Feeds::get_age("now");
-// 					$responce['status']=1;
+					$responce['message_id']=$message_id;
+					$responce['user_one']=$user_id;
+					$responce['user_two']=$friend_id;
+					$responce['message']=$_POST['msg'];
+					$responce['time']=Feeds::get_age("now");
+					$responce['status']=1;
 					$responce['success']=1;
 				}else {
 					$responce['success']=0;
