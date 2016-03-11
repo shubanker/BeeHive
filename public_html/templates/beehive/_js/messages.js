@@ -46,8 +46,18 @@ msg_timer=0;
 can_load_upper_msg=true;
 function load_msg(lastsync){
 	if(lastsync === undefined){lastsync=0}
-	$('.chat').html('');
-	sync_messages(lastsync);
+	can_load_upper_msg=true;
+	friendid=$('#current_msg_user_id').val();
+	cache_msg='';
+	/* populating with cached data */
+	if(msg_data[friendid] !== undefined ){
+		for (i in msg_data[friendid]) {
+			cache_msg+=make_msg_html(msg_data[friendid][i],friendid);
+		}
+	}
+	$('.chat').html(cache_msg);
+	$('.chat').scrollTop($('.chat')[0].scrollHeight);
+	sync_messages();
 }
 function sync_messages(lastsync,fillbefore){
 	if(lastsync === undefined){last_sync=null}
@@ -69,7 +79,9 @@ function sync_messages(lastsync,fillbefore){
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;
 			op="";
+			if(msg_data[friendid] === undefined ){msg_data[friendid]={};}//initialising cache for friend id
 			for (var i = 0; i < ob.length; i++) {
+				msg_data[friendid][ob[i].message_id]=ob[i];//saving for cache data.
 				op+=make_msg_html(ob[i],friendid);
 			}
 			
