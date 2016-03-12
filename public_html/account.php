@@ -25,6 +25,22 @@ if ($auth->is_login()){
 			$msg_type="danger";
 		}
 	}
+	if (isset($_GET['clear_otherlogins'])){
+		if (!isset($_GET['access_key']) || $_GET['access_key']!=$_SESSION['access_key']){
+			$msg="Invalid AccessKey";
+			$msg_type="danger";
+		}else {
+			$result=Cookies::clear_logins($user_id, null, $db);
+			if (is_numeric($result) && $result >= 0){
+				$msg="Cleared $result Logins";
+				$msg_type="success";
+			}else {
+				$msg="Something went Wrong..";
+				$msg_type="danger";
+			}
+		
+		}
+	}
 	include TEMPLATE.'account.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);

@@ -23,10 +23,7 @@ class Auth{
 			return false;
 		}
 		if ($user_id=Cookies::verify_cookies(null, null, $db)){
-			$_SESSION['user_id']=$this->user_id=$user_id;
-			$user=new User($user_id,$db);
-			$_SESSION['user_name']=$user->get_name();
-			$this->is_login=TRUE;
+			$this->set_login($user_id, $db);
 		}
 	}
 	function check_crediantials($email,$password,$db){
@@ -46,13 +43,26 @@ class Auth{
 		$user=new User();
 		if ($user->initialise_by_email($db, $email)){
 			if ($user->check_password($password)){
-				$this->is_login=TRUE;
-				$_SESSION['user_name']=$user->get_name();
-				return $this->user_id=$_SESSION ['user_id'] =$user->get_user_id();
+				return $this->set_login(null, $db,$user);
 			}
 		}
 		$this->set_error("Invalid email/password.");//if we are still here
 		return false;
+	}
+	private function set_login($user_id,$db,$user=null){
+		if (empty($user)){
+			if (empty($user_id)){
+				return false;
+			}
+			$user=new User($user_id,$db);
+		}
+		if (empty($user_id)){
+			$user_id=$user->get_user_id();
+		}
+		$this->is_login=TRUE;
+		$_SESSION['user_name']=$user->get_name();
+		$_SESSION['access_key']=Keys::get_random_string(8,20);
+		return $this->user_id=$_SESSION ['user_id'] =$user->get_user_id();
 	}
 	function get_userid(){
 		return $this->user_id;

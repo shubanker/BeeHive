@@ -39,6 +39,16 @@ echo HtmlOp::get_include_css();
 		                        </form>
             			</div>
             		</div>
+            		<div class="panel panel-info post panel-shadow">
+            			<div class="panel-heading">
+            				<h3 class="panel-title">Security Option(s)</h3>
+            			</div>
+            			<div class="panel-body">
+            				<ul>
+            					<li><a href="account.php?clear_otherlogins&access_key=<?=isset($_SESSION['access_key'])?$_SESSION['access_key']:"" ?>">Logout From Other Systems.</a></li>
+            				</ul>
+            			</div>
+            		</div>
             	</div>
             </div>
         </div>
