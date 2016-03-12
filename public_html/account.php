@@ -41,6 +41,7 @@ if ($auth->is_login()){
 		
 		}
 	}
+	$active_logins=Cookies::active_logins_count($user_id, $db,isset($_COOKIE['token'])?$_COOKIE['token']:'');
 	include TEMPLATE.'account.html';
 	if (!empty($db) && $db->isinit()){
 		User::update_last_active($user_id, $db);

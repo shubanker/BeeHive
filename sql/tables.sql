@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2016 at 01:54 PM
+-- Generation Time: Mar 12, 2016 at 02:05 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `keys` (
   `user_id` int(11) NOT NULL,
   `skey` varchar(100) COLLATE utf8_bin NOT NULL,
   `exp` varchar(12) COLLATE utf8_bin NOT NULL,
-  `lastused` varchar(12) COLLATE utf8_bin NOT NULL,
+  `lastused` varchar(12) COLLATE utf8_bin DEFAULT NULL,
   `hits` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

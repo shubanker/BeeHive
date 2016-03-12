@@ -45,7 +45,7 @@ echo HtmlOp::get_include_css();
             			</div>
             			<div class="panel-body">
             				<ul>
-            					<li><a href="account.php?clear_otherlogins&access_key=<?=isset($_SESSION['access_key'])?$_SESSION['access_key']:"" ?>">Logout From Other Systems.</a></li>
+            					<li><a href="account.php?clear_otherlogins&access_key=<?=isset($_SESSION['access_key'])?$_SESSION['access_key']:"" ?>">Logout From Other Systems. <?=$active_logins ?> Active</a></li>
             				</ul>
             			</div>
             		</div>

@@ -60,5 +60,21 @@ class Cookies {
 		$sql=Db::create_sql_delete('keys', $where_data);
 		return empty($db)?$sql:($db->query($sql)?$db->affected_rows():false);
 	}
+	static function active_logins_count($user_id,$db,$my_key=''){
+		$sql=Db::create_sql('count(*)count', array('keys'),
+				"`user_id` ='$user_id' AND 
+				`lastused` IS NOT NULL AND
+				`skey` != '$my_key'
+				"
+			);
+		if (empty($db)){
+			return $sql;
+		}elseif ($result=Db::qnfetch($sql, $db)){
+			return $result['count'];
+		}else {
+			return false;
+		}
+		return empty($db)?$sql:Db::qnfetch($sql, $db);
+	}
 	
 }
