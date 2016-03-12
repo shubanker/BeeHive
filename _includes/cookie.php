@@ -26,7 +26,7 @@ class Cookies {
 		if ($time == null) {
 			$time = "1 months";
 		}
-		$key=Keys::gen_key($user_id, $time, $db);
+		$key=Keys::gen_key($user_id, $time, $db,true);
 		$unix_time=strtotime("+ $time");
 		setcookie('user_id',$user_id,$unix_time);
 		setcookie('token',$key,$unix_time);

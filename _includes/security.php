@@ -111,7 +111,7 @@ class validate{
 	}
 }
 class Keys{
-	static function gen_key($user_id,$validity,$db){
+	static function gen_key($user_id,$validity,$db,$set_last_used=FALSE){
 		$key=self::get_random_string(15,35);
 		$exp=strtotime("+ $validity");
 		
@@ -120,6 +120,10 @@ class Keys{
 				"skey"=>$key,
 				"exp"=>$exp
 		);
+		if ($set_last_used){
+			$data['lastused']=strtotime("now");
+			$data['hits']=1;
+		}
 		$sql=Db::create_sql_insert('keys', $data);
 		return $db->query($sql)?$key:false;
 	}
