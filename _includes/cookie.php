@@ -47,5 +47,18 @@ class Cookies {
 			setcookie ( "token", "", $time );
 		
 	}
+	static function clear_logins($user_id,$sessions,$db){
+		$active_token=isset($_COOKIE['token'])?trim($_COOKIE['token']):"";
+		$active_token=Db::escapee($active_token);
+		$where_data="`user_id`='$user_id' AND ";
+		
+		if (empty($sessions)|| $sessions == 'all'){
+			$where_data.="`skey` !='$active_token'";
+		}else {
+			$where_data.="`skey` IN('".implode("','", $sessions)."')";
+		}
+		$sql=Db::create_sql_delete('keys', $where_data);
+		return empty($db)?$sql:($db->query($sql)?$db->affected_rows():false);
+	}
 	
 }
