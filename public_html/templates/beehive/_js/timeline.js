@@ -30,6 +30,7 @@ req_page='ajax-req.php';
 					  ccount=post.find('.c_count');
 					  ccount.html(Number(ccount.html())+1);
 					  post.find(".comments-list").prepend(make_comment_html(r));
+					  emotify('comment');
 				  }
 			  });
   }
@@ -65,6 +66,7 @@ req_page='ajax-req.php';
 			for(i=0;i<ob.length;i++){
 				comments_list.append(make_comment_html(ob[i]));
 			}
+			emotify('comment');
 		});
   }
   
@@ -378,6 +380,7 @@ $(document).on('click','#editPostSubmit',function(){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
+				emotify('post');
 			}
 			$('#editPost').modal('hide');
 		});
@@ -388,6 +391,7 @@ $(document).on('click','#editPostSubmit',function(){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(comment_data);
+				emotify('comment');
 			}
 			$('#editPost').modal('hide');
 		});

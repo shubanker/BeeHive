@@ -380,5 +380,8 @@ function emotify(type){
 		case 'message':
 			$('.chat-body>p').emoticonize(options);
 			break;
+		case 'comment':
+			$('.comment-body>p').emoticonize(options);
+			break;
 	}
 }
