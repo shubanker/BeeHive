@@ -48,7 +48,6 @@ $(document).on('click','.show-in-modal',function(e){
 /*chat box*/
 $(document).on('click', '.chat-sidebar .list-group .list-group-item', function (e) {
   e.preventDefault();
-  
   clearTimeout(chat_timer);
   chat_timer=0;
   can_load_upper_chat=true;
@@ -151,6 +150,7 @@ function load_chat(friendid,lastsync){
 	}
 	$('.msg_container_base').html(cache_msg);
 	$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+	emotify('chat');
 	sync_chat();
 }
 function sync_chat(lastsync,fillbefore){
@@ -185,7 +185,7 @@ function sync_chat(lastsync,fillbefore){
 				$('.msg_container_base').append(op);
 				$('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
 			}
-			
+			emotify('chat');
 		}
 		chat_timer=setTimeout("sync_chat()",2000);
 	});
@@ -215,7 +215,7 @@ function send_msg(msg,friendid,from_messsage){
 		return false;
 	}
 	random_id="temp_"+Math.floor(Math.random()*1000);
-	temp_ob={"message_id":random_id,"user_one":user_id,"user_two":friendid,"message":msg,"time":"sending","status":"1"};
+	temp_ob={"message_id":random_id,"user_one":user_id,"user_two":friendid,"message":msg,"time":"sending","status":-1};
 	
 	/*
 	 * This functions handles both for message page as wel as chatbox,
@@ -228,14 +228,17 @@ function send_msg(msg,friendid,from_messsage){
 		remove_base='.clearfix';
 		remove_up='li';
 		html_func=make_msg_html;
+		type='message';
 	}else{
 		msg_box='.chat_input';
 		to_append='.msg_container_base';
 		remove_base='.messages';
 		remove_up='.msg_container';
 		html_func=make_chat_msg_html;
+		type='chat';
 	}
 	$(to_append).append(html_func(temp_ob,friendid)).scrollTop($('.chat')[0].scrollHeight);
+	emotify(type);
 	$(msg_box).val('');
 	
 	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid}).done(function(d){
@@ -245,6 +248,7 @@ function send_msg(msg,friendid,from_messsage){
 		
 		if(ob.success==1){
 			$(to_append).append(make_msg_html(ob,friendid)).scrollTop($(to_append)[0].scrollHeight);
+			emotify(emotify);
 			msg_data[friendid][ob.message_id]=ob;
 		}else{
 			$(msg_box).val(msg);
@@ -276,7 +280,7 @@ function make_chat_msg_html(ob,friendid){
 	op+="<p>"+ob.message+"</p>" +
 			"<time>";
 	if(!isreceived){
-		op+="<i class='fa  "+(ob.status>1?"fa-check":"fa-send")+"'></i> ";
+		op+="<i class='fa  "+(ob.status > 1 ? "fa-check" : (ob.status == -1 ? "fa-clock-o" : "fa-send"))+"'></i> ";
 	}
 	op+=ob.time+"</time>" +
 					"<input type='hidden' value='"+ob.message_id+"'/>" +
@@ -358,3 +362,23 @@ function appear_placeholder($this){
 $( document ).on('keyup', '#search_box' ,function(d){
 	$('#search_form').attr('action',/^inpost:.*/i.test($(this).val())?'index.php':'search.php');
 });
+
+/* Emoticons */
+function emotify(type){
+	 if(type === undefined){type='post'}
+	 var options={
+			 delay: 0
+	 };
+	switch(type){
+		case 'post':
+			$('.post-description').find('p').emoticonize(options);
+			$('.post-description').find('p>.hidden_status').emoticonize(options);
+			break;
+		case 'chat':
+			$('.messages>p').emoticonize(options);
+			break;
+		case 'message':
+			$('.chat-body>p').emoticonize(options);
+			break;
+	}
+}

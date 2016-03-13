@@ -60,6 +60,7 @@ function load_msg(lastsync){
 	}
 	$('.chat').html(cache_msg);
 	$('.chat').scrollTop($('.chat')[0].scrollHeight);
+	emotify('message');
 	sync_messages();
 }
 function sync_messages(lastsync,fillbefore){
@@ -95,7 +96,7 @@ function sync_messages(lastsync,fillbefore){
 				$('.chat').append(op);
 				$('.chat').scrollTop($('.chat')[0].scrollHeight);
 			}
-			
+			emotify('message');
 			
 		}
 		msg_timer=setTimeout("sync_messages()",2000);
@@ -125,7 +126,7 @@ function make_msg_html(ob,friendid){
 	"</div>"+
 	"<p>"+ob.message+"</p>";
 	if(!isreceived){
-		icon=ob.status>1?"fa-check":"fa-send"
+		icon=ob.status> 1 ? "fa-check": (ob.status == -1 ? "fa-clock-o" : "fa-send");
 		$op+="<small class='pull-right chat-alert text-muted'><i class='fa "+icon+"'></i></small>";
 	}
 	$op+="<input type='hidden' value='"+ob.message_id+"'/>"+

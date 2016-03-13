@@ -28,6 +28,7 @@ EOS;
 			);
 		}
 		$default_css[]=TEMPLATE."_css/timeline.css";
+		$default_css[]=TEMPLATE."_css/jquery.cssemoticons.css";
 		foreach ($include_css as $css){
 			$default_css[]=$css;
 		}
@@ -206,6 +207,7 @@ EOT;
 			);
 		}
 		$default[]=TEMPLATE."_js/custom.js";
+		$default[]=TEMPLATE."_js/jquery.cssemoticons.min.js";
 		foreach ($includes as $value) {
 			$default[]=TEMPLATE."_js/$value";
 		}
