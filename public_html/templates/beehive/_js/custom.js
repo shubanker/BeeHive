@@ -237,7 +237,7 @@ function send_msg(msg,friendid,from_messsage){
 		html_func=make_chat_msg_html;
 		type='chat';
 	}
-	$(to_append).append(html_func(temp_ob,friendid)).scrollTop($('.chat')[0].scrollHeight);
+	$(to_append).append(html_func(temp_ob,friendid)).scrollTop($(to_append)[0].scrollHeight);
 	emotify(type);
 	$(msg_box).val('');
 	
@@ -247,8 +247,8 @@ function send_msg(msg,friendid,from_messsage){
 		ob=JSON.parse(d);
 		
 		if(ob.success==1){
-			$(to_append).append(make_msg_html(ob,friendid)).scrollTop($(to_append)[0].scrollHeight);
-			emotify(emotify);
+			$(to_append).append(html_func(ob,friendid)).scrollTop($(to_append)[0].scrollHeight);
+			emotify(type);
 			msg_data[friendid][ob.message_id]=ob;
 		}else{
 			$(msg_box).val(msg);
