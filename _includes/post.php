@@ -389,13 +389,20 @@ class Feeds{
 	
 	    return $age;
 	}
-	static function get_friends_images($user_one,$user_two,$db,$start=NULL,$limit=NULL,$after_post_id=NULL,$equality=">"){
+	static function get_friends_images($user_one,$user_two,$db,$options=array()){
 		
-		$start=empty($start)?0:$start;
-		$limit=empty($limit)?10:$limit;
-		$equality=$equality=="<"?"<":">";
-		$after_post_id=empty($after_post_id)?"":"`post`.`post_id` $equality '$after_post_id' AND ";
+		$start=isset($options['start']) && !empty($options['start'])?$options['start']:0;
+		$limit=isset($options['limit']) && !empty($options['limit'])?$options['limit']:10;
+		$equality=isset($options['equality']) && $options['equality'] == "<"?"<":">";
+		$after_post_id=isset($options['after_post_id']) && !empty($options['after_post_id'])?"`post`.`post_id` $equality '$after_post_id' AND ":"";
 		
+		$alerady_sysn_condition="";
+		if (!empty($options['alerady_sync'])){
+			for ($i = 0; $i < count($options['alerady_sync']); $i++) {
+				$options['alerady_sync'][$i]=Db::escapee($options['alerady_sync'][$i]);
+			}
+			$alerady_sysn_condition="AND `picture_id` NOT IN('".implode("','", $options['alerady_sync'])."')";
+		}
 		if ($user_one==$user_two){
 			$access_limit=4; //Checking if the user is viewing his own profile.
 		}else {
@@ -409,7 +416,8 @@ class Feeds{
 				"`post`.`user_id`='$user_two' AND
 				`picture_id` IS NOT NULL AND
 				`post`.`status`='1' AND
-				`post`.`access` < '$access_limit'",
+				`post`.`access` < '$access_limit'
+				$alerady_sysn_condition",
 				"`post_id` DESC",
 				null,
 				"$start,$limit"

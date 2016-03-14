@@ -38,8 +38,10 @@ echo HtmlOp::get_include_css();
 <?=HtmlOp::get_js();?>
 <script>
 var friend_id=<?=$friend_id; ?>;
+var images_sync=[];
+var sync_photos_timer=null;
 $(document).ready(function() {
-	  load_image_list(friend_id,12);
+	  load_image_list(friend_id,6);
 });
 function make_image_html(ob){
 	$op="<div class='col-md-4 col-sm-6 col-xs-6 photo-content'>"+
@@ -49,12 +51,14 @@ function make_image_html(ob){
 }
 /* ========== Load Images ======*/
 function load_image_list(friend_id,limit){
-	$.post('ajax-req.php',{req_type:'get_Images',friend_id:friend_id,limit:limit}).done(function(d){
-//		alert(d);
+	$.post('ajax-req.php',{req_type:'get_Images',friend_id:friend_id,limit:limit,images_sync:images_sync}).done(function(d){
+// 		alert(d);
 		ob=JSON.parse(d);
 		for (var i = 0; i < ob.length; i++) {
 			$('.photos').append(make_image_html(ob[i]));
+			images_sync.push(ob[i].picture_id);
 		}
+		sync_photos_timer=setTimeout("load_image_list("+friend_id+","+limit+")",12000);
 	});
 }
 </script>

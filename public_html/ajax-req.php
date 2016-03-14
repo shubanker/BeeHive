@@ -238,10 +238,15 @@ if (isset($_POST['req_type'])){
 			break;
 		case "get_Images":
 			$friend_id=(int)$_POST['friend_id'];
-			$limit=(int)$_POST['limit'];
-			$result=Feeds::get_friends_images($user_id, $friend_id, $db);
-			shuffle($result);
-			$responce=array_slice($result, 0,$limit);
+			$options=array();
+			$limit=is_numeric($_POST['limit'])?(int)$_POST['limit']:null;
+			if (!empty($limit)){
+				$options['limit']=$limit;
+			}
+			if (!empty($_POST['images_sync'])){
+				$options['alerady_sync']=$_POST['images_sync'];
+			}
+			$responce=Feeds::get_friends_images($user_id, $friend_id, $db,$options);
 			break;
 		case 'change_dp':
 			$responce['success']=0;
