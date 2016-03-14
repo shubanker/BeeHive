@@ -8,7 +8,6 @@ echo HtmlOp::get_include_css();?>
         <p class="user-text"><?=$friend->get_email(); ?></p>
         <?php if (!$is_self){?>
         <div class="friend-button container">
-        	<div class="pull-right">
 	        	<div class="btn-group">
 				  <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span><?=$friend_button ?></span></button>
 				  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,7 +19,7 @@ echo HtmlOp::get_include_css();?>
 				  </ul>
 				</div>
         	<a data-original-title="Send message" class="btn btn-info fa fa-envelope info tip" title="" href="messages.php?id=<?=$friend_id ?>"> Message</a>
-        	</div>
+        	
         </div>
         <?php }?>
     </div>
