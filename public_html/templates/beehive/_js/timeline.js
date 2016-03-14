@@ -133,16 +133,24 @@ function manage_postdata_tags(postdata){
 }
   function make_post_html(ob){
 	  MAX_LENGTH=250;
-	  post_data=ob.post_data==null?"":manage_postdata_tags(ob.post_data);
+	  post_data=ob.post_data==null?"":ob.post_data;
 	  seemore=false;
 	  seemore_data="";
 	  if(post_data.length>MAX_LENGTH){
 		  seemore=true;
-		  MAX_LENGTH=MAX_LENGTH-10+post_data.substr(MAX_LENGTH-10,10).split(/\s[^\/>]/i)[0].length;//Finding newarby word and / to escape splitting <br /> tabs.
+		  len=0;
+		  tem=post_data.split(/\s+/);
+		  for (var i = 0; i < tem.length; i++) {
+			len+=tem[i].length;
+			if(len>=MAX_LENGTH){
+				break;
+			}
+		}
+		  MAX_LENGTH=len;
 	  }
 	  
 	  //Limitting Max number of lines
-	  lines=post_data.match(/(([\s\S])*?<br\s?\/?>){6}/i);
+	  lines=post_data.match(/(([\s\S])*?[\n\r]){6}/i);
 	  if(lines!=null ){
 		  len=lines[0].length;
 		  MAX_LENGTH=len>MAX_LENGTH?MAX_LENGTH:len;//Checking where we can get shortest.
@@ -202,10 +210,10 @@ function manage_postdata_tags(postdata){
 					"</div>";
 		}
 		$op+="                        <div class='post-description'>"+
-			"    <p>"+post_data;
+			"    <p>"+manage_postdata_tags(post_data);
 		if(seemore){
 			$op+="<a href='#' class='seemore'>See More</a>" +
-					"<span class='hidden_status hidden'>"+seemore_data+"</span>";
+					"<span class='hidden_status hidden'>"+manage_postdata_tags(seemore_data)+"</span>";
 		}
 		$op+="</p>";
 		$op+="<div class='stats'>"+
