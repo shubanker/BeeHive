@@ -149,6 +149,9 @@ class Image{
 		if($type == "image/jpeg") {
 			imagejpeg($thumbnail,$image_name,$image_quality);
 		} else {
+			while ($image_quality>9){
+				$image_quality=round($image_quality/10);
+			}
 			imagepng($thumbnail,$image_name,$image_quality);
 		}
 	
