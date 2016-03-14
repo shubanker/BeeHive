@@ -347,7 +347,7 @@ if (isset($_POST['req_type'])){
 			if (!empty($post_id)){
 				$result=Feeds::get_feeds($user_id, $db,array("specific_post_id"=>$post_id));
 				$responce[0]=isset($result[0])?$result[0]:array();
-				$responce[0]['post_data']=$responce[0]['post_data']; 
+				$responce[0]['can_edit']=$responce[0]['user_id']==$user_id?1:0; 
 				$responce=make_time_redable($responce);
 				$responce['success']=1;
 			}else {
