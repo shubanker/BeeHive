@@ -90,11 +90,14 @@ class Image{
 		$image_name=null;
 		$image_quality=50;
 		switch ($size){
+			case "es":
+				$max_len=80;
+				break;
 			case "s":
 				$max_len=160;
 				break;
-			case "es":
-				$max_len=80;
+			case "ms":
+				$max_len=240;
 				break;
 			case "m":
 				$max_len=640;
