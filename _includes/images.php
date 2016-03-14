@@ -87,6 +87,8 @@ class Image{
 		$image_ratio = $image_width / $image_height;
 		$type = $image_properties["mime"];
 		
+		$image_name=null;
+		$image_quality=50;
 		switch ($size){
 			case "s":
 				$max_len=160;
@@ -101,6 +103,8 @@ class Image{
 				if (is_array($size)){
 					$width=isset($size[0])?$size[0]:null;
 					$height=isset($size[1])?$size[1]:null;
+				}else {
+					$image_quality=65;
 				}
 		}
 		if (isset($max_len)){
@@ -140,9 +144,9 @@ class Image{
 		imagecopyresampled($thumbnail, $temp_image, 0, 0, 0, 0, $width, $height, $width, $height);
 	
 		if($type == "image/jpeg") {
-			imagejpeg($thumbnail);
+			imagejpeg($thumbnail,$image_name,$image_quality);
 		} else {
-			imagepng($thumbnail);
+			imagepng($thumbnail,$image_name,$image_quality);
 		}
 	
 		imagedestroy($temp_image);
