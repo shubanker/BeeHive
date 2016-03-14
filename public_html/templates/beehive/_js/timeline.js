@@ -136,29 +136,38 @@ function manage_postdata_tags(postdata){
 	  post_data=ob.post_data==null?"":ob.post_data;
 	  seemore=false;
 	  seemore_data="";
+	  LENGTH=0;
 	  if(post_data.length>MAX_LENGTH){
 		  seemore=true;
 		  len=0;
 		  tem=post_data.split(/\s+/);
-		  for (var i = 0; i < tem.length; i++) {
+		  var i;
+		  for (i = 0; i < tem.length; i++) {
 			len+=tem[i].length;
 			if(len>=MAX_LENGTH){
 				break;
 			}
 		}
-		  MAX_LENGTH=len;
+		  LENGTH=len;
 	  }
 	  
 	  //Limitting Max number of lines
 	  lines=post_data.match(/(([\s\S])*?[\n\r]){6}/i);
 	  if(lines!=null ){
 		  len=lines[0].length;
-		  MAX_LENGTH=len>MAX_LENGTH?MAX_LENGTH:len;//Checking where we can get shortest.
+		  LENGTH=len>LENGTH && LENGTH>0?LENGTH:len;//Checking where we can get shortest.
 		  seemore=true;
 	  }
+	  while(LENGTH>1.3*MAX_LENGTH){//If we still have long length
+		  if(tem.length>1){
+			  LENGTH-=tem[i--].length;//Lets subtract last variable
+		  }else{
+			  LENGTH=MAX_LENGTH;
+		  }
+	  }
 	  if(seemore){
-		  seemore_data=post_data.slice(MAX_LENGTH);
-		  post_data=post_data.slice(0,MAX_LENGTH);
+		  seemore_data=post_data.slice(LENGTH);
+		  post_data=post_data.slice(0,LENGTH);
 		  post_data+="<span class='seemore'> ...</span>";
 	  }
 	  
