@@ -21,12 +21,11 @@
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<form id="myform" class="fs-form fs-form-full" autocomplete="off" action="" method="post">
-					<?php if (isset($errors) && !empty($errors)){?><div class="alert alert-danger">
+					<div class="alert alert-danger" <?=isset($errors) && !empty($errors)?'':'style="display: none;"'; ?>>
 						<button type="button" class="close" data-dismiss="alert"> &times;</button>
 						<?=implode("<br/>", $errors); ?>
 						
 					</div>
-					<?php }?>
 					
 					<ol class="fs-fields">
 						<li>
