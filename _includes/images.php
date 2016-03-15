@@ -130,14 +130,16 @@ class Image{
 		if(empty($height)) {
 			$height = round($width / $image_ratio);
 		}
-	
 		if($type == "image/jpeg") {
 			header('Content-type: image/jpeg');
 			$thumb = imagecreatefromjpeg($image);
 		} elseif($type == "image/png") {
 			header('Content-type: image/png');
 			$thumb = imagecreatefrompng($image);
-		} else {
+		} elseif($type == "image/gif") {
+			header('Content-type: image/gif');
+			$thumb = imagecreatefromgif($image);
+		}else {
 			return false;
 		}
 	
