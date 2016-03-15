@@ -374,11 +374,20 @@ function progressHandlingFunction(e){
     }
 }
 /* ========== Modifying post & Comment========= */
+function remove_tags(text){
+	return text.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, "");//removing tags.
+}
+function shrink_text(text,length){
+	if(text.length>length){
+		text=text.slice(0,length)+"...";
+	}
+	return text;
+}
 $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
-    $('#editPostTextarea').val(post_data.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, ""));//removing tags.
+    $('#editPostTextarea').val(remove_tags(post_data));
     $('#editPostId').val(postid);
     $('#editType').val(1);
 });
@@ -386,7 +395,7 @@ $(document).on('click','.edit_comment',function(){
     comment=$(this).parents('.comment-body');
     post_data=comment.find('p').html();
     postid=comment.find(".comment_id").val();
-    $('#editPostTextarea').val(post_data.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, ""));
+    $('#editPostTextarea').val(remove_tags(post_data));
     $('#editPostId').val(postid);
     $('#editType').val(2);
 });
@@ -439,16 +448,34 @@ $(document).on('click','.comment_del',function(e){
 	e.preventDefault();
 	comment=$(this).parents('.comment');
 	commentid=comment.find(".comment_id").val();
-	 if(confirm("Delete this Comment ?")){
-		 $.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
-			 ob=JSON.parse(d);
-			 if(ob.success==1){
-				 ccount = comment.parents('.panel-shadow').find('.c_count');
-				 ccount.html(Number(ccount.html())-1);
-				 comment.fadeOut().remove();
-			 }
-		 });
-	 }
+	comment_text=remove_tags(comment.find('p').html());
+	bootbox.confirm({
+		title:"Delete Comment ?",
+		message:'Are you shure you Want to Delete this comment ?<br>"<b>'+shrink_text(comment_text,50)+'</b>"',
+		buttons:{
+			'confirm':{
+			      label:'Delete',
+			      className:'btn-danger btn'
+			    },
+			'cancel':{
+			      label:'Cancle',
+			      className:'btn-default btn'
+			    }
+		},
+		callback:function(result){
+			if(result){
+				$.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
+					 ob=JSON.parse(d);
+					 if(ob.success==1){
+						 ccount = comment.parents('.panel-shadow').find('.c_count');
+						 ccount.html(Number(ccount.html())-1);
+						 comment.fadeOut().remove();
+					 }
+				 });
+			}
+		}
+	});
+	 
 });
 
 /* ========== Scroll ==========*/
