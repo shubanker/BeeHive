@@ -680,11 +680,12 @@ button.fs-continue:hover {
 	z-index: 800;
 	max-width: 960px;
 	width: 70%;
-	color: #eb7e7f;
+	color: #fff;
 	font-weight: 700;
 	font-size: 1em;
 	opacity: 0;
 	-webkit-transform: translate3d(-50%,-5px,0);
+	-moz-transform: translate3d(-50%,-5px,0);
 	transform: translate3d(-50%,-5px,0);
 }
 
