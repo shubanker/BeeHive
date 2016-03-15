@@ -376,11 +376,14 @@ function progressHandlingFunction(e){
 /* ========== Modifying post & Comment========= */
 $(document).on('click','.edit_post',function(){
     post=$(this).parents('.panel-shadow');
+    post.find('.seemore').html('');//Removing Seemore
     post_data=post.find('.post-description >p').html();
     postid=post.find(".postid").val();
     $('#editPostTextarea').val(post_data.replace(/<br\s*\/?>/ig, "\n").replace(/<.*?>/g, ""));//removing tags.
     $('#editPostId').val(postid);
     $('#editType').val(1);
+    post.find('span.seemore').html('...');
+    post.find('a.seemore').html('See More');
 });
 $(document).on('click','.edit_comment',function(){
     comment=$(this).parents('.comment-body');
