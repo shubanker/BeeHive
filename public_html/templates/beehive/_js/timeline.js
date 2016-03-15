@@ -449,9 +449,11 @@ $(document).on('click','.comment_del',function(e){
 	comment=$(this).parents('.comment');
 	commentid=comment.find(".comment_id").val();
 	comment_text=remove_tags(comment.find('p').html());
+	post_username=$(this).parents('div.post').find('.post-user-name').html()
 	bootbox.confirm({
 		title:"Delete Comment ?",
-		message:'Are you shure you Want to Delete this comment ?<br>"<b>'+shrink_text(comment_text,50)+'</b>"',
+		message:'Delete comment: <br>"<i>'+shrink_text(comment_text,50)+'</i>"<br><br>'+
+		'from '+post_username+"'s Post?",
 		buttons:{
 			'confirm':{
 			      label:'Delete',
