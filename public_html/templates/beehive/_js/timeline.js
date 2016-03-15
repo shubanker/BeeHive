@@ -427,22 +427,39 @@ $(document).on('click','#editPostSubmit',function(){
 });
 $(document).on('click','.del_post',function(e){
 	e.preventDefault();
-	if(confirm("Delete This Post ?")){
-		$this=$(this);
-		$this.addClass('disabled');
-		post_id=$this.parents('.panel-shadow').find(".postid").val();
-		$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
-			ob=JSON.parse(d);
-			
-			if(ob.success==1){
-				$this.parents('.panel-shadow').fadeOut().remove();
-			}else{
-				$this.removeClass('disabled');
+	post_text=remove_tags($(this).parents('.panel').find('.post-description>p').html());
+	$this=$(this);
+	bootbox.confirm({
+		title:"Delete Post ?",
+		message:'Are you sure you want to remove this post: <br>"<i>'+shrink_text(post_text,70)+'</i>"',
+		buttons:{
+			'confirm':{
+			      label:'Delete',
+			      className:'btn-danger btn'
+			    },
+			'cancel':{
+			      label:'Cancle',
+			      className:'btn-default btn'
+			    }
+		},
+		callback:function(result){
+			if(result){
+				$this.addClass('disabled');
+				post_id=$this.parents('.panel-shadow').find(".postid").val();
+				$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
+					ob=JSON.parse(d);
+					
+					if(ob.success==1){
+						$this.parents('.panel-shadow').fadeOut().remove();
+					}else{
+						$this.removeClass('disabled');
+					}
+				}).fail(function(e){
+					$this.removeClass('disabled');
+				});
 			}
-		}).fail(function(e){
-			$this.removeClass('disabled');
-		});
-	}
+		}
+	});
 });
 $(document).on('click','.comment_del',function(e){
 	e.preventDefault();
