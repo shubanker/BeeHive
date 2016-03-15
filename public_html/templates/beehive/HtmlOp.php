@@ -131,7 +131,7 @@ EOT;
 			$op.=<<<EOT
                         <div class="user-heading round">
                             <a href="#"><img src="image.php?user=$user_id&s=m" alt=""> </a>
-                            <h1>$name</h1>
+                            <h1 class="user_full_name">$name</h1>
                             <p>$email</p>
 EOT;
 			if (!$enable_edit){

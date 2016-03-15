@@ -418,33 +418,37 @@ $(document).on('click','#editPostSubmit',function(){
 });
 $(document).on('click','.del_post',function(e){
 	e.preventDefault();
-	$this=$(this);
-	$this.addClass('disabled');
-	post_id=$this.parents('.panel-shadow').find(".postid").val();
-	$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
-		ob=JSON.parse(d);
-		
-		if(ob.success==1){
-			$this.parents('.panel-shadow').fadeOut().remove();
-		}else{
+	if(confirm("Delete This Post ?")){
+		$this=$(this);
+		$this.addClass('disabled');
+		post_id=$this.parents('.panel-shadow').find(".postid").val();
+		$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
+			ob=JSON.parse(d);
+			
+			if(ob.success==1){
+				$this.parents('.panel-shadow').fadeOut().remove();
+			}else{
+				$this.removeClass('disabled');
+			}
+		}).fail(function(e){
 			$this.removeClass('disabled');
-		}
-	}).fail(function(e){
-		$this.removeClass('disabled');
-	});
+		});
+	}
 });
 $(document).on('click','.comment_del',function(e){
 	e.preventDefault();
-	 comment=$(this).parents('.comment');
-	 commentid=comment.find(".comment_id").val();
-	 $.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
-		 ob=JSON.parse(d);
-		 if(ob.success==1){
-			 ccount = comment.parents('.panel-shadow').find('.c_count');
-			 ccount.html(Number(ccount.html())-1);
-			 comment.fadeOut().remove();
-		 }
-	 });
+	comment=$(this).parents('.comment');
+	commentid=comment.find(".comment_id").val();
+	 if(confirm("Delete this Comment ?")){
+		 $.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
+			 ob=JSON.parse(d);
+			 if(ob.success==1){
+				 ccount = comment.parents('.panel-shadow').find('.c_count');
+				 ccount.html(Number(ccount.html())-1);
+				 comment.fadeOut().remove();
+			 }
+		 });
+	 }
 });
 
 /* ========== Scroll ==========*/

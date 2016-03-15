@@ -321,26 +321,42 @@ function get_notification_count_html(c){
 $(document).on('click','#friend_action',function(e){
 	e.preventDefault();
 	$this=$(this);
-	
+	current_action=$this.find('span').html();
 	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
-	
-	$.post('ajax-req.php',{req_type:'friend_action',friend_id:fid}).done(function(d){
-		ob=JSON.parse(d);
-		if(ob.success==1){
-			$this.find('span').html(ob.new_action);
-		}
-	});
+	fname=$this.parents('.card-body-social')[0]?$this.parents('.media-body').find('.friend_list_link').html():$('.user_full_name').html();
+	switch(current_action){
+	case 'Cancle Request':case 'Accept Request':
+		refer_grammer=" of ";
+		break;
+	case 'Un Friend':case'Un Block':
+		refer_grammer=" ";
+		break;
+	default:
+		refer_grammer=" to ";
+	}
+	if(confirm(current_action+refer_grammer+fname+" ?")){
+		
+		
+		$.post('ajax-req.php',{req_type:'friend_action',friend_id:fid}).done(function(d){
+			ob=JSON.parse(d);
+			if(ob.success==1){
+				$this.find('span').html(ob.new_action);
+			}
+		});
+	}
 });
 $(document).on('click','#block_user',function(e){
 	e.preventDefault();
-	$this=$(this);
-	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
-	$.post('ajax-req.php',{req_type:"block_user",friend_id:fid}).done(function(d){
-		ob=JSON.parse(d);
-		if(ob.success==1){
-			window.location='index.php';
-		}
-	});
+	if(confirm("Block this user ?")){
+		$this=$(this);
+		fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
+		$.post('ajax-req.php',{req_type:"block_user",friend_id:fid}).done(function(d){
+			ob=JSON.parse(d);
+			if(ob.success==1){
+				window.location='index.php';
+			}
+		});
+	}
 });
 /* Placeholder Vanisher */
 $(document).on('focusin','input,textarea',function(){
