@@ -208,6 +208,7 @@ EOT;
 		}
 		$default[]=TEMPLATE."_js/custom.js";
 		$default[]=TEMPLATE."_js/jquery.cssemoticons.min.js";
+		$default[]=TEMPLATE."_js/bootbox.min.js";
 		foreach ($includes as $value) {
 			$default[]=TEMPLATE."_js/$value";
 		}

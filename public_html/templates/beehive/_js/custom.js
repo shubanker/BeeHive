@@ -318,34 +318,100 @@ function get_notification_count_html(c){
 	}
 	return false;
 }
-$(document).on('click','#friend_action',function(e){
+$(document).on('click','#friend_action,#block_user',function(e){
 	e.preventDefault();
 	$this=$(this);
-	current_action=$this.find('span').html();
+	req_type=$this.attr('id');//Checking if its to block user or other actions
+	
+	current_action = req_type == "block_user" ? "Block User" : $this.find('span').html();
+	
 	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
 	fname=$this.parents('.card-body-social')[0]?$this.parents('.media-body').find('.friend_list_link').html():$('.user_full_name').html();
+	
+	/* making Proper Message to display */
 	switch(current_action){
-	case 'Cancle Request':case 'Accept Request':
-		refer_grammer=" of ";
-		break;
-	case 'Un Friend':case'Un Block':
-		refer_grammer=" ";
-		break;
-	default:
-		refer_grammer=" to ";
+		case 'Cancle Request':
+			message="Cancle friend request to "+fname;
+			confirm_label="Cancle Request";
+			cancle_label="Don't Cancle";
+			btn_class="btn-danger";
+			break;
+		case 'Accept Request':
+			message="Accept "+fname+" Friend Request";
+
+			confirm_label="Accept";
+			cancle_label="Cancle";
+			
+			btn_class="btn-success";
+			break;
+		case 'Un Friend':case 'Unfriend':
+			message="Remove "+fname+" from your friend";
+
+			confirm_label="Unfriend";
+			cancle_label="Not now";
+			
+			btn_class="btn-danger";
+			break;
+		case'Un Block':
+			message=current_action+" "+fname;
+
+			confirm_label="Unblock";
+			cancle_label="Not now";
+			
+			btn_class="btn-success";
+			break;
+		case "Block User":
+			message="Block "+fname;
+
+			confirm_label="Block";
+			cancle_label="Not now";
+			
+			btn_class="btn-danger";
+			break;
+		case'Add Friend':
+			message="Send Friend Request to "+fname;
+			
+			confirm_label="Send Request";
+			cancle_label="Cancle";
+			btn_class="btn-success";
+			break;
+		default:
+			message=current_action+" to "+fname;
+			confirm_label="Ok";
+			cancle_label="Cancle";
+			btn_class="btn-primary";
 	}
-	if(confirm(current_action+refer_grammer+fname+" ?")){
-		
-		
-		$.post('ajax-req.php',{req_type:'friend_action',friend_id:fid}).done(function(d){
-			ob=JSON.parse(d);
-			if(ob.success==1){
-				$this.find('span').html(ob.new_action);
+	bootbox.confirm({
+		title:current_action+" ?",
+		message:message+" ?",
+		buttons:{
+			'confirm':{
+			      label:confirm_label,
+			      className:'btn '+btn_class
+			    },
+			'cancel':{
+			      label:cancle_label,
+			      className:'btn-default btn'
+			    }
+		},
+		callback:function(result){
+			if(result){
+				$.post('ajax-req.php',{req_type:req_type,friend_id:fid}).done(function(d){
+					ob=JSON.parse(d);
+					if(ob.success==1){
+						if(req_type=='block_user'){
+							window.location='index.php';
+						}else{
+							$this.find('span').html(ob.new_action);
+						}
+						
+					}
+				});
 			}
-		});
-	}
+		}
+	});
 });
-$(document).on('click','#block_user',function(e){
+$(document).on('click','#block_userr',function(e){
 	e.preventDefault();
 	if(confirm("Block this user ?")){
 		$this=$(this);
