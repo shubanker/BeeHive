@@ -33,10 +33,7 @@ req_page='ajax-req.php';
 					  emotify('comment');
 				  }else{
 					  error_message=ob.error === undefined ?"There went an internal Error :(":ob.error;
-		        		show_msg("Unable to create Comment",error_message,{
-		        			label:'Ok',
-		        			className:'btn-danger btn'
-		        		});
+		        		show_msg("Unable to create Comment",error_message,'error');
 				  }
 			  });
   }
@@ -362,10 +359,7 @@ $(document).on('click','#make_post',function(e){
             	$('#post_form').find('textarea').val('');
         	}else{
         		error_message=ob.error === undefined ?"There went an internal Error":ob.error;
-        		show_msg("Unable to create Post",error_message,{
-        			label:'Ok',
-        			className:'btn-danger btn'
-        		});
+        		show_msg("Unable to create Post",error_message,'error');
         	}
         },
         error: function(){
@@ -437,10 +431,7 @@ $(document).on('click','#editPostSubmit',function(){
 				emotify('comment');
 			}else{
 				error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
-				show_msg("Unable to edit Comment",error_message,{
-        			label:'Ok',
-        			className:'btn-danger btn'
-        		});
+				show_msg("Unable to edit Comment",error_message,'error');
 			}
 			$('#editPost').modal('hide');
 		});

@@ -468,15 +468,33 @@ function emotify(type){
 	}
 }
 /* Message */
-function show_msg(title,message,buttons,callback){
+function show_msg(title,message,type,callback){
 	if(title === undefined){title="";}
 	if(message === undefined){message = "Empty.";}
 	options={
 			title:title,
 			message:message+""
 		};
-	if(buttons != undefined){
-		options.buttons={'ok':buttons};
+	if(type != undefined){
+		button={
+				label:'Ok',
+    			className:'btn-primary btn'
+    	};
+		switch(type){
+		case 'error':case 'danger':
+			button.className='btn-danger btn';
+			break;
+		case 'success':
+			button.className='btn-success btn';
+			break;
+		case 'warning':
+			button.className='btn-warning btn';
+			break;
+		case 'info':
+			button.className='btn-info btn';
+			break;
+		}
+		options.buttons={'ok':button};
 	}
 	if(callback != undefined){
 		options.callback=callback;
