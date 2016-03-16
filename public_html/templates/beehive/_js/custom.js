@@ -334,7 +334,7 @@ $(document).on('click','#friend_action,#block_user',function(e){
 			message="Cancle friend request to "+fname;
 			confirm_label="Cancle Request";
 			cancle_label="Don't Cancle";
-			btn_class="btn-danger";
+			btn_class="btn-warning";
 			break;
 		case 'Accept Request':
 			message="Accept "+fname+" Friend Request";
@@ -350,7 +350,7 @@ $(document).on('click','#friend_action,#block_user',function(e){
 			confirm_label="Unfriend";
 			cancle_label="Not now";
 			
-			btn_class="btn-danger";
+			btn_class="btn-warning";
 			break;
 		case'Un Block':
 			message=current_action+" "+fname;
