@@ -111,11 +111,12 @@ if (isset($_POST['req_type'])){
 			if (isset($_FILES['image']['name'])&&!empty($_FILES['image']['name'])){
 				$image_id=image::new_image("image", $db);
 				if (empty($image_id)){
-					$responce['error']="Invalid Image";
+					$responce['error']="Invalid Image File";
 				}
 			}
-			if (empty($post_msg)&&!isset($responce['error'])&&empty($image_id)){
-				$responce['error']="Post can not be Empty.";
+			if (empty($post_msg)&&empty($image_id)){
+				$responce['error']=isset($responce['error'])?$responce['error']:"Post can not be Empty.";
+				break;
 			}
 			$post=new Post();
 			$post->set_user_id($user_id);
