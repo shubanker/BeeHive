@@ -354,6 +354,12 @@ $(document).on('click','#make_post',function(e){
         		emotify("post");
         		$('#image_up').val('');
             	$('#post_form').find('textarea').val('');
+        	}else{
+        		error_message=ob.error === undefined ?"There went an internal Error":ob.error;
+        		show_msg("Unable to create Post",error_message,{
+        			label:'Ok',
+        			className:'btn-danger btn'
+        		});
         	}
         },
         error: function(){
