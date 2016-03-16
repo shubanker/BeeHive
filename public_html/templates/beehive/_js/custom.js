@@ -467,3 +467,19 @@ function emotify(type){
 			break;
 	}
 }
+/* Message */
+function show_msg(title,message,buttons,callback){
+	if(title === undefined){title="";}
+	if(message === undefined){message = "Empty.";}
+	options={
+			title:title,
+			message:message+""
+		};
+	if(buttons != undefined){
+		options.buttons={'ok':buttons};
+	}
+	if(callback != undefined){
+		options.callback=callback;
+	}
+	bootbox.alert(options);
+}
