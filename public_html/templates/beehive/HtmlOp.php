@@ -198,17 +198,18 @@ EOT;
 		if (isLocal()){
 			$default=array(
 				TEMPLATE."_js/jquery.js",
-				TEMPLATE."_js/bootstrap.min.js"
+				TEMPLATE."_js/bootstrap.min.js",
+				TEMPLATE."_js/bootbox.min.js"
 		);
 		}else {
 			$default=array(
 					"https://code.jquery.com/jquery-2.1.1.min.js",
-					"http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"
+					"http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js",
+					"http://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"
 			);
 		}
 		$default[]=TEMPLATE."_js/custom.js";
 		$default[]=TEMPLATE."_js/jquery.cssemoticons.min.js";
-		$default[]=TEMPLATE."_js/bootbox.min.js";
 		foreach ($includes as $value) {
 			$default[]=TEMPLATE."_js/$value";
 		}

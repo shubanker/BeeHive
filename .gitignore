@@ -1,6 +1,6 @@
 .*
 !.gitignore
-sandbox/*.*
+sandbox/*
 Images/*
 public_html/html_tests/*
 doc/*
