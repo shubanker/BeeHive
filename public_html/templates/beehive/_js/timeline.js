@@ -25,12 +25,18 @@ req_page='ajax-req.php';
 	  post.find(".add-comment-input").val("");
 	  $.post(req_page,
 			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
-				  r=JSON.parse(d);
-				  if(r.comment_id!=null&&r.comment_id){
+				  ob=JSON.parse(d);
+				  if(ob.success == 1){
 					  ccount=post.find('.c_count');
 					  ccount.html(Number(ccount.html())+1);
-					  post.find(".comments-list").prepend(make_comment_html(r));
+					  post.find(".comments-list").prepend(make_comment_html(ob));
 					  emotify('comment');
+				  }else{
+					  error_message=ob.error === undefined ?"There went an internal Error :(":ob.error;
+		        		show_msg("Unable to create Comment",error_message,{
+		        			label:'Ok',
+		        			className:'btn-danger btn'
+		        		});
 				  }
 			  });
   }
@@ -427,8 +433,14 @@ $(document).on('click','#editPostSubmit',function(){
 		$.post(req_page,{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
-				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(comment_data);
+				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(ob.comment);
 				emotify('comment');
+			}else{
+				error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
+				show_msg("Unable to edit Comment",error_message,{
+        			label:'Ok',
+        			className:'btn-danger btn'
+        		});
 			}
 			$('#editPost').modal('hide');
 		});

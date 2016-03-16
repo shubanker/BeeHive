@@ -95,14 +95,25 @@ if (isset($_POST['req_type'])){
 		case "add_comment":
 			$post_id=(int)$_POST['post_id'];
 			$comment=trim($_POST['comment']);
-			$responce['comment_id']=Post::add_comment($user_id, $post_id, $comment, $db);
-			$responce['time']=Feeds::get_age("now");
-			$responce['user_id']=$user_id;
-			$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
-			$responce['last_name']="";
-			$responce['comment']=htmlentities($_POST['comment']);
-			$responce['can_edit']=1;
-			$responce['like_count']=0;
+			if (!empty($comment)){
+				if ($comment_id=Post::add_comment($user_id, $post_id, $comment, $db)){
+					$responce['comment_id']=$comment_id;
+					$responce['time']=Feeds::get_age("now");
+					$responce['user_id']=$user_id;
+					$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
+					$responce['last_name']="";
+					$responce['comment']=htmlentities($_POST['comment']);
+					$responce['can_edit']=1;
+					$responce['like_count']=0;
+					$responce['success']=1;
+					$responce=make_html_entity($responce, array('comment','first_name','last_name'));
+				}else {
+					$responce['error']="There Went an Internal Error.";
+				}
+				
+			}else {
+				$responce['error']="Comment Can't be Empty";
+			}
 			break;
 		case "new_post":
 			$post_msg=empty($_POST['post_msg'])?null:$_POST['post_msg'];
@@ -166,6 +177,8 @@ if (isset($_POST['req_type'])){
 				}else {
 					$responce['success']=0;
 					$responce['error']='Something Went Wrong.';
+					$responce['comment']=$new_comment;
+					make_html_entity($responce, array('comment'));
 				}
 			}else{
 				$responce['success']=0;
