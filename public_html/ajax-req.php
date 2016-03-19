@@ -26,6 +26,10 @@ if (isset($_POST['login'])){
 if (!$auth->is_login()){
 	$responce['error']="access";
 	closendie(json_encode($responce));
+	
+}elseif (!isset($_POST['access_key']) || $_POST['access_key']!=$access_key){
+	$responce['error']="Invalid AccessKey.";
+	closendie(json_encode($responce));
 }
 
 $user_id=$auth->get_userid();

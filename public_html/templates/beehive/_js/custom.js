@@ -105,7 +105,7 @@ $("#statusbox").on('focus',function(){
 /* ============= Online users ================= */
 load_online_list_timer=0;
 function load_online_list(){
-	$.post("ajax-req.php",{req_type:"online_list"}).done(function(d){
+	$.post("ajax-req.php",{req_type:"online_list",access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		$op="";
 		if(ob.go_to_friends_page==1){//If user has No friends..
@@ -168,7 +168,7 @@ function sync_chat(lastsync,fillbefore){
 	if(friendid==null || friendid==''){
 		return false;
 	}
-	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1)}).done(function(d){
+	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1),access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;
@@ -241,7 +241,7 @@ function send_msg(msg,friendid,from_messsage){
 	emotify(type);
 	$(msg_box).val('');
 	
-	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid}).done(function(d){
+	$.post("ajax-req.php",{req_type:"send_msg",'msg':msg,'friendid':friendid,access_key:access_key}).done(function(d){
 		$(remove_base+'>input[value="'+random_id+'"]').parents(remove_up).remove();//removing temporary message.
 		
 		ob=JSON.parse(d);
@@ -296,7 +296,7 @@ function make_chat_msg_html(ob,friendid){
 notification_count_timer=0;
 function get_notification_count(refresh_notification){
 	if(refresh_notification === undefined){refresh_notification=true}
-	$.post('ajax-req.php',{req_type:'notification_count'}).done(function(d){
+	$.post('ajax-req.php',{req_type:'notification_count',access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		$('.notification_count').remove();
 		$('#notifications').append(get_notification_count_html(ob.notification_count));
@@ -396,7 +396,7 @@ $(document).on('click','#friend_action,#block_user',function(e){
 		},
 		callback:function(result){
 			if(result){
-				$.post('ajax-req.php',{req_type:req_type,friend_id:fid}).done(function(d){
+				$.post('ajax-req.php',{req_type:req_type,friend_id:fid,access_key:access_key}).done(function(d){
 					ob=JSON.parse(d);
 					if(ob.success==1){
 						if(req_type=='block_user'){
@@ -416,7 +416,7 @@ $(document).on('click','#block_userr',function(e){
 	if(confirm("Block this user ?")){
 		$this=$(this);
 		fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
-		$.post('ajax-req.php',{req_type:"block_user",friend_id:fid}).done(function(d){
+		$.post('ajax-req.php',{req_type:"block_user",friend_id:fid,access_key:access_key}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				window.location='index.php';

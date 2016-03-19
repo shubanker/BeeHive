@@ -27,7 +27,7 @@ function make_notifications_html(ob){
 /* ========== Load Notifications ======*/
 function load_notifications(lastsync,add_at){
 	if(add_at === undefined){add_at=null}
-	$.post('ajax-req.php',{req_type:'get_notifications',lastsync:lastsync}).done(function(d){
+	$.post('ajax-req.php',{req_type:'get_notifications',lastsync:lastsync,access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		op="";
 		for (var i = 0; i <ob.length ; i++) {

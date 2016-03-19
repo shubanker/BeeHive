@@ -47,3 +47,5 @@ $user_search_list=array(
 		"name"
 );
 $user_data_search_list=call_user_func_array('array_merge', $About_data_list);//Can limtit keywords if u wish
+
+$access_key=isset($_SESSION['access_key'])?$_SESSION['access_key']:"";//setting accesskey varible.

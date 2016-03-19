@@ -51,7 +51,7 @@ function make_image_html(ob){
 }
 /* ========== Load Images ======*/
 function load_image_list(friend_id,limit){
-	$.post('ajax-req.php',{req_type:'get_Images',friend_id:friend_id,limit:limit,images_sync:images_sync}).done(function(d){
+	$.post('ajax-req.php',{req_type:'get_Images',friend_id:friend_id,limit:limit,images_sync:images_sync,access_key:access_key}).done(function(d){
 // 		alert(d);
 		ob=JSON.parse(d);
 		for (var i = 0; i < ob.length; i++) {

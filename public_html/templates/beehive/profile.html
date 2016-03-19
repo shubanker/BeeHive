@@ -53,6 +53,7 @@ echo HtmlOp::get_include_css();?>
                         <form action="" method="post" enctype="multipart/form-data" id="post_form">
                             <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area" id="statusbox" name="post_msg"></textarea>
                         	<input type="hidden" name="req_type" value="new_post" />
+                        	<input type="hidden" name="access_key" value="<?=$access_key ?>" />
                         <div class="panel-footer hidden" id="statusboxfooter">
                         	
                             <div class="pull-right" id="make_post_right">

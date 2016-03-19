@@ -18,7 +18,6 @@ To,
   
  
  */
-require_once '../_includes/config.php';
 require_once '../_includes/basic.php';
 require_once '../_includes/db.php';
 require_once '../_includes/security.php';
@@ -31,4 +30,5 @@ require_once '../_includes/message.php';
 require_once '../_includes/post.php';
 require_once '../_includes/notifications.php';
 require_once '../_includes/upload.php';
+require_once '../_includes/config.php';
 // require_once '../_includes/basic.php';

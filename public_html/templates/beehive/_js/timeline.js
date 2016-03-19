@@ -24,7 +24,7 @@ req_page='ajax-req.php';
 	  }
 	  post.find(".add-comment-input").val("");
 	  $.post(req_page,
-			  {"req_type":"add_comment","post_id":post_id,"comment":comment}).done(function(d){
+			  {req_type:"add_comment","post_id":post_id,"comment":comment,access_key:access_key}).done(function(d){
 				  ob=JSON.parse(d);
 				  if(ob.success == 1){
 					  ccount=post.find('.c_count');
@@ -63,7 +63,7 @@ req_page='ajax-req.php';
 	return $op;
   } 
   function load_comments(postid,comments_list){
-	  $.post(req_page,{"req_type":"get_comments","post_id":postid}).done(function(data){
+	  $.post(req_page,{req_type:"get_comments","post_id":postid,access_key:access_key}).done(function(data){
 			var ob=JSON.parse(data);
 			comments_list.empty();
 			for(i=0;i<ob.length;i++){
@@ -90,7 +90,7 @@ req_page='ajax-req.php';
 		  postid=$this.parents('.panel-shadow').find(".postid").val();
 		  
 		  $.post(req_page,
-				  {"req_type":"toggle_like","post_id":postid,'type':liked?0:1}).done(function(e){
+				  {req_type:"toggle_like","post_id":postid,'type':liked?0:1,access_key:access_key}).done(function(e){
 			  r=JSON.parse(e);
 			  if(r.success!=1){
 				  toggle_like($this);
@@ -101,7 +101,7 @@ req_page='ajax-req.php';
 	  }else{
 		  comment=$this.parents('.comment-body');
 		  commentid=comment.find(".comment_id").val();
-		  $.post(req_page,{req_type:'toggle_comment_like',comment_id:commentid,type:liked?0:1}).done(function(d){
+		  $.post(req_page,{req_type:'toggle_comment_like',comment_id:commentid,type:liked?0:1,access_key:access_key}).done(function(d){
 			  r=JSON.parse(e);
 			  if(r.success!=1){
 				  toggle_like($this);
@@ -261,7 +261,7 @@ function sync_post(last_sync,toend){
 	if(last_sync==null){
 		last_sync=$('.postid').val()==null?0:$('.postid').val();
 	}
-	  $.post(req_page,{"req_type":"syncpost","last_sync":last_sync,from_end:toend_data,friend_id:friend_id}).done(function(d){
+	  $.post(req_page,{req_type:"syncpost","last_sync":last_sync,from_end:toend_data,friend_id:friend_id,access_key:access_key}).done(function(d){
 //		  alert(d);
 		  ob=JSON.parse(d);
 		  
@@ -290,7 +290,7 @@ function sync_post(last_sync,toend){
 }
 /* Loading Specific Post */
 function load_post(postid){
-	$.post(req_page,{req_type:"get_post",post_id:postid}).done(function(d){
+	$.post(req_page,{req_type:"get_post",post_id:postid,access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.success==1){
 			$op=make_post_html(ob[0]);
@@ -316,7 +316,7 @@ function load_searched_posts(search_key,type){
 			req="inpost";
 			break;
 	}
-	$.post(req_page,{req_type:req_type,req:req,search_key:search_key}).done(function(d){
+	$.post(req_page,{req_type:req_type,req:req,search_key:search_key,access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		$op="";
 		  for(i=0;i<ob.length;i++){
@@ -413,7 +413,7 @@ $(document).on('click','#editPostSubmit',function(){
 	if(editType==1){
 		post_id=$('#editPostId').val();
 		post_data=$('#editPostTextarea').val();
-		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data}).done(function(d){
+		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data,access_key:access_key}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
@@ -424,7 +424,7 @@ $(document).on('click','#editPostSubmit',function(){
 	}else{
 		comment_id=$('#editPostId').val();
 		comment_data=$('#editPostTextarea').val();
-		$.post(req_page,{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data}).done(function(d){
+		$.post(req_page,{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data,access_key:access_key}).done(function(d){
 			ob=JSON.parse(d);
 			if(ob.success==1){
 				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(ob.comment);
@@ -458,7 +458,7 @@ $(document).on('click','.del_post',function(e){
 			if(result){
 				$this.addClass('disabled');
 				post_id=$this.parents('.panel-shadow').find(".postid").val();
-				$.post(req_page,{req_type:'del_post','post_id':post_id}).done(function(d){
+				$.post(req_page,{req_type:'del_post','post_id':post_id,access_key:access_key}).done(function(d){
 					ob=JSON.parse(d);
 					
 					if(ob.success==1){
@@ -495,7 +495,7 @@ $(document).on('click','.comment_del',function(e){
 		},
 		callback:function(result){
 			if(result){
-				$.post(req_page,{req_type:'del_comment',comment_id:commentid}).done(function(d){
+				$.post(req_page,{req_type:'del_comment',comment_id:commentid,access_key:access_key}).done(function(d){
 					 ob=JSON.parse(d);
 					 if(ob.success==1){
 						 ccount = comment.parents('.panel-shadow').find('.c_count');
@@ -521,7 +521,7 @@ $(document).on('scroll',function(){
 });
 /* ========== Load Friends_list ======*/
 function load_friend_list(friend_id,limit){
-	$.post(req_page,{req_type:'get_friend_list',friend_id:friend_id,limit:limit}).done(function(d){
+	$.post(req_page,{req_type:'get_friend_list',friend_id:friend_id,limit:limit,access_key:access_key}).done(function(d){
 //		alert(d);
 		ob=JSON.parse(d);
 		for (var i = 0; i < ob.length; i++) {
@@ -540,7 +540,7 @@ function make_friend_html(ob){
 
 /* ========== Load Images ======*/
 function load_image_list(friend_id,limit){
-	$.post(req_page,{req_type:'get_Images',friend_id:friend_id,limit:limit}).done(function(d){
+	$.post(req_page,{req_type:'get_Images',friend_id:friend_id,limit:limit,access_key:access_key}).done(function(d){
 //		alert(d);
 		ob=JSON.parse(d);
 		for (var i = 0; i < ob.length; i++) {
@@ -558,7 +558,7 @@ function make_image_html(ob){
 $(document).on('click','.make_dp',function(e){
 	e.preventDefault();
 	img_id=$(this).attr('igm-id');
-	$.post(req_page,{req_type:'change_dp',img_id:img_id}).done(function(d){
+	$.post(req_page,{req_type:'change_dp',img_id:img_id,access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.success==1){
 			$('.img-user').attr('src',$('.img-user').attr('src')+"&rand="+Math.random());

@@ -3,7 +3,7 @@ $(document).ready(function() {
 	start_sync=true;
 });
 function refresh_recent_messages_list(){
-	$.post('ajax-req.php',{req_type:"messages_list"}).done(function(d){
+	$.post('ajax-req.php',{req_type:"messages_list",access_key:access_key}).done(function(d){
 //		alert(d);
 		ob=JSON.parse(d);
 		op="";
@@ -78,7 +78,7 @@ function sync_messages(lastsync,fillbefore){
 	if(friendid==null || friendid==''){
 		return false;
 	}
-	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1)}).done(function(d){
+	$.post("ajax-req.php",{req_type:"get_msg",'lastsync':lastsync,'friendid':friendid,'fillbefore':(fillbefore?0:1),access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
 		if(ob.length>0){
 			lastsync=ob[ob.length-1].message_id;

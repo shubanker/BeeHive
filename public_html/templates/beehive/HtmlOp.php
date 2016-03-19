@@ -223,6 +223,7 @@ EOS;
 		$op.=<<<EOS
 		<script>
 			var user_id={$GLOBALS['user_id']};
+			var access_key='{$GLOBALS['access_key']}';
 		</script>
 EOS;
 		return $op;

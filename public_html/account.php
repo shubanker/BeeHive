@@ -26,7 +26,7 @@ if ($auth->is_login()){
 		}
 	}
 	if (isset($_GET['clear_otherlogins'])){
-		if (!isset($_GET['access_key']) || $_GET['access_key']!=$_SESSION['access_key']){
+		if (!isset($_GET['access_key']) || $_GET['access_key']!=$access_key){
 			$msg="Invalid AccessKey";
 			$msg_type="danger";
 		}else {

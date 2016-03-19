@@ -61,7 +61,7 @@ class Auth{
 		}
 		$this->is_login=TRUE;
 		$_SESSION['user_name']=$user->get_name();
-		$_SESSION['access_key']=Keys::get_random_string(8,20);
+		$GLOBALS['access_key'] = $_SESSION['access_key']=Keys::get_random_string(8,20);
 		return $this->user_id=$_SESSION ['user_id'] =$user->get_user_id();
 	}
 	function get_userid(){
