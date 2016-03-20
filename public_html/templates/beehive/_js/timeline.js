@@ -33,8 +33,10 @@ req_page='ajax-req.php';
 					  emotify('comment');
 				  }else{
 					  error_message=ob.error === undefined ?"There went an internal Error :(":ob.error;
-		        		show_msg("Unable to create Comment",error_message,'error');
+		        		show_msg("Unable to add Comment",error_message,'error');
 				  }
+			  }).fail(function(d){
+				  show_msg("Unable to add Comment",error_connect_msg,'error');
 			  });
   }
   function make_comment_html(ob){
@@ -365,6 +367,7 @@ $(document).on('click','#make_post',function(e){
         error: function(){
         	$('#make_post_right').removeClass('hidden');
         	$('.progress_bar').addClass('hidden');
+        	show_msg("Unable to Make Post",error_connect_msg,'error');
         },
         // Form data
         data: formData,

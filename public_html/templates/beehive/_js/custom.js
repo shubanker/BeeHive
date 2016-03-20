@@ -1,3 +1,4 @@
+var error_connect_msg="There Was a Problem in connectiong with Server :( ,<br>Please Check Your Internet Connection and try again.";
 $(document).ready(function() {
   $('.alert-info').hide();
   $('.tip').tooltip();
