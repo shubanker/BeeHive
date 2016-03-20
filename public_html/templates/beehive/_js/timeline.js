@@ -134,7 +134,8 @@ $(document).on('click','.like_comment',function(d){
 function manage_postdata_tags(postdata){
 	return postdata.replace(/\n/g, "<br>").
 	replace(/(#)([\w]{1,10})/ig, '<a href="index.php?hashtag=$2">$&</a>').//Hash tag
-	replace(/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[A-Z0-9+&@#\/%=~_|]/ig, '<a href="$&" target="_blank">$&</a>');//Link
+	replace(/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[A-Z0-9+&@#\/%=~_|]/ig, '<a href="$&" target="_blank">$&</a>').
+	replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\b/ig, '<a href="mailto:$&">$&</a>');//Link
 }
   function make_post_html(ob){
 	  MAX_LENGTH=250;
