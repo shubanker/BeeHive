@@ -14,10 +14,13 @@ function make_notifications_html(ob){
 	}
 	
 	$op+="        <div class='pull-left meta'>"+
-	"        <div class='title h5'> "+ob.message+" <a href='index.php?post="+ob.post_id+"'>"+post_type+"</a>"+
-	"        <h6 class='text-muted time notification-time' title='"+ob.full_time+"'><i class='fa fa-clock-o'></i> "+ob.time+"</h6>"+
+	"        <div class='title h5'> "+ob.message+" ";
+	if(ob.post_id != null){
+		$op+="        <a href='index.php?post="+ob.post_id+"'>"+post_type+"</a>";
+	}
+	$op+="        <h6 class='text-muted time notification-time' title='"+ob.full_time+"'><i class='fa fa-clock-o'></i> "+ob.time+"</h6>"+
 	"        </div>"+
-	'        <h6>"'+ob.post_data+'..."<h6>'+
+	(ob.post_data == null?"":'        <h6>"'+ob.post_data+'..."<h6>')+
 	"        </div>"+
 	"        <input type='hidden' value='"+ob.notification_id+"'>"+
 	"    </div>"+
