@@ -110,8 +110,32 @@ function load_online_list(){
 		ob=JSON.parse(d);
 		$op="";
 		if(ob.go_to_friends_page==1){//If user has No friends..
-			if($(".post-box-top").length!=0 && (typeof user_id=== 'undefined' || user_id==friend_id)){//If user is  on home or timeline page.
-				window.location='friends.php';
+			/*
+			 * $(".post-box-top").length!=0 => to make shure this dosen't exist
+			 */
+			
+			if($(".post-box-top").length!=0 && (typeof user_id == undefined || user_id==friend_id || friend_id == null)){//If user is  on home or timeline page.
+				bootbox.confirm({
+					title:"Find Friends ...",
+					message:"You Seems to have no friends,<br>" +
+							"your newsfeed will be empty unless you connect with your friends<br>" +
+							"Find your friends Now ?",
+					buttons:{
+						'confirm':{
+						      label:'Find Friends',
+						      className:'btn-primary btn'
+						},
+						'cancel':{
+						      label:'Not now',
+						      className:'btn-default btn'
+						    }
+					},
+					callback:function(result){
+						if(result){
+							window.location='friends.php';
+						}
+					}
+				});
 			}
 		}else{
 			for (var i = 0; i < ob.length; i++) {
@@ -120,11 +144,11 @@ function load_online_list(){
 			if(ob.length>0){
 				$(".chat_list").html($op);
 			}
-			
+			load_online_list_timer=setTimeout('load_online_list()',15000);
 		}
 		
 	});
-	load_online_list_timer=setTimeout('load_online_list()',15000);
+	
 }
 function make_chatlist_html(ob){
 	$op="<a href='#' class='list-group-item'><i class='fa ";
