@@ -103,6 +103,7 @@ if (isset($_POST['req_type'])){
 				if ($comment_id=Post::add_comment($user_id, $post_id, $comment, $db)){
 					$responce['comment_id']=$comment_id;
 					$responce['time']=Feeds::get_age("now");
+					$responce['full_time']=Feeds::get_age("now",true);
 					$responce['user_id']=$user_id;
 					$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
 					$responce['last_name']="";
@@ -144,6 +145,7 @@ if (isset($_POST['req_type'])){
 				$responce['first_name']=isset($_SESSION['user_name'])?htmlentities($_SESSION['user_name']):"You";
 				$responce['last_name']="";
 				$responce['time']=Feeds::get_age("now");
+				$responce['full_time']=Feeds::get_age("now",true);
 				$responce['picture_id']=$image_id;
 				$responce['comment_count']=$responce['like_count']=$responce['has_liked']=0;
 				$responce['post_id']=$post_id;
@@ -236,6 +238,7 @@ if (isset($_POST['req_type'])){
 					$responce['user_two']=$friend_id;
 					$responce['message']=$_POST['msg'];
 					$responce['time']=Feeds::get_age("now");
+					$responce['full_time']=Feeds::get_age("now",true);
 					$responce['status']=1;
 					$responce['success']=1;
 				}else {
@@ -407,6 +410,7 @@ if (isset($_POST['req_type'])){
 function make_time_redable($array,$field="time"){
 	for ($i=0;$i<count($array);$i++){
 		$array[$i][$field]=Feeds::get_age($array[$i][$field]);
+		$array[$i]['full_time']=Feeds::get_age($array[$i][$field],true);
 	}
 	return $array;
 }

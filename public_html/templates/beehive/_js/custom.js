@@ -279,7 +279,7 @@ function make_chat_msg_html(ob,friendid){
 	op+="<div class='col-md-10 col-xs-10'>" +
 			"<div class='messages "+(isreceived?"msg_receive":"msg_sent")+"'>";
 	op+="<p>"+ob.message+"</p>" +
-			"<time>";
+			"<time title='"+ob.full_time+"'>";
 	if(!isreceived){
 		op+="<i class='fa  "+(ob.status > 1 ? "fa-check" : (ob.status == -1 ? "fa-clock-o" : "fa-send"))+"'></i> ";
 	}

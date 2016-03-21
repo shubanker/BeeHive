@@ -49,7 +49,7 @@ req_page='ajax-req.php';
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
 				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+(ob.first_name==null?"":ob.first_name)+' '+(ob.last_name==null?"":ob.last_name)+'</a></h4>';
-				$op+='<h6 class="text-muted time"><i class="fa fa-clock-o"></i> '+ob.time+'</h6>';
+				$op+='<h6 class="text-muted time" title="'+ob.full_time+'"><i class="fa fa-clock-o"></i> '+ob.time+'</h6>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
 			$op+="<input type='hidden' value='"+ob.comment_id+"' class='comment_id'/>";
@@ -201,7 +201,7 @@ function manage_postdata_tags(postdata){
 			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name)+"</a> "+
 		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+access_icon+"</div>";
 		
-		$op+="<h6 class='text-muted time'> <i class='fa fa-clock-o'></i> "+ob.time+"</h6>";
+		$op+="<h6 class='text-muted time' title='"+ob.full_time+"'> <i class='fa fa-clock-o'></i> "+ob.time+"</h6>";
 		$op+="</div>";
 		if(ob.can_edit==1){
 			$op+="<div class='pull-right'>";

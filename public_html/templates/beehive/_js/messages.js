@@ -39,7 +39,7 @@ function make_recent_messages_html(ob){
 	"<div class='friend-name'><strong fullname='"+name+"'> "+shortname+"</strong>"+
 	"<input type='hidden' value='"+ob.user_id+"'/>"+
 	"</div>"+
-	"<div class='last-message text-muted'> "+ob.message+"</div><small class='time text-muted'> "+ob.time+" </small><small class='chat-alert text-muted'><i class='fa  "+(ob.user_id==ob.user_one?" fa-mail-forward":(ob.status>1?"fa-check":"fa-send"))+"'></i></small>"+
+	"<div class='last-message text-muted'> "+ob.message+"</div><small class='time text-muted' title='"+ob.full_time+"'> "+ob.time+" </small><small class='chat-alert text-muted'><i class='fa  "+(ob.user_id==ob.user_one?" fa-mail-forward":(ob.status>1?"fa-check":"fa-send"))+"'></i></small>"+
 	"</a>"+
 	"</li>";
 	return $op;
@@ -122,7 +122,7 @@ function make_msg_html(ob,friendid){
 	
 	$op="<li class='"+direction+" clearfix'><span class='chat-img pull-"+direction+"'><img src='image.php?user="+ob.user_one+"&s=s' alt='"+name+"'> </span>"+
 	"<div class='chat-body clearfix'>"+
-	"<div class='header'><a class='primary-font' href='profile.php?id="+ob.user_one+"'>"+name+"</a> <small class='pull-right text-muted'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
+	"<div class='header'><a class='primary-font' href='profile.php?id="+ob.user_one+"'>"+name+"</a> <small class='pull-right text-muted' title='"+ob.full_time+"'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
 	"</div>"+
 	"<p>"+ob.message+"</p>";
 	if(!isreceived){

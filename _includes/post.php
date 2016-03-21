@@ -351,8 +351,11 @@ class Feeds{
 		);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
-	static function get_age($time){
+	static function get_age($time,$full_date=FALSE){
 		
+		if ($full_date){
+			return date('M d, Y \a\t h:i a', strtotime($time));
+		}
 		$diff=strtotime("now")-strtotime($time);
 		
 		$hour=round($diff/3600);
