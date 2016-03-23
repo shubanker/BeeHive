@@ -133,6 +133,8 @@ function load_online_list(){
 					callback:function(result){
 						if(result){
 							window.location='friends.php';
+						}else{
+							$('.chat-sidebar').toggleClass('focus');
 						}
 					}
 				});
