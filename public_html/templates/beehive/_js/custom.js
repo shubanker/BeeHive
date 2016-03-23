@@ -212,6 +212,7 @@ function sync_chat(lastsync,fillbefore){
 			}
 			emotify('chat');
 		}
+	}).always(function(){
 		chat_timer=setTimeout("sync_chat()",2000);
 	});
 }
@@ -334,8 +335,10 @@ function get_notification_count(refresh_notification){
 				
 			}
 		}
+	}).always(function(){
+		notification_count_timer=setTimeout("get_notification_count()",6000);
 	});
-	notification_count_timer=setTimeout("get_notification_count()",6000);
+	
 }
 function get_notification_count_html(c){
 	if(c > 0){
