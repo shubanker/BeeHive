@@ -305,8 +305,10 @@
 						self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
 						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
 					}
-					if(document.querySelector('.fs-current > input')!=null){
-						document.querySelector('.fs-current > input').focus();
+					// Making focus only for direct input child thus will skip radio buttons.
+					var temp=document.querySelector('.fs-current > input,.fs-current > textarea');
+					if(temp!=null){
+						temp.focus();
 					}
 					
 				}
