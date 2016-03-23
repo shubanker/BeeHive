@@ -118,7 +118,7 @@ function load_online_list(){
 				bootbox.confirm({
 					title:"Find Friends ...",
 					message:"You Seems to have no friends,<br>" +
-							"your newsfeed will be empty unless you connect with your friends<br>" +
+							"Its better to bee with friends ..<br>" +
 							"Find your friends Now ?",
 					buttons:{
 						'confirm':{
