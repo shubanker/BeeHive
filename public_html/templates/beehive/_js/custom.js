@@ -348,7 +348,7 @@ $(document).on('click','#friend_action,#block_user',function(e){
 	$this=$(this);
 	req_type=$this.attr('id');//Checking if its to block user or other actions
 	
-	current_action = req_type == "block_user" ? "Block User" : $this.find('span').html();
+	current_action = req_type == "block_user" ? "Block User" : $this.find('span').html().trim();
 	
 	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
 	fname=$this.parents('.card-body-social')[0]?$this.parents('.media-body').find('.friend_list_link').html():$('.user_full_name').html();
