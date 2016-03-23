@@ -305,6 +305,10 @@
 						self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
 						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
 					}
+					if(document.querySelector('.fs-current > input')!=null){
+						document.querySelector('.fs-current > input').focus();
+					}
+					
 				}
 				self.isAnimating = false;
 			};
@@ -325,7 +329,6 @@
 		else {
 			onEndAnimationFn();
 		}
-		document.querySelector('.fs-current > input').focus();
 	}
 
 	/**
