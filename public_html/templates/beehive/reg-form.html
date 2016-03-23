@@ -23,7 +23,7 @@
 				<form id="myform" class="fs-form fs-form-full" autocomplete="off" action="" method="post">
 					<div class="alert alert-danger" <?=isset($errors) && !empty($errors)?'':'style="display: none;"'; ?>>
 						<button type="button" class="close" data-dismiss="alert"> &times;</button>
-						<?=implode("<br/>", $errors); ?>
+						<?=isset($errors)&&!empty($errors)?implode("<br/>", $errors):""; ?>
 						
 					</div>
 					
