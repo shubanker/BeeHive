@@ -130,7 +130,7 @@ EOT;
 		if ($enable_head){
 			$op.=<<<EOT
                         <div class="user-heading round">
-                            <a href="#"><img src="image.php?user=$user_id&s=m" alt=""> </a>
+                            <a href="#"><img src="image.php?user=$user_id&s=m" alt="" class="show-in-modal"> </a>
                             <h1 class="user_full_name">$name</h1>
                             <p>$email</p>
 EOT;

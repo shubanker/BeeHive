@@ -3,7 +3,7 @@ echo HtmlOp::get_include_css();?>
 <body class="animated fadeIn">
     <?=HtmlOp::get_nav($user_id); ?>
     <div class="row text-center cover-container">
-        <a href="#"><img src="image.php?user=<?=$friend_id; ?>&s=m"> </a>
+        <a href="#"><img src="image.php?user=<?=$friend_id; ?>&s=m" class="show-in-modal"> </a>
         <h1 class="profile-name user_full_name"><?=$user_name; ?></h1>
         <p class="user-text"><?=$friend->get_email(); ?></p>
         <?php if (!$is_self){?>
