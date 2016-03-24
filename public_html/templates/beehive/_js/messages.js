@@ -134,6 +134,10 @@ function make_msg_html(ob,friendid){
 	"</li>";
 	return $op;
 }
+
+/*
+ * When left pannel is clicked..
+ */
 $(document).on('click','.userleft',function(e){
 	e.preventDefault();
 	can_load_upper_msg=true;
@@ -142,6 +146,9 @@ $(document).on('click','.userleft',function(e){
 	
 	clearTimeout(msg_timer);
 	msg_timer=0;
+	
+	//Scrolling to textarea.
+	scroll_to('#message_textarea');
 	
 	load_msg();
 });

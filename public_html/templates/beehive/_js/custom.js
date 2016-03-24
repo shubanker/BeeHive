@@ -531,3 +531,8 @@ function show_msg(title,message,type,callback){
 	}
 	bootbox.alert(options);
 }
+function scroll_to(selector){
+	$('html,body').animate({
+		scrollTop:$(selector).offset().top
+	},'slow');
+}
