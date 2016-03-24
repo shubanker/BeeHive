@@ -147,8 +147,8 @@ $(document).on('click','.userleft',function(e){
 	clearTimeout(msg_timer);
 	msg_timer=0;
 	
-	//Scrolling to textarea.
-	scroll_to('#message_textarea');
+	//making textarea to focus.
+	$('#message_textarea').focus();
 	
 	load_msg();
 });
