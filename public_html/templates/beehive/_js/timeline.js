@@ -40,15 +40,16 @@ req_page='ajax-req.php';
 			  });
   }
   function make_comment_html(ob){
+	  full_name=(ob.first_name==null?"":ob.first_name)+' '+(ob.last_name==null?"":ob.last_name);
 	  $op='<li class="comment">';
 	  if(ob.can_edit==1){
 		  $op+="<button type='button' class='close comment_del' title='Delete Comment' >&times;</button>";
 	  }
 		$op+='<a class="pull-left" href="profile.php?id='+ob.user_id+'">';
-			$op+='<img class="avatar" src="image.php?user='+ob.user_id+'&s=s" alt="avatar"> </a>';
+			$op+='<img class="avatar img-circle" src="image.php?user='+ob.user_id+'&s=s" alt="'+full_name+'"> </a>';
 		$op+='<div class="comment-body">';
 			$op+='<div class="comment-heading">';
-				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+(ob.first_name==null?"":ob.first_name)+' '+(ob.last_name==null?"":ob.last_name)+'</a></h4>';
+				$op+='<h4 class="comment-user-name"><a href="profile.php?id='+ob.user_id+'">'+full_name+'</a></h4>';
 				$op+='<h6 class="text-muted time" title="'+ob.full_time+'"><i class="fa fa-clock-o"></i> '+ob.time+'</h6>';
 			$op+='</div>';
 			$op+='<p>'+ob.comment+'</p>';
@@ -191,14 +192,15 @@ function manage_postdata_tags(postdata){
 		  title="Public";
 		  access_icon="fa-globe";
 	  }
+	  full_name = (ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name);
 	  access_icon=' <i title="'+title+'" class="post-access fa '+access_icon+'"></i> ';
 	  
 	  $op="<div class='panel panel-white post panel-shadow'>\n" +
 			"<div class='post-heading'>\n    <div class='pull-left image'>";
-		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar' alt='user profile image'>";
+		$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='avatar img-thumbnail' alt='"+full_name+"'>";
 		$op+="</div>"+
 			"    <div class='pull-left meta'>"+
-			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name)+"</a> "+
+			"        <div class='title h5'><a href='profile.php?id="+ob.user_id+"' class='post-user-name'>"+full_name+"</a> "+
 		  (ob.picture_id==null?"made a post.":"uploaded a photo.")+access_icon+"</div>";
 		
 		$op+="<h6 class='text-muted time' title='"+ob.full_time+"'> <i class='fa fa-clock-o'></i> "+ob.time+"</h6>";

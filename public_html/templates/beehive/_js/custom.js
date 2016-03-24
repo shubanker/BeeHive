@@ -153,12 +153,13 @@ function load_online_list(){
 	
 }
 function make_chatlist_html(ob){
+	full_name=(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name)
 	$op="<a href='#' class='list-group-item'><i class='fa ";
 		$op+=ob.data>200?"fa-circle absent-status":"fa-circle connected-status";
 	$op+="'></i>";
 	$op+="<input type='hidden' value='"+ob.user_id+"'/>";
-	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail'> <span class='chat-user-name'>";
-	$op+=(ob.first_name==null?"":ob.first_name)+" "+(ob.last_name==null?"":ob.last_name);
+	$op+="<img src='image.php?user="+ob.user_id+"&s=s' class='img-chat img-thumbnail' alt='"+full_name+"'> <span class='chat-user-name'>";
+	$op+=full_name;
 	$op+="</span> </a>";
 	return $op;
 }
