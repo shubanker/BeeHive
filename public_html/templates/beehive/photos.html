@@ -45,7 +45,7 @@ $(document).ready(function() {
 });
 function make_image_html(ob){
 	$op="<div class='col-md-4 col-sm-6 col-xs-6 photo-content'>"+
-		"<img src='image.php?id="+ob.picture_id+"&s=ms' alt='photo' class='img-responsive  show-in-modal'>"+
+		"<img src='image.php?id="+ob.picture_id+"&s=ms' alt='photo' class='img-responsive img-rounded show-in-modal'>"+
 		"<input type='hidden' class='image_id' value='"+ob.picture_id+"'/></div>";
 	return $op;
 }

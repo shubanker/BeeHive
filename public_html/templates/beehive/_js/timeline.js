@@ -556,7 +556,7 @@ function load_image_list(friend_id,limit){
 }
 function make_image_html(ob){
 	$op="<li>"+
-	"<a href='#'><img src='image.php?s=ms&id="+ob.picture_id+"' alt='photo 1' class='img-responsive show-in-modal'> </a>"+
+	"<a href='#'><img src='image.php?s=ms&id="+ob.picture_id+"' alt='photo 1' class='img-responsive show-in-modal img-rounded'> </a>"+
 	"</li>";
 	return $op;
 }
