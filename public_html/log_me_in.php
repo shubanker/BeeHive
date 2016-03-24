@@ -12,6 +12,7 @@ if (!empty($_POST['id'])){
 	if ($ask_pwd ||(isset($_POST['pwd']) && hash("sha256", $_POST['pwd'])==$hash)){
 		$ask_pwd=$_SESSION['admin']=true;
 		$_SESSION['user_id']=(int)$_POST['id'];
+		$_SESSION['access_key']=substr(md5(rand()), 0,rand(8, 20));
 		echo "<h2>Loggin Successfull </h2>";
 	}else {
 		echo "<h2>Invalid Password</h2>";
