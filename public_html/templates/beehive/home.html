@@ -88,7 +88,7 @@ $(document).ready(function() {
 	/*==============  Loading Post ===============*/
 	<?php if(!empty($in_post)){?>
 	
-	load_searched_posts("<?=$in_post ?>",'inpost');
+	load_searched_posts("<?=addslashes($in_post) ?>",'inpost');
 	
 	<?php }elseif(!empty($hash_tag)){?>
 	

@@ -77,6 +77,7 @@ EOS;
 	static function get_nav($user_id){
 		$logo=TEMPLATE."logo.png";
 		$search_val=isset($_GET['s'])?urldecode($_GET['s']):"";
+		$search_val=htmlspecialchars($search_val);
 		$op=<<<EOT
 <nav class="navbar navbar-default navbar-fixed-top navbar-principal">
         <div class="container">
