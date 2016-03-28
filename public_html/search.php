@@ -12,6 +12,9 @@ if ($auth->is_login()){
 	$user_id=$auth->get_userid();
 	$user=new User($user_id,$db);
 	$search=trim(urldecode($_GET['s']));
+	if (preg_match('/^inpost:.*/i', $search)) {
+		redirect_to("index.php?s=".$_GET['s']);//redirecting to index page if this is a in_post search.
+	}
 	$search_result=User::search($search, $db);
 	if (empty($search_result)){
 		$search_result=array();
