@@ -372,10 +372,15 @@ if (isset($_POST['req_type'])){
 			$post_id=(int)$_POST['post_id'];
 			if (!empty($post_id)){
 				$result=Feeds::get_feeds($user_id, $db,array("specific_post_id"=>$post_id));
-				$responce[0]=isset($result[0])?$result[0]:array();
-				$responce[0]['can_edit']=$responce[0]['user_id']==$user_id?1:0; 
-				$responce=make_time_redable($responce);
 				$responce['success']=1;
+				if (!empty($result)){
+					$responce[0]=isset($result[0])?$result[0]:array();
+					$responce[0]['can_edit']=$responce[0]['user_id']==$user_id?1:0; 
+					$responce=make_time_redable($responce);
+				}else{
+					$responce['success']=0;
+					$responce['error']="Invalid Post.";
+				}
 			}else {
 				$responce['error']="Invalid Request";
 			}
@@ -409,8 +414,10 @@ if (isset($_POST['req_type'])){
 }
 function make_time_redable($array,$field="time"){
 	for ($i=0;$i<count($array);$i++){
-		$array[$i][$field]=Feeds::get_age($array[$i][$field]);
-		$array[$i]['full_time']=Feeds::get_age($array[$i][$field],true);
+		if (isset($array[$i][$field])){
+			$array[$i][$field]=Feeds::get_age($array[$i][$field]);
+			$array[$i]['full_time']=Feeds::get_age($array[$i][$field],true);
+		}
 	}
 	return $array;
 }

@@ -220,10 +220,12 @@ EOT;
 	
 EOS;
 		}
+		$user_id=isset($GLOBALS['user_id'])?$GLOBALS['user_id']:"";
+		$access_key=isset($GLOBALS['access_key'])?$GLOBALS['access_key']:"";
 		$op.=<<<EOS
 		<script>
-			var user_id={$GLOBALS['user_id']};
-			var access_key='{$GLOBALS['access_key']}';
+			var user_id={$user_id};
+			var access_key='{$access_key}';
 		</script>
 EOS;
 		return $op;
