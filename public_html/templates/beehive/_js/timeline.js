@@ -256,6 +256,23 @@ function manage_postdata_tags(postdata){
 	    $(this).parent().find('.seemore').addClass('hidden');
 	    $(this).parent().find('span.hidden_status').removeClass('hidden');
 	});
+ /* Adding loading posts*/
+ var show_loading=true;
+function make_loading_post_html(count){
+	if(count === undefined || count<1){count=1;}
+	var classes=["header-top","header-left","header-right","header-bottom","subheader-left","subheader-right","subheader-bottom","content-top","content-first-end","content-second-line","content-second-end","content-third-line","content-third-end"]
+	$html="<div class='panel panel-white post panel-shadow loading-posts'>" +
+			"<div class='loading-posts-animated-background'>";
+	for (var i = 0; i < classes.length; i++) {
+		$html+="<div class='background-masker "+classes[i]+"'></div>\n";
+	}
+	$html+="</div></div>";
+	$op="";
+	for(var i=0;i<count;i++){
+		$op+=$html;
+	}
+	return $op;
+}
 /* Sync Post */
 function sync_post(last_sync,toend){
 
@@ -266,10 +283,24 @@ function sync_post(last_sync,toend){
 	if(last_sync==null){
 		last_sync=$('.postid').val()==null?0:$('.postid').val();
 	}
+	//Displaying loading posts..
+	if(show_loading){
+		if(!toend){
+			$('.post-box-top').after(make_loading_post_html(3));
+		  }else{
+			  $('.profile-info').append(make_loading_post_html(1));
+		  }
+		
+	}
 	  $.post(req_page,{req_type:"syncpost","last_sync":last_sync,from_end:toend_data,friend_id:friend_id,access_key:access_key}).done(function(d){
 //		  alert(d);
 		  ob=JSON.parse(d);
 		  
+		  //Removing Loading posts
+		  if(show_loading){
+				$('.loading-posts').remove();
+				show_loading=false;
+			}
 		  $op="";
 		  for(i=0;i<ob.length;i++){
 			    $op+=make_post_html(ob[i]);
@@ -295,8 +326,12 @@ function sync_post(last_sync,toend){
 }
 /* Loading Specific Post */
 function load_post(postid){
+	$('.post-box-top').after(make_loading_post_html(1));
 	$.post(req_page,{req_type:"get_post",post_id:postid,access_key:access_key}).done(function(d){
 		ob=JSON.parse(d);
+		
+		$('.loading-posts').remove();
+		
 		if(ob.success==1){
 			$op=make_post_html(ob[0]);
 			$('.post-box-top').after($op);
@@ -520,6 +555,7 @@ $(document).on('scroll',function(){
 	if($(this).innerHeight()-$(this).scrollTop()<1200){
 		if(ready_to_scroll){
 			ready_to_scroll=false;
+			show_loading=true;
 			last_id=$('.post-footer').last().find(".postid").val();
 			sync_post(last_id,true);
 		}
