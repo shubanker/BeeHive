@@ -1,6 +1,7 @@
 <?php
 require_once '../_includes/include_all.php';
 require_once '../_includes/images.php';
+sleep(1);
 $db=new Db(DBUSER, DBPASSWORD, DATABASE);
 if (!$db->isinit()){
 	closendie(json_encode(array("error"=>"Database Error")));
