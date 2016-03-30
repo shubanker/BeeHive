@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2016 at 01:52 PM
+-- Generation Time: Mar 30, 2016 at 06:44 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -193,6 +193,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
 CREATE TABLE IF NOT EXISTS `notifications` (
 `notification_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `from_user_id` int(11) DEFAULT NULL,
   `post_id` int(11) DEFAULT NULL,
   `msg` varchar(50) DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
@@ -305,7 +306,7 @@ ALTER TABLE `messages`
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
- ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `user_id_2` (`user_id`), ADD KEY `notifications_ibfk_2` (`post_id`);
+ ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `user_id_2` (`user_id`), ADD KEY `notifications_ibfk_2` (`post_id`), ADD KEY `from_user_id` (`from_user_id`);
 
 --
 -- Indexes for table `post`
@@ -411,7 +412,8 @@ ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_one`) REFERENCES `users` (`u
 --
 ALTER TABLE `notifications`
 ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
+ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `post`

@@ -13,15 +13,26 @@
  */
 class Notifications{
 	private static $table="notifications";
-	
-	static function add_notification($user_id,$post_id,$type,$msg=null,$db=NULL){
-		$sql=Db::create_sql_insert(self::$table, array(
-				"user_id"=>$user_id,
-				"post_id"=>$post_id,
-				"type"=>$type,
-				"msg"=>$msg,
-				"status"=>1
-		),null,$db,array(
+	private static $columns=array(
+			"user_id",
+			"from_user_id",
+			"post_id",
+			"type",
+			"msg",
+			"status"
+	);
+	static function add_notification($user_id,$data=array(),$db=NULL){
+		$sqlData=array();
+		foreach (self::$columns as $column){
+			$sqlData[$column]=isset($data[$column])?$data[$column]:null;
+		}
+		$sqlData['user_id']=$user_id;
+		if (empty($sqlData['user_id'])){
+			return false;
+		}
+		$sqlData['status']=empty($sqlData['status'])?1:(int)$sqlData['status'];
+		
+		$sql=Db::create_sql_insert(self::$table, $sqlData,null,$db,array(
 				"status",
 				"time"
 		));
@@ -92,6 +103,12 @@ class Notifications{
     (SELECT SUBSTRING(`post_data`,1,25) from `post` where `post_id`=n.post_id) AS post_data,
     (SELECT `picture_id` from `post` where `post_id`=n.post_id) AS post_img,
     n.post_id,
+    n.from_user_id,
+    CASE
+    	WHEN n.from_user_id IS NOT NULL THEN
+    	(SELECT concat(`first_name` ,' ',IFNULL(`last_name`,'')) FROM `users` as u WHERE u.`user_id`=n.from_user_id)
+    	WHEN n.from_user_id IS NULL THEN n.from_user_id
+    END as from_user_name,
     n.time,
     n.status
 FROM
