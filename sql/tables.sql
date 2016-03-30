@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2016 at 02:05 PM
+-- Generation Time: Mar 30, 2016 at 01:52 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `user_id` int(11) NOT NULL,
   `post_data` text,
   `link` varchar(150) DEFAULT NULL,
-  `picture_id` varchar(10) DEFAULT NULL,
+  `picture_id` int(11) DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) DEFAULT '1',
   `access` int(11) DEFAULT '1'
@@ -311,7 +311,7 @@ ALTER TABLE `notifications`
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
- ADD PRIMARY KEY (`post_id`), ADD KEY `post_ibfk_1` (`user_id`);
+ ADD PRIMARY KEY (`post_id`), ADD KEY `post_ibfk_1` (`user_id`), ADD KEY `picture_id` (`picture_id`);
 
 --
 -- Indexes for table `userdata`
@@ -417,7 +417,8 @@ ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` 
 -- Constraints for table `post`
 --
 ALTER TABLE `post`
-ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+ADD CONSTRAINT `post_ibfk_2` FOREIGN KEY (`picture_id`) REFERENCES `images` (`image_id`);
 
 --
 -- Constraints for table `userdata`
