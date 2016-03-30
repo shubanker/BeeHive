@@ -451,6 +451,7 @@ $(document).on('click','.edit_comment',function(){
 });
 $(document).on('click','#editPostSubmit',function(){
 	editType=$('#editType').val();
+	$(this).addClass('disabled');
 	if(editType==1){
 		post_id=$('#editPostId').val();
 		post_data=$('#editPostTextarea').val();
@@ -459,8 +460,13 @@ $(document).on('click','#editPostSubmit',function(){
 			if(ob.success==1){
 				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
 				emotify('post');
+			}else{
+				error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
+				show_msg("Unable to edit Post ",error_message,'error');
 			}
 			$('#editPost').modal('hide');
+		}).always(function(){
+			$('#editPostSubmit').removeClass('disabled');
 		});
 	}else{
 		comment_id=$('#editPostId').val();
