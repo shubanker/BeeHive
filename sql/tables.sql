@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2016 at 06:44 PM
+-- Generation Time: Mar 30, 2016 at 07:38 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -89,6 +89,40 @@ CREATE TABLE IF NOT EXISTS `friends` (
   `user_two` int(11) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+--
+-- Triggers `friends`
+--
+DELIMITER //
+CREATE TRIGGER `add_notification_acceptfriendrequest` AFTER UPDATE ON `friends`
+ FOR EACH ROW BEGIN
+ 		IF(NEW.`status` = 2) THEN
+ 			INSERT INTO `notifications` (`user_id`,`from_user_id`,`type`,`status`) VALUES(
+				NEW.`user_one`,NEW.`user_two`,5,1
+			);
+			DELETE FROM `notifications` WHERE `type`=4 AND `user_id` = NEW.`user_two` AND `from_user_id` = NEW.`user_one`; -- Deleting friend request notification.
+		END IF;
+	END
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `add_notification_sendfriendrequest` AFTER INSERT ON `friends`
+ FOR EACH ROW BEGIN
+ 		IF(NEW.`status` = 1) THEN
+ 			INSERT INTO `notifications` (`user_id`,`from_user_id`,`type`,`status`) VALUES(
+				NEW.`user_two`,NEW.`user_one`,4,1
+			);
+		END IF;
+	END
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `remove_notification_unfriend` AFTER DELETE ON `friends`
+ FOR EACH ROW BEGIN
+ 		DELETE FROM `notifications` WHERE `type`=5 AND `user_id` = OLD.`user_one` AND `from_user_id` = OLD.`user_two`; -- Deleting friend request accepted notification.
+	END
+//
+DELIMITER ;
 
 -- --------------------------------------------------------
 
