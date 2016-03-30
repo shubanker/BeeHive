@@ -2,26 +2,34 @@ $(document).ready(function() {
 	  load_notifications(0,true);
 });
 function make_notifications_html(ob){
+	var isPost=ob.post_id != null;
 	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
 	"    <div class='post-heading'>";
-	if(null != ob.post_img){
+	if((isPost && null != ob.post_img)|| null != ob.from_user_id){
+		image_src="image.php?s=s&"+(null != ob.from_user_id?"user="+ ob.from_user_id:"id="+ob.post_img);
 		$op+="<div class='pull-left image'>" +
-			"<img src='image.php?id="+ob.post_img+"&s=s' class='avatar' alt='user profile image'>" +
+			"<img src='"+image_src+"' class='avatar' alt='image'>" +
 			"</div>";
 		post_type="Image";
 	}else{
 		post_type="Post";
 	}
+	var message_prefix="";
+	if(null != ob.from_user_id){
+		message_prefix="<a href='profile.php?id="+ob.from_user_id+"' title='"+ob.from_user_name+"'>"+ob.from_user_name+" </a> ";
+	}
 	
 	$op+="        <div class='pull-left meta'>"+
-	"        <div class='title h5'> "+ob.message+" ";
-	if(ob.post_id != null){
+	"        <div class='title h5'> "+message_prefix+ob.message+" ";
+	if(isPost){
 		$op+="        <a href='index.php?post="+ob.post_id+"'>"+post_type+"</a>";
 	}
 	$op+="        <h6 class='text-muted time notification-time' title='"+ob.full_time+"'><i class='fa fa-clock-o'></i> "+ob.time+"</h6>"+
-	"        </div>"+
-	(ob.post_data == null?"":'        <h6>"'+ob.post_data+'..."<h6>')+
-	"        </div>"+
+	"        </div>";
+	if(isPost){
+		$op+=(ob.post_data == null?"":'        <h6>"'+ob.post_data+'..."<h6>');
+	}
+	$op+="        </div>"+
 	"        <input type='hidden' value='"+ob.notification_id+"'>"+
 	"    </div>"+
 	"</div>"
