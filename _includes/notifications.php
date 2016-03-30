@@ -10,6 +10,8 @@
  * 1-likes
  * 2-comments
  * 3-contains special msg
+ * 4-Sent you friend request
+ * 5-Accepted friend request
  */
 class Notifications{
 	private static $table="notifications";
@@ -96,9 +98,12 @@ class Notifications{
 				`notifications` WHERE user_id='$user_id' $status_condition";*/
 		$sql="SELECT n.notification_id,
     CASE 
-    WHEN n.msg IS NOT NULL THEN n.msg
+    WHEN type=3 THEN n.msg
     WHEN type=1 THEN concat((SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id),' person have Liked your ')
     WHEN type=2 THEN concat((SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id),' person have Commented on your ')
+    
+    WHEN type=4 THEN 'Sent You a Friend request'
+    WHEN type=5 THEN 'Accepted your Friend request'
     END AS message,
     (SELECT SUBSTRING(`post_data`,1,25) from `post` where `post_id`=n.post_id) AS post_data,
     (SELECT `picture_id` from `post` where `post_id`=n.post_id) AS post_img,
