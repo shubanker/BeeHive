@@ -139,7 +139,7 @@ EOT;
 				$friend_button=empty($friend_button)?"":$friend_button;
 				$op.=<<<EOT
 			<div class="btn-group">
-				  <button type="button" class="btn btn-success" id='friend_action'><i class="glyphicon glyphicon-user"></i> <span> $friend_button </span></button>
+				  <button type="button" class="btn btn-success friend_action"><i class="glyphicon glyphicon-user"></i> <span> $friend_button </span></button>
 				  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    <span class="caret"></span>
 				    <span class="sr-only">More</span>

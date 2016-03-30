@@ -114,6 +114,7 @@ class Notifications{
     	(SELECT concat(`first_name` ,' ',IFNULL(`last_name`,'')) FROM `users` as u WHERE u.`user_id`=n.from_user_id)
     	WHEN n.from_user_id IS NULL THEN n.from_user_id
     END as from_user_name,
+    n.type,
     n.time,
     n.status
 FROM

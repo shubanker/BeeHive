@@ -297,7 +297,7 @@ if (isset($_POST['req_type'])){
 						$responce['success']=1;
 					}else {
 						Friendship::accept_request($friend_id, $user_id, $db);
-						$responce['new_action']="Unfriend";
+						$responce['new_action']="Un Friend";
 						$responce['success']=1;
 					}
 				}elseif ($relation['status']==2){

@@ -349,15 +349,19 @@ function get_notification_count_html(c){
 	}
 	return false;
 }
-$(document).on('click','#friend_action,#block_user',function(e){
+$(document).on('click','.friend_action,#block_user,#friend_action_notification',function(e){
 	e.preventDefault();
 	$this=$(this);
-	req_type=$this.attr('id');//Checking if its to block user or other actions
-	
+	req_type=$this.attr('id') == "block_user"?"block_user":"friend_action";//Checking if its to block user or other actions
 	current_action = req_type == "block_user" ? "Block User" : $this.find('span').html().trim();
+	if('friend_action_notification' == $this.attr('id')){
+		fid=$this.val();
+		fname=$this.parents('.post-heading').find('.user_name').attr('title');
+	}else{
+		fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
+		fname=$this.parents('.card-body-social')[0]?$this.parents('.media-body').find('.friend_list_link').html():$('.user_full_name').html();
+	}
 	
-	fid=$this.parents('.card-body-social')[0]?$this.parent().find('button').val():friend_id;
-	fname=$this.parents('.card-body-social')[0]?$this.parents('.media-body').find('.friend_list_link').html():$('.user_full_name').html();
 	
 	/* making Proper Message to display */
 	switch(current_action){
