@@ -17,6 +17,8 @@ function make_notifications_html(ob){
 	var message_prefix="";
 	if(null != ob.from_user_id){
 		message_prefix="<a href='profile.php?id="+ob.from_user_id+"' title='"+ob.from_user_name+"' class='user_name'>"+ob.from_user_name+" </a> ";
+	}else if(null != ob.people_count){
+		message_prefix = ob.people_count+" ";
 	}
 	
 	$op+="        <div class='pull-left meta'>"+
@@ -28,7 +30,7 @@ function make_notifications_html(ob){
 	"        </div>";
 	if(isPost){
 		$op+=(ob.post_data == null?"":'        <h6>"'+ob.post_data+'..."<h6>');
-	}else if(ob.type==4){
+	}else if(ob.type==3){
 		$op+='<h6><button type="button" class="btn btn-success btn-xs" id="friend_action_notification" value="'+ob.from_user_id+'"><i class="glyphicon glyphicon-user"></i> <span>Accept Request</span></button></h6>';
 	}
 	$op+="        </div>"+

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2016 at 12:24 PM
+-- Generation Time: Mar 31, 2016 at 01:31 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -98,9 +98,9 @@ CREATE TRIGGER `add_notification_acceptfriendrequest` AFTER UPDATE ON `friends`
  FOR EACH ROW BEGIN
  		IF(NEW.`status` = 2) THEN
  			INSERT INTO `notifications` (`user_id`,`from_user_id`,`type`,`status`) VALUES(
-				NEW.`user_one`,NEW.`user_two`,5,1
+				NEW.`user_one`,NEW.`user_two`,4,1
 			);
-			DELETE FROM `notifications` WHERE `type`=4 AND `user_id` = NEW.`user_two` AND `from_user_id` = NEW.`user_one`; -- Deleting friend request notification.
+			DELETE FROM `notifications` WHERE `type`=3 AND `user_id` = NEW.`user_two` AND `from_user_id` = NEW.`user_one`; -- Deleting friend request notification.
 		END IF;
 	END
 //
@@ -110,7 +110,7 @@ CREATE TRIGGER `add_notification_sendfriendrequest` AFTER INSERT ON `friends`
  FOR EACH ROW BEGIN
  		IF(NEW.`status` = 1) THEN
  			INSERT INTO `notifications` (`user_id`,`from_user_id`,`type`,`status`) VALUES(
-				NEW.`user_two`,NEW.`user_one`,4,1
+				NEW.`user_two`,NEW.`user_one`,3,1
 			);
 		END IF;
 	END
@@ -119,7 +119,7 @@ DELIMITER ;
 DELIMITER //
 CREATE TRIGGER `remove_notification_unfriend` AFTER DELETE ON `friends`
  FOR EACH ROW BEGIN
- 		DELETE FROM `notifications` WHERE `type`=5 AND `user_id` = OLD.`user_one` AND `from_user_id` = OLD.`user_two`; -- Deleting friend request accepted notification.
+ 		DELETE FROM `notifications` WHERE `type`=4 AND `user_id` = OLD.`user_one` AND `from_user_id` = OLD.`user_two`; -- Deleting friend request accepted notification.
 	END
 //
 DELIMITER ;
@@ -229,10 +229,20 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `user_id` int(11) NOT NULL,
   `from_user_id` int(11) DEFAULT NULL,
   `post_id` int(11) DEFAULT NULL,
-  `msg` varchar(50) DEFAULT NULL,
-  `type` tinyint(4) NOT NULL,
+  `type` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification_msg`
+--
+
+CREATE TABLE IF NOT EXISTS `notification_msg` (
+`type` int(11) NOT NULL,
+  `msg` text NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -339,7 +349,13 @@ ALTER TABLE `messages`
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
- ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `user_id_2` (`user_id`), ADD KEY `notifications_ibfk_2` (`post_id`), ADD KEY `from_user_id` (`from_user_id`);
+ ADD PRIMARY KEY (`notification_id`), ADD UNIQUE KEY `user_id` (`user_id`,`post_id`,`type`), ADD KEY `user_id_2` (`user_id`), ADD KEY `notifications_ibfk_2` (`post_id`), ADD KEY `from_user_id` (`from_user_id`), ADD KEY `type` (`type`);
+
+--
+-- Indexes for table `notification_msg`
+--
+ALTER TABLE `notification_msg`
+ ADD PRIMARY KEY (`type`);
 
 --
 -- Indexes for table `post`
@@ -388,6 +404,11 @@ MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `notifications`
 MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `notification_msg`
+--
+ALTER TABLE `notification_msg`
+MODIFY `type` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `post`
 --
@@ -446,7 +467,8 @@ ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_one`) REFERENCES `users` (`u
 ALTER TABLE `notifications`
 ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
 ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
-ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`type`) REFERENCES `notification_msg` (`type`);
 
 --
 -- Constraints for table `post`
