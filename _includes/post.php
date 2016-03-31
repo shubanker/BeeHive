@@ -243,7 +243,8 @@ class Feeds{
 		
 		$friend_list=Friendship::get_friend_ids($user_id, null);
 		$following_list=Friendship::get_following_ids($user_id, null);
-		$following_list_condition="`post`.`user_id` IN($following_list) AND  				-- For including friends post";
+		$blocked_list=Friendship::get_relation_ids($user_id, null, 3);
+		$following_list_condition="`post`.`user_id` IN($following_list) AND  				-- For including followings post";
 		
 		if(isset($options["in_post"]) && !empty($options["in_post"])){
 			
@@ -259,7 +260,9 @@ class Feeds{
 			
 		}
 		
-		$privacy_condition="(
+		$privacy_condition="
+				`post`.`user_id` NOT IN($blocked_list) AND
+				(
 					(
 						`post`.`user_id` IN($friend_list) AND  				-- For including friends post
 						`post`.`access` < 3
