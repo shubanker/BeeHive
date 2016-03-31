@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2016 at 06:52 PM
+-- Generation Time: Mar 31, 2016 at 07:02 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -232,7 +232,6 @@ CREATE TRIGGER `prevent_msg_toblocked` BEFORE INSERT ON `messages`
 				(`user_two`=NEW.`user_one` AND `user_one`=NEW.`user_two`)
 				) AND status=3
 		); -- Finding blocked list.
-		SET NEW.message=blocked_count;
 		IF(blocked_count != 0) THEN
 			SET NEW.user_one=null; -- this will throw an error and prevent sending message
 		END IF;
