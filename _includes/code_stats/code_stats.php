@@ -12,8 +12,21 @@
 
 // Variables. Change these to meet your needs.
 $file_types = array('php');//,'js','scss'
-$skip_directories = array('.git', 'files', 'external', 'scripts','code_stats');
-$starting_directory = '../';
+$skip_directories = array(
+		'.git',
+		'files',
+		'external', 
+		'scripts',
+		'code_stats',
+		'demo',
+		'sandbox',
+		'admin',
+		'Images',
+		"sql",
+		"html_tests"
+		
+);
+$starting_directory = '../../';
 
 // Initialize. No need to change anything below this line.
 $stats = array();
