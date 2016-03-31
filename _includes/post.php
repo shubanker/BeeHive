@@ -24,7 +24,6 @@ class Post extends Struct{
 				"post_id",
 				"user_id",
 				"post_data",
-				"link",
 				"picture_id",
 				"time",
 				"access",
@@ -58,12 +57,6 @@ class Post extends Struct{
 				'post_id'=>(int)$post_id
 		), $db);
 		return empty($db)?$sql:$db->query($sql);
-	}
-	function get_link(){
-		return $this->get('link');
-	}
-	function set_link($link){
-		return $this->set('link', $link);
 	}
 	function get_picture_id(){
 		return $this->get('picture_id');
@@ -283,7 +276,6 @@ class Feeds{
 				`post_id`,
 				`users`.`user_id`,
 				`post_data`,
-				`link`,
 				`picture_id`,
 				`time`,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,
@@ -329,7 +321,6 @@ class Feeds{
 				`post_id`,
 				`users`.`user_id`,
 				`post_data`,
-				`link`,
 				`picture_id`,
 				`time`,
 				(SELECT  count(*) FROM likes WHERE `likes`.`post_id` =`post`.`post_id` AND `type` ='1')as like_count,

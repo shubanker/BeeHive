@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2016 at 07:38 PM
+-- Generation Time: Mar 31, 2016 at 12:24 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -245,7 +245,6 @@ CREATE TABLE IF NOT EXISTS `post` (
 `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `post_data` text,
-  `link` varchar(150) DEFAULT NULL,
   `picture_id` int(11) DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) DEFAULT '1',
