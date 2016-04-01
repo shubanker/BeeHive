@@ -147,7 +147,7 @@ class NotificationEmails{
 	static function send_password_recovery_email($user_email,$user_id,$key){
 		$host=$_SERVER["SERVER_NAME"];
 		$reset_link="http://$host/password_recover.php?token=$key&user=$user_id";
-		$valid_till=date("M d, Y \a\t h:i a",strtotime("+24 hours"));
+		$valid_till=date('M d, Y \a\t h:i a',strtotime("+24 hours"));
 		
 		$message=<<<EOS
 		Hey, we heard you lost your password. Say it ain\'t so!
@@ -157,7 +157,7 @@ class NotificationEmails{
 		
 		<i>*Above link is valid till $valid_till</i>
 EOS;
-		$message=nl2br(htmlentities($message));
+		$message=nl2br($message);
 		self::send_mail($user_email, "Make new Password", $message, "BeeHive", "noreply@$host");
 	}
 }
