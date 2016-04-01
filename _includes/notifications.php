@@ -9,19 +9,31 @@
  * @type
  * 1-likes
  * 2-comments
- * 3-contains special msg
+ * 3-Sent you friend request
+ * 4-Accepted friend request
  */
 class Notifications{
 	private static $table="notifications";
-	
-	static function add_notification($user_id,$post_id,$type,$msg=null,$db=NULL){
-		$sql=Db::create_sql_insert(self::$table, array(
-				"user_id"=>$user_id,
-				"post_id"=>$post_id,
-				"type"=>$type,
-				"msg"=>$msg,
-				"status"=>1
-		),null,$db,array(
+	private static $columns=array(
+			"user_id",
+			"from_user_id",
+			"post_id",
+			"type",
+			"msg",
+			"status"
+	);
+	static function add_notification($user_id,$data=array(),$db=NULL){
+		$sqlData=array();
+		foreach (self::$columns as $column){
+			$sqlData[$column]=isset($data[$column])?$data[$column]:null;
+		}
+		$sqlData['user_id']=$user_id;
+		if (empty($sqlData['user_id'])){
+			return false;
+		}
+		$sqlData['status']=empty($sqlData['status'])?1:(int)$sqlData['status'];
+		
+		$sql=Db::create_sql_insert(self::$table, $sqlData,null,$db,array(
 				"status",
 				"time"
 		));
@@ -85,13 +97,22 @@ class Notifications{
 				`notifications` WHERE user_id='$user_id' $status_condition";*/
 		$sql="SELECT n.notification_id,
     CASE 
-    WHEN n.msg IS NOT NULL THEN n.msg
-    WHEN type=1 THEN concat((SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id),' person have Liked your ')
-    WHEN type=2 THEN concat((SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id),' person have Commented on your ')
-    END AS message,
+    WHEN type=1 THEN (SELECT count(user_id) from likes AS l WHERE l.post_id=n.post_id AND l.type=1 AND l.user_id != n.user_id)
+    WHEN type=2 THEN (SELECT count(DISTINCT c.user_id) FROM comments AS c WHERE c.post_id=n.post_id AND c.USER_ID != n.user_id)
+    
+    WHEN type NOT IN(1,2) THEN NULL
+    END AS people_count,
+    (SELECT `msg` FROM `notification_msg` as nm where nm.type=n.type) AS message,
     (SELECT SUBSTRING(`post_data`,1,25) from `post` where `post_id`=n.post_id) AS post_data,
     (SELECT `picture_id` from `post` where `post_id`=n.post_id) AS post_img,
     n.post_id,
+    n.from_user_id,
+    CASE
+    	WHEN n.from_user_id IS NOT NULL THEN
+    	(SELECT concat(`first_name` ,' ',IFNULL(`last_name`,'')) FROM `users` as u WHERE u.`user_id`=n.from_user_id)
+    	WHEN n.from_user_id IS NULL THEN n.from_user_id
+    END as from_user_name,
+    n.type,
     n.time,
     n.status
 FROM
@@ -102,5 +123,36 @@ WHERE
 		$sql.="ORDER BY n.time DESC";
 		$sql.=$limit_sql;
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+}
+/*
+ * Class to send notification mails to users
+ */
+class NotificationEmails{
+	static function send_mail($email,$subject,$message,$from_name,$from_email,$reply_to=NULL){
+		$headers = "From: $from_name $from_email\r\n";
+		if (!empty($reply_to)){
+			$headers .= "Reply-To: $reply_to\r\n";
+		}
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		mail($email,$subject,$message,$headers);
+	}
+	static function send_password_recovery_email($user_email,$user_id,$key){
+		$host=$_SERVER["SERVER_NAME"];
+		$reset_link="http://$host/password_recover.php?token=$key&user=$user_id";
+		$valid_till=date("M d, Y \a\t h:i a",strtotime("+24 hours"));
+		
+		$message=<<<EOS
+		Hey, we heard you lost your password. Say it ain\'t so!
+		Click <a href='$reset_link'>here</a> to make a new one.
+				
+		If you are unable to click above copy and paste below link in your address bar.
+		
+		<i>*Above link is valid till $valid_till</i>
+EOS;
+		$message=nl2br(htmlentities($message));
+		self::send_mail($user_email, "Make new Password", $message, "BeeHive", "noreply@$host");
 	}
 }

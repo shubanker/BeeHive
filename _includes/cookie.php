@@ -35,10 +35,7 @@ class Cookies {
 		$data=array(
 				"status"=>2
 		);
-		db::delete($db, 'keys', array(
-			"user_id"=>$user_id,
-			"skey"=>$token
-		));
+		Keys::remove_key($user_id, $token, $db);
 		$time = strtotime ( "-3 months" );
 		if (isset($_COOKIE['user_id'])){
 			setcookie ( "user_id", "", $time );
@@ -47,15 +44,18 @@ class Cookies {
 			setcookie ( "token", "", $time );
 		
 	}
-	static function clear_logins($user_id,$sessions,$db){
+	static function clear_logins($user_id,$sessions,$db,$clear_keys=false){
 		$active_token=isset($_COOKIE['token'])?trim($_COOKIE['token']):"";
 		$active_token=Db::escapee($active_token);
-		$where_data="`user_id`='$user_id' AND ";
+		$where_data="`user_id`='$user_id' ";
 		
 		if (empty($sessions)|| $sessions == 'all'){
-			$where_data.="`skey` !='$active_token'";
+			$where_data.=" AND `skey` !='$active_token'";
 		}else {
-			$where_data.="`skey` IN('".implode("','", $sessions)."')";
+			$where_data.=" AND `skey` IN('".implode("','", $sessions)."')";
+		}
+		if (!$clear_keys){
+			$where_data.=" AND lastused IS NOT NULL ";
 		}
 		$sql=Db::create_sql_delete('keys', $where_data);
 		return empty($db)?$sql:($db->query($sql)?$db->affected_rows():false);

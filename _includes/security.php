@@ -142,6 +142,12 @@ class Keys{
 		return $db->qfetch($sql);
 	}
 	static function is_valid($unix_time){
+		if (is_array($unix_time)){
+			if (isset($unix_time['exp'])){
+				$unix_time=$unix_time['exp'];
+			}
+			else return false;
+		}
 		return strtotime('now')<$unix_time;
 	}
 	static function update_hits($user_id,$key,$db){
@@ -155,6 +161,17 @@ class Keys{
 			skey='$key'";
 		return empty($db)?$sql:$db->query($sql);
 		
+	}
+	static function remove_key($user_id,$key,$db){
+		if (empty($user_id)||empty($key)){
+			return false;
+		}
+		$where_data=array(
+				"user_id"=>(int)$user_id,
+				"skey"=>$key
+		);
+		$sql=Db::create_sql_delete('keys', $where_data);
+		return empty($db)?$sql:$db->query($sql);
 	}
 	static function get_random_string($min=NULL,$max=NULL){
 		$min=$min==NULL?rand(2,9):$min;//Default range is between 2 and 9 change this if needed.

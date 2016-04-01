@@ -22,7 +22,10 @@ class Friendship{
 	private static $table="friends";
 	
 	static function get_friend_ids($user_id,$db,$get_only_friends=TRUE){
-		$status_condition=$get_only_friends?"AND status=2 ":"";
+		return self::get_relation_ids($user_id, $db, $get_only_friends?2:null);
+	}
+	static function get_relation_ids($user_id,$db,$status){
+		$status_condition=empty($status)?'':"AND status=$status ";
 		$sql="SELECT
 		CASE
 		WHEN `user_one` = '$user_id' THEN `user_two`
@@ -38,10 +41,12 @@ class Friendship{
 		}
 		return $list;
 	}
-	static function get_all_connections($user_id,$db,$include_bloced=FALSE){
-		$status_values=array(1,2);
-		if ($include_bloced){
-			$status_values[]=3;
+	static function get_all_connections($user_id,$db,$include_bloced=FALSE,$status_values=array()){
+		if (empty($status_values)){
+			$status_values=array(1,2);
+			if ($include_bloced){
+				$status_values[]=3;
+			}
 		}
 		$status_condition="AND `friends`.`status` IN(".(implode(",", $status_values)).")";
 		$sql="SELECT
