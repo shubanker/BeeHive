@@ -65,7 +65,7 @@ class Struct{
 		return $this->data;
 	}
 	function update($db){
-		Db::update($db, $this->table, $this->data, $this->pk);
+		return Db::update($db, $this->table, $this->data, $this->pk);
 	}
 	function create($db){
 		$sql=Db::create_sql_insert($this->table, $this->data,$this->pk,$db);
