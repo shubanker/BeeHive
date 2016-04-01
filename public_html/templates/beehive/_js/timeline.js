@@ -216,7 +216,7 @@ function manage_postdata_tags(postdata){
 			if(ob.picture_id!=null){
 				$op+="    <li><a href='#' class='make_dp' igm-id='"+ob.picture_id+"'><i class='glyphicon glyphicon-picture icon'></i> Make DP</a></li>";
 			}
-			$op+="    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon'></i> Delete</a></li>"+
+			$op+="    <li><a href='#' class='del_post'><i class='glyphicon glyphicon-trash icon danger_color'></i> Delete</a></li>"+
 			"  </ul>"+
 			"</div>";
 			$op+="</div>";

@@ -2026,3 +2026,7 @@ footer:hover .fa-heart.pink-color{
 	left: 300px;
 	top: 88px;
 }
+
+.danger_color{
+	color: #d9534f;
+}
