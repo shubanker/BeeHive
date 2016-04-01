@@ -38,6 +38,7 @@ if (!$is_valid){
 				Cookies::clear_logins($user_id, null, $db,true);
 				$_SESSION['msg']="Password successfully Updated, Please Login with your new Password.";
 				$_SESSION['msg_type']="success";
+				unset($_SESSION['mail']);
 				redirect_to();
 				closendie();
 			}else {
