@@ -98,7 +98,8 @@ class Auth{
 					if (User::email_registered(trim($_POST['email']), $db)){
 						$user=new User();
 						$user->initialise_by_email($db, trim($_POST['email']));
-						$_SESSION['forgot_key']=Keys::gen_key($user->get_user_id(), "24 hours", $db);
+						$key=Keys::gen_key($user->get_user_id(), "24 hours", $db);
+						NotificationEmails::send_password_recovery_email($user->get_email(), $user->get_user_id(), $key);
 					}
 					$_SESSION['msg']="Email Sent Check Your Inbox";
 					$_SESSION['msg_type']="success";
