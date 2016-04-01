@@ -150,6 +150,8 @@ class NotificationEmails{
 				
 		If you are unable to click above copy and paste below link in your address bar.
 		
+		$reset_link
+		
 		<i>*Above link is valid till $valid_till</i>
 EOS;
 		$message=nl2br($message);
