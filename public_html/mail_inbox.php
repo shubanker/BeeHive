@@ -102,16 +102,14 @@ if ($time=="Not available"){
                     <div class="list-group-item">
                     <p class="pull-right"><?=$time ?></p>
                     <h4><?=$subject ?></h4>
+                    <address>
+						  <strong>From :</strong><?=htmlentities($from) ?><br />
+						  <strong>To :</strong><?=$to ?><br />
+						</address>
                     <?php foreach ($action_buttons as $buttons){?>
                     <button class="btn btn-default btn-xs"> <?=$buttons?></button>
                     
                     <?php }?>
-                    </div>
-                    <div class="list-group-item">
-                    	<address>
-						  <strong>From :</strong><?=htmlentities($from) ?><br />
-						  <strong>To :</strong><?=$to ?><br />
-						</address>
                     </div>
                     <div class="list-group-item">
                     	<p>
