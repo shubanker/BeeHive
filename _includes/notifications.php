@@ -125,3 +125,34 @@ WHERE
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 }
+/*
+ * Class to send notification mails to users
+ */
+class NotificationEmails{
+	static function send_mail($email,$subject,$message,$from_name,$from_email,$reply_to=NULL){
+		$headers = "From: $from_name $from_email\r\n";
+		if (!empty($reply_to)){
+			$headers .= "Reply-To: $reply_to\r\n";
+		}
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		mail($email,$subject,$message,$headers);
+	}
+	static function send_password_recovery_email($user_email,$user_id,$key){
+		$host=$_SERVER["SERVER_NAME"];
+		$reset_link="http://$host/password_recover.php?token=$key&user=$user_id";
+		$valid_till=date("M d, Y \a\t h:i a",strtotime("+24 hours"));
+		
+		$message=<<<EOS
+		Hey, we heard you lost your password. Say it ain\'t so!
+		Click <a href='$reset_link'>here</a> to make a new one.
+				
+		If you are unable to click above copy and paste below link in your address bar.
+		
+		<i>*Above link is valid till $valid_till</i>
+EOS;
+		$message=nl2br(htmlentities($message));
+		self::send_mail($user_email, "Make new Password", $message, "BeeHive", "noreply@$host");
+	}
+}
