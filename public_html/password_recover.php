@@ -35,7 +35,7 @@ if (!$is_valid){
 			$user->set_password($_POST['new_password']);
 			
 			if ($user->update($db)){
-				Keys::remove_key($user_id, $key, $db);
+				Cookies::clear_logins($user_id, null, $db,true);
 				$_SESSION['msg']="Password successfully Updated, Please Login with your new Password.";
 				$_SESSION['msg_type']="success";
 				redirect_to();
