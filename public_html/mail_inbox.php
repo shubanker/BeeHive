@@ -109,7 +109,7 @@ if ($time=="Not available"){
                     </div>
                     <div class="list-group-item">
                     	<address>
-						  <strong>From :</strong><?=$from ?><br />
+						  <strong>From :</strong><?=htmlentities($from) ?><br />
 						  <strong>To :</strong><?=$to ?><br />
 						</address>
                     </div>
