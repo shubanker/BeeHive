@@ -35,10 +35,7 @@ class Cookies {
 		$data=array(
 				"status"=>2
 		);
-		db::delete($db, 'keys', array(
-			"user_id"=>$user_id,
-			"skey"=>$token
-		));
+		Keys::remove_key($user_id, $token, $db);
 		$time = strtotime ( "-3 months" );
 		if (isset($_COOKIE['user_id'])){
 			setcookie ( "user_id", "", $time );
