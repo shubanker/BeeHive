@@ -150,7 +150,7 @@ class NotificationEmails{
 		$valid_till=date('M d, Y \a\t h:i a',strtotime("+24 hours"));
 		
 		$message=<<<EOS
-		Hey, we heard you lost your password. Say it ain\'t so!
+		Hey, we heard you lost your password. Say it ain't so!
 		Click <a href='$reset_link'>here</a> to make a new one.
 				
 		If you are unable to click above copy and paste below link in your address bar.
