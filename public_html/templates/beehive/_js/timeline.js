@@ -66,9 +66,14 @@ req_page='ajax-req.php';
 	return $op;
   } 
   function load_comments(postid,comments_list){
+	  if(loaded_post_comments[postid] == undefined ){
+		  comments_list.append(make_loading_comment_html(2));
+	  }
 	  $.post(req_page,{req_type:"get_comments","post_id":postid,access_key:access_key}).done(function(data){
 			var ob=JSON.parse(data);
 			comments_list.empty();
+			loaded_post_comments[postid]=true;//Wont show loading comments later for this post.
+			
 			for(i=0;i<ob.length;i++){
 				comments_list.append(make_comment_html(ob[i]));
 			}
@@ -260,18 +265,49 @@ function manage_postdata_tags(postdata){
  var show_loading=true;
 function make_loading_post_html(count){
 	if(count === undefined || count<1){count=1;}
-	var classes=["header-top","header-left","header-right","header-bottom","subheader-left","subheader-right","subheader-bottom","content-top","content-first-end","content-second-line","content-second-end","content-third-line","content-third-end"]
-	$html="<div class='panel panel-white post panel-shadow loading-posts'>" +
-			"<div class='loading-posts-animated-background'>";
-	for (var i = 0; i < classes.length; i++) {
-		$html+="<div class='background-masker "+classes[i]+"'></div>\n";
-	}
-	$html+="</div></div>";
+	$html="<div class='panel panel-white post panel-shadow loading-posts'>";
+	$html+=make_inner_loading_post_html();
+	$html+="</div>";
 	$op="";
 	for(var i=0;i<count;i++){
 		$op+=$html;
 	}
 	return $op;
+}
+var loaded_post_comments={};
+function make_loading_comment_html(count){
+	if(count === undefined || count<1){count=1;}
+	$html="<li class='comment loading_comment'>";
+	$html+=make_inner_loading_post_html();
+	$html+="</li>";
+	$op="";
+	for(var i=0;i<count;i++){
+		$op+=$html;
+	}
+	return $op;
+}
+function make_inner_loading_post_html(){
+	var classes=[
+	             "header-top",
+	             "header-left",
+	             "header-right",
+	             "header-bottom",
+	             "subheader-left",
+	             "subheader-right",
+	             "subheader-bottom",
+	             "content-top",
+	             "content-first-end",
+	             "content-second-line",
+	             "content-second-end",
+	             "content-third-line",
+	             "content-third-end"
+	             ];
+	var html="<div class='loading-posts-animated-background'>";
+	for (var i = 0; i < classes.length; i++) {
+		html+="<div class='background-masker "+classes[i]+"'></div>\n";
+	}
+	html+="</div>";
+	return html;
 }
 /* Sync Post */
 function sync_post(last_sync,toend){
