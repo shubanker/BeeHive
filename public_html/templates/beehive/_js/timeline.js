@@ -517,6 +517,8 @@ $(document).on('click','#editPostSubmit',function(){
 				show_msg("Unable to edit Comment",error_message,'error');
 			}
 			$('#editPost').modal('hide');
+		}).always(function(){
+			$('#editPostSubmit').removeClass('disabled');
 		});
 	}
 });
