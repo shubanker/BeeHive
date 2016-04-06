@@ -487,38 +487,38 @@ $(document).on('click','.edit_comment',function(){
 });
 $(document).on('click','#editPostSubmit',function(){
 	editType=$('#editType').val();
+	post_id=$('#editPostId').val();
+	post_data=$('#editPostTextarea').val();
 	$(this).addClass('disabled');
+	
+	data_tosend={access_key:access_key};
 	if(editType==1){
-		post_id=$('#editPostId').val();
-		post_data=$('#editPostTextarea').val();
-		$.post(req_page,{req_type:'editpost','post_id':post_id,'post_data':post_data,access_key:access_key}).done(function(d){
-			ob=JSON.parse(d);
-			if(ob.success==1){
-				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
-				emotify('post');
-			}else{
-				error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
-				show_msg("Unable to edit Post ",error_message,'error');
-			}
-			$('#editPost').modal('hide');
-		}).always(function(){
-			$('#editPostSubmit').removeClass('disabled');
-		});
+		data_tosend.req_type="editpost";
+		data_tosend.post_id=post_id;
+		data_tosend.post_data=post_data;
 	}else{
-		comment_id=$('#editPostId').val();
-		comment_data=$('#editPostTextarea').val();
-		$.post(req_page,{req_type:'editcomment','comment_id':comment_id,'comment_data':comment_data,access_key:access_key}).done(function(d){
-			ob=JSON.parse(d);
-			if(ob.success==1){
-				$('input.comment_id[value="'+comment_id+'"]').parents('.comment-body').find('p').html(ob.comment);
-				emotify('comment');
-			}else{
-				error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
-				show_msg("Unable to edit Comment",error_message,'error');
-			}
-			$('#editPost').modal('hide');
-		});
+		data_tosend.req_type="editcomment";
+		data_tosend.comment_id=post_id;
+		data_tosend.comment_data=post_data;
 	}
+	type=editType==1?'post':'comment';
+	$.post(req_page,data_tosend).done(function(d){
+		ob=JSON.parse(d);
+		if(ob.success==1){
+			if(editType==1){
+				$('input.postid[value="'+post_id+'"]').parents('.panel-shadow').find('.post-description >p').html(manage_postdata_tags(post_data));
+			}else{
+				$('input.comment_id[value="'+post_id+'"]').parents('.comment-body').find('p').html(ob.comment);
+			}
+			emotify(type);
+		}else{
+			error_message = ob.error === undefined ?"There went an internal Error :(":ob.error;
+			show_msg("Unable to edit "+type,error_message,'error');
+		}
+		$('#editPost').modal('hide');
+	}).always(function(){
+		$('#editPostSubmit').removeClass('disabled');
+	});
 });
 $(document).on('click','.del_post',function(e){
 	e.preventDefault();

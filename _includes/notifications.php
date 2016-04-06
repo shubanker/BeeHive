@@ -19,7 +19,6 @@ class Notifications{
 			"from_user_id",
 			"post_id",
 			"type",
-			"msg",
 			"status"
 	);
 	static function add_notification($user_id,$data=array(),$db=NULL){
@@ -32,7 +31,16 @@ class Notifications{
 			return false;
 		}
 		$sqlData['status']=empty($sqlData['status'])?1:(int)$sqlData['status'];
-		
+		if (isset($data['msg']) && !empty($data['msg'])){
+			$sql=Db::create_sql_insert('notification_msg', array(
+					"msg"=>$data['msg']
+			),null,$db);
+			if (!empty($db) && $db->query($sql)){
+				$sqlData['type']=$db->last_insert_id();
+			}else {
+				return false;
+			}
+		}
 		$sql=Db::create_sql_insert(self::$table, $sqlData,null,$db,array(
 				"status",
 				"time"

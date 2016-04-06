@@ -152,11 +152,17 @@ $(document).on('click','.userleft',function(e){
 	
 	load_msg();
 });
-$(document).on('click','#send_msg',function(e){
+send_message_function=function(e){
 	e.preventDefault();
 	firendid=$('#current_chat_user_id').val();
 	msg=$('#message_textarea').val();
 	if(msg!=null && msg!=""){
 		send_msg(msg,friendid,true);
 	}
-});
+};
+$(document).on('click','#send_msg',send_message_function);
+$( document ).on('keyup', '#message_textarea' ,function(d){
+	  if(13==d.keyCode && !d.shiftKey && $('#enter_to_send').is(':checked')){
+		  send_message_function(d);
+	  }
+	});

@@ -240,7 +240,7 @@ $( document ).on('keyup', '.chat_input' ,function(d){
 });
 function send_msg(msg,friendid,from_messsage){
 	if(from_messsage === undefined){from_messsage=false}
-	if(msg==null||msg==""){
+	if(msg.trim()==null||msg.trim() ==""){
 		return false;
 	}
 	random_id="temp_"+Math.floor(Math.random()*1000);

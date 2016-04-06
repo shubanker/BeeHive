@@ -181,11 +181,11 @@ if (isset($_POST['req_type'])){
 				$comment_id=(int)$_POST['comment_id'];
 				if (Post::edit_comment($comment_id, $new_comment, $db,$user_id)==1){
 					$responce['success']=1;
+					$responce['comment']=$new_comment;
+					make_html_entity($responce, array('comment'));
 				}else {
 					$responce['success']=0;
 					$responce['error']='Something Went Wrong.';
-					$responce['comment']=$new_comment;
-					make_html_entity($responce, array('comment'));
 				}
 			}else{
 				$responce['success']=0;
