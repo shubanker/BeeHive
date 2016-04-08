@@ -75,7 +75,7 @@ EOS;
 	
 	}
 	static function get_nav($user_id){
-		$logo=TEMPLATE."logo.png";
+		$logo=TEMPLATE."logo.svg";
 		$search_val=isset($_GET['s'])?urldecode($_GET['s']):"";
 		$search_val=htmlspecialchars($search_val);
 		$op=<<<EOT
