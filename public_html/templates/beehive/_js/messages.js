@@ -124,7 +124,7 @@ function make_msg_html(ob,friendid){
 	"<div class='chat-body clearfix'>"+
 	"<div class='header'><a class='primary-font' href='profile.php?id="+ob.user_one+"'>"+name+"</a> <small class='pull-right text-muted' title='"+ob.full_time+"'><i class='fa fa-clock-o'></i>"+ob.time+"</small>"+
 	"</div>"+
-	"<p>"+ob.message+"</p>";
+	"<p>"+postdata_to_tags(ob.message)+"</p>";
 	if(!isreceived){
 		icon=ob.status> 1 ? "fa-check": (ob.status == -1 ? "fa-clock-o" : "fa-send");
 		$op+="<small class='pull-right chat-alert text-muted'><i class='fa "+icon+"'></i></small>";

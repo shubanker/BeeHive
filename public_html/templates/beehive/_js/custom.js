@@ -227,13 +227,13 @@ $('.msg_container_base').on('scroll',function(){
 	}
 });
 $(document).on('click','.btn-sm',function(){
-	firendid=$('#current_chat_user_id').val();
+	friendid=$('#current_chat_user_id').val();
 	msg=$('.chat_input').val();
 	send_msg(msg,friendid);
 });
 $( document ).on('keyup', '.chat_input' ,function(d){
   if(13==d.keyCode){
-	  firendid=$('#current_chat_user_id').val();
+	  friendid=$('#current_chat_user_id').val();
 	  msg=$('.chat_input').val();
 	  send_msg(msg,friendid);
   }
@@ -306,7 +306,7 @@ function make_chat_msg_html(ob,friendid){
 	}
 	op+="<div class='col-md-10 col-xs-10'>" +
 			"<div class='messages "+(isreceived?"msg_receive":"msg_sent")+"'>";
-	op+="<p>"+ob.message+"</p>" +
+	op+="<p>"+postdata_to_tags(ob.message)+"</p>" +
 			"<time title='"+ob.full_time+"'>";
 	if(!isreceived){
 		op+="<i class='fa  "+(ob.status > 1 ? "fa-check" : (ob.status == -1 ? "fa-clock-o" : "fa-send"))+"'></i> ";
@@ -540,4 +540,21 @@ function scroll_to(selector){
 	$('html,body').animate({
 		scrollTop:$(selector).offset().top
 	},'slow');
+}
+function postdata_to_tags(postdata,options){
+	if(options === undefined){options=["link","mail","newline"];}
+
+	if(options.indexOf("newline") >= 0){
+		postdata = postdata.replace(/\n/g, "<br>");
+	}
+	if(options.indexOf("hashtag") >= 0){
+		postdata = postdata.replace(/(#)([\w]{1,10})/ig, '<a href="index.php?hashtag=$2">$&</a>');
+	}
+	if(options.indexOf("link") >= 0){
+		postdata = postdata.replace(/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[A-Z0-9+&@#\/%=~_|]/ig, '<a href="$&" target="_blank">$&</a>');
+	}
+	if(options.indexOf("mail") >= 0){
+		postdata = postdata.replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\b/ig, '<a href="mailto:$&">$&</a>');//Link
+	}
+	return postdata;
 }
