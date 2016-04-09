@@ -227,13 +227,13 @@ $('.msg_container_base').on('scroll',function(){
 	}
 });
 $(document).on('click','.btn-sm',function(){
-	firendid=$('#current_chat_user_id').val();
+	friendid=$('#current_chat_user_id').val();
 	msg=$('.chat_input').val();
 	send_msg(msg,friendid);
 });
 $( document ).on('keyup', '.chat_input' ,function(d){
   if(13==d.keyCode){
-	  firendid=$('#current_chat_user_id').val();
+	  friendid=$('#current_chat_user_id').val();
 	  msg=$('.chat_input').val();
 	  send_msg(msg,friendid);
   }
