@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 function make_notifications_html(ob){
 	var isPost=ob.post_id != null;
-	$op="<div class='panel panel-white post panel-shadow "+(ob.status==1?"grey-bg":"")+"'>"+
+	$op="<div class='panel panel-white post panel-shadow no-overflow"+(ob.status==1?"grey-bg":"")+"'>"+
 	"    <div class='post-heading'>";
 	if((isPost && null != ob.post_img)|| null != ob.from_user_id){
 		image_src="image.php?s=s&"+(null != ob.from_user_id?"user="+ ob.from_user_id:"id="+ob.post_img);

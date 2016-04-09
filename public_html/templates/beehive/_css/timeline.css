@@ -403,7 +403,9 @@ body {
 }
 
 .panel-white {
-	border: 1px solid #ddd;
+	border: 1px solid #ddd
+}
+.no-overflow{
 	overflow: hidden; /* For notification to stay within box.*/
 }
 .panel-white .panel-footer, .panel-white .panel-heading {
