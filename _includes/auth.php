@@ -99,7 +99,7 @@ class Auth{
 						$user=new User();
 						$user->initialise_by_email($db, trim($_POST['email']));
 						$key=Keys::gen_key($user->get_user_id(), "24 hours", $db);
-						NotificationEmails::send_password_recovery_email($user->get_email(), $user->get_user_id(), $key);
+						NotificationEmails::send_password_recovery_email($user, $key);
 					}
 					$_SESSION['msg']="Email Sent Check Your Inbox";
 					$_SESSION['msg_type']="success";

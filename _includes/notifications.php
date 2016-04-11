@@ -145,15 +145,25 @@ class NotificationEmails{
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
-		mail($email,$subject,$message,$headers);
+		//Setting it so we can display mail in mail demo page.
+		$_SESSION['mail']['to']=$email;
+		$_SESSION['mail']['from']="$from_name <$from_email>";
+		$_SESSION['mail']['subject']=$subject;
+		$_SESSION['mail']['message']=$message;
+		$_SESSION['mail']['time']=date('M d, Y \a\t h:i a',strtotime("+24 hours"));
 	}
-	static function send_password_recovery_email($user_email,$user_id,$key){
+	static function send_password_recovery_email($user,$key){
+		$user_email=$user->get_email();
+		$user_id=$user->get_user_id();
+		$user_name=$user->get("first_name");
+		
 		$host=$_SERVER["SERVER_NAME"];
 		$reset_link="http://$host/password_recover.php?token=$key&user=$user_id";
 		$valid_till=date('M d, Y \a\t h:i a',strtotime("+24 hours"));
 		
 		$message=<<<EOS
-		Hey, we heard you lost your password. Say it ain't so!
+		Hey <b>$user_name</b>,<br>
+		we heard you lost your password. Say it ain't so!
 		Click <a href='$reset_link'>here</a> to make a new one.
 				
 		If you are unable to click above copy and paste below link in your address bar.
