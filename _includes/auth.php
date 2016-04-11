@@ -101,7 +101,7 @@ class Auth{
 						$key=Keys::gen_key($user->get_user_id(), "24 hours", $db);
 						NotificationEmails::send_password_recovery_email($user, $key);
 					}
-					$_SESSION['msg']="Email Sent Check Your Inbox";
+					$_SESSION['msg']="Email Sent Check Your <a href='mail_inbox.php'>Inbox</a>";
 					$_SESSION['msg_type']="success";
 				}else {
 					$_SESSION['msg']="Invalid Email.";
