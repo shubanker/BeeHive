@@ -145,12 +145,7 @@ class NotificationEmails{
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
-		//Setting it so we can display mail in mail demo page.
-		$_SESSION['mail']['to']=$email;
-		$_SESSION['mail']['from']="$from_name <$from_email>";
-		$_SESSION['mail']['subject']=$subject;
-		$_SESSION['mail']['message']=$message;
-		$_SESSION['mail']['time']=date('M d, Y \a\t h:i a',strtotime("+24 hours"));
+		mail($email,$subject,$message,$headers);
 	}
 	static function send_password_recovery_email($user,$key){
 		$user_email=$user->get_email();
