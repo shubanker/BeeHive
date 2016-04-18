@@ -232,7 +232,7 @@ $(document).on('click','.btn-sm',function(){
 	send_msg(msg,friendid);
 });
 $( document ).on('keyup', '.chat_input' ,function(d){
-  if(13==d.keyCode){
+  if(13==d.keyCode && !d.shiftKey){
 	  friendid=$('#current_chat_user_id').val();
 	  msg=$('.chat_input').val();
 	  send_msg(msg,friendid);

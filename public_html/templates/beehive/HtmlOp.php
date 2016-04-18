@@ -307,7 +307,8 @@ EOS;
                     </div>
                     <div class="panel-footer">
                         <div class="input-group">
-                            <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." /> <span class="input-group-btn"><button class="btn btn-primary btn-sm" id="btn-chat">Send</button> </span>
+							<textarea id="btn-input"  class="form-control input-sm chat_input" placeholder="Write your message here..." rows="1" ></textarea>
+							<span class="input-group-btn"><button class="btn btn-primary btn-sm" id="btn-chat">Send</button> </span>
                             <input type="hidden" id='current_chat_user_id' />
                         </div>
                     </div>
