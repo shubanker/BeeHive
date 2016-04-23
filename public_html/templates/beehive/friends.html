@@ -34,7 +34,7 @@ echo HtmlOp::get_include_css(array("templates/beehive/_css/friends.css"));
                                     <a class="pull-left" href="profile.php?id=<?=$con['connected_user'] ?>"><img class="media-object update-card-MDimentions img-thumbnail" src="image.php?user=<?=$con['connected_user'] ?>&s=m" alt="<?=$con['name'] ?>"> </a>
                                     <div class="media-body update-card-body">
                                         <h4 class="media-heading"><a href="profile.php?id=<?=$con['connected_user'];  ?>" class="friend_list_link"><?=$con['name']; echo $con['connected_user']==$user_id?" (You)":"" ?></a></h4>
-                                        <div class="btn-toolbar card-body-social" role="toolbar"><?php if ($con['connected_user']!=$user_id){?>
+                                        <div class="btn-toolbar card-body-social" role="toolbar"><?php if ($con['connected_user']!=$user_id && $tab != "blocked"){?>
                                             <a class="btn btn-default btn-xs fa fa-envelope info tip" title="Send message" href="messages.php?id=<?=$con['connected_user']; ?>"></a><?php } if ($is_self){ ?>
                                             <button type="button" class="btn btn-success btn-xs friend_action" value="<?=$con['connected_user']; ?>"><i class="glyphicon glyphicon-user"></i> <span><?=$action_button_text[$tab] ?></span></button><?php }?>
                                         </div>
