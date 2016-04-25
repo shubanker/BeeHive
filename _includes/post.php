@@ -255,7 +255,8 @@ class Feeds{
 		}elseif (isset($options["hash_tag"]) && !empty($options["hash_tag"])){
 			
 			$hash=Db::escapee($options["hash_tag"],true);
-			$post_search_statement=" `post_data` REGEXP '#$hash([[:>:]]|$)' AND ";
+			$hash=strtolower($hash);
+			$post_search_statement=" lower(`post_data`) REGEXP '#$hash([[:>:]]|$)' AND ";
 			
 			$following_list_condition=" -- For Including post from all over the world..";
 			
