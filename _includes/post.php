@@ -249,7 +249,8 @@ class Feeds{
 		if(isset($options["in_post"]) && !empty($options["in_post"])){
 			
 			$search_key=Db::escapee($options["in_post"],true);
-			$post_search_statement=" `post_data` LIKE '%$search_key%' AND ";
+			$search_key=strtolower($search_key);
+			$post_search_statement=" lower(`post_data`) LIKE '%$search_key%' AND ";
 			
 		}elseif (isset($options["hash_tag"]) && !empty($options["hash_tag"])){
 			
