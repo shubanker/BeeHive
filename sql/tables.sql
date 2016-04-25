@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2016 at 01:58 PM
+-- Generation Time: Apr 25, 2016 at 09:37 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
-  `comment` text NOT NULL,
+  `comment` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`comment_id`),
@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_one` int(11) NOT NULL,
   `user_two` int(11) NOT NULL,
-  `message` text NOT NULL,
+  `message` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`message_id`),
@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 
 CREATE TABLE IF NOT EXISTS `notification_msg` (
   `type` int(11) NOT NULL AUTO_INCREMENT,
-  `msg` text NOT NULL,
+  `msg` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `notification_msg` (
 CREATE TABLE IF NOT EXISTS `post` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `post_data` text,
+  `post_data` text CHARACTER SET utf8 COLLATE utf8_bin,
   `picture_id` int(11) DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) DEFAULT '1',
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `userdata` (
   `data_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `type` varchar(25) NOT NULL,
-  `data` text,
+  `data` text CHARACTER SET utf8 COLLATE utf8_bin,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`data_id`),
   UNIQUE KEY `user_id_2` (`user_id`,`type`,`status`)
@@ -333,8 +333,8 @@ CREATE TABLE IF NOT EXISTS `userdata` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(20) DEFAULT NULL,
+  `first_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `last_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(60) NOT NULL,
   `password` varchar(100) NOT NULL,
   `gender` char(1) NOT NULL,
