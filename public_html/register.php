@@ -44,7 +44,7 @@ if (!empty($_POST)){
 			$_SESSION['user_id']=$user_id;
 			$_SESSION['user_name']=$_POST['name'];
 			unset($_SESSION['show_over']);
-			redirect_to();
+			redirect_to("about.php");
 		}else {
 			$errors=$register->get_error();
 			if (empty($errors)){
