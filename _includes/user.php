@@ -96,12 +96,15 @@ class User extends Struct{
 	function deactivate_user(){
 		$this->set_status(2);
 	}
+	/*
+	 * To make a search in users table
+	 */
 	private function search_user_by($column,$data,$db,$start=0,$limit=10){
 		if (empty($column) || strlen($data)<3){
 			return null;
 		}
 		$data=strtolower($data);
-		$data=$db->escape($data,true);
+		$data=Db::escapee($data,true);
 		$sql=Db::create_sql(array(
 				"user_id",
 				"first_name",
@@ -121,14 +124,14 @@ class User extends Struct{
 		return self::search_user_by("lower(concat(`first_name`,' ',`last_name`))",
 				$name, $db,$start=0,$limit=10);
 	}
-	static function search_by_userdata($type,$data,$db){
+	static function search_by_userdata($type,$data,$db,$start=0,$limit=10){
 		$data=strtolower($data);
-		$data=$db->escape($data,true);
-		$type=$db->escape(strtolower($type),true);
+		$data=Db::escapee($data,true);
+		$type=Db::escapee(strtolower($type),true);
 		$sql=Db::create_sql(array(
+				"users.user_id",
 				"first_name",
-				"last_name",
-				"users.user_id"
+				"last_name"
 		), array(
 				"userdata",
 				"users"
@@ -136,8 +139,36 @@ class User extends Struct{
 				"`users`.`user_id`=`userdata`.`user_id` AND
 				lower(`type`) LIKE '%$type%' AND 
 				lower(`data`) LIKE '%$data%' AND 
-				`userdata`.`status`=1 "
+				`userdata`.`status`=1 ",
+				null,null,
+				"$start,$limit"
 		);
+		return empty($db)?$sql:Db::fetch_array($db, $sql);
+	}
+	static function search_by_whilecard($data,$db,$start=0,$limit=10){
+		global $user_search_list,$user_data_search_list;
+		$data=strtolower($data);
+		$data=Db::escapee($data,true);
+		
+		$where="`users`.`user_id`=`userdata`.`user_id` AND ";
+		$where.="`type` IN('".implode("','", $user_data_search_list)."') AND ";
+		$where.="lower(`data`) LIKE '%$data%' AND ";
+		$where.="`userdata`.`status`=1 ";
+		
+		$sql=Db::create_sql(array(
+				"users.user_id",
+				"first_name",
+				"last_name"
+		),array(
+				"userdata",
+				"users"
+		),
+				$where,
+				null,null,
+				"$start,$limit"
+		);
+		$sql.=" UNION
+				 ".self::search_users_by_name($data, null,$start,$limit);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 	static function search($text,$db,$start=0,$limit=15){
@@ -157,7 +188,9 @@ class User extends Struct{
 				}
 			}elseif (in_array(ucwords(strtolower(trim($key_word))), $user_data_search_list)){//We need to look on userdata table.
 				return self::search_by_userdata(ucwords(strtolower(trim($key_word))), trim($data), $db);
-			}else {
+			}elseif(in_array(strtolower(trim($key_word)), array("*","all"))){
+				return self::search_by_whilecard(trim($data), $db);
+			}else{
 				return self::search_users_by_name(trim($data), $db);//Lets search by name only instead.
 			}
 		}else {//Search By Name
