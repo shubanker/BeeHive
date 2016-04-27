@@ -150,6 +150,9 @@ class User extends Struct{
 		$data=strtolower($data);
 		$data=Db::escapee($data,true);
 		
+		/*
+		 * condition to search through all available user_data_search_list
+		 */
 		$where="`users`.`user_id`=`userdata`.`user_id` AND ";
 		$where.="`type` IN('".implode("','", $user_data_search_list)."') AND ";
 		$where.="lower(`data`) LIKE '%$data%' AND ";
@@ -167,31 +170,40 @@ class User extends Struct{
 				null,null,
 				"$start,$limit"
 		);
+		/*
+		 * Merging with search in users table using union
+		 */
 		$sql.=" UNION
 				 ".self::search_users_by_name($data, null,$start,$limit);
 		return empty($db)?$sql:Db::fetch_array($db, $sql);
 	}
 	static function search($text,$db,$start=0,$limit=15){
 		global $user_search_list,$user_data_search_list;
+		
 		if (0<$pos=strpos($text, ":")){//Advance search
 			
 			$key_word= substr($text, 0,$pos);//getting key
 			$data=substr($text, $pos+1); //Getting search text
-			if (strlen(trim($data))<3){
+			
+			if (strlen(trim($data))<3){//atleast 3 chars is required to search.
 				return null;
 			}
 			if (in_array($key_word, $user_search_list)){//If we need to lookup in user table only
+				
 				if ($key_word=="email" && validate::email($data)){
 					return self::search_user_by("email", trim($data), $db);
 				}else {
 					return self::search_users_by_name(trim($data), $db);
 				}
+				
 			}elseif (in_array(ucwords(strtolower(trim($key_word))), $user_data_search_list)){//We need to look on userdata table.
 				return self::search_by_userdata(ucwords(strtolower(trim($key_word))), trim($data), $db);
-			}elseif(in_array(strtolower(trim($key_word)), array("*","all"))){
+				
+			}elseif(in_array(strtolower(trim($key_word)), array("*","all"))){//if its a whildcard search
 				return self::search_by_whilecard(trim($data), $db);
+				
 			}else{
-				return self::search_users_by_name(trim($data), $db);//Lets search by name only instead.
+				return self::search_users_by_name(trim($data), $db);//Lets search by name only by default.
 			}
 		}else {//Search By Name
 			return self::search_users_by_name($text, $db);
