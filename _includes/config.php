@@ -31,7 +31,12 @@ $About_data_list=array(
 		"Education"=>array(
 			"School",
 			"High School",
-			"College"
+			"College",
+			"Highest Qualification"
+		),
+		"Employment"=>array(
+			"Role",
+			"Company"
 		),
 		"Contact Details"=>array(
 				"Mobile",
