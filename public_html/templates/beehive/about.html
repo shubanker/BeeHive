@@ -20,6 +20,18 @@ echo HtmlOp::get_include_css();
 	                			<?php foreach ($About_data_list as $key=>$alist){
 	                				if (empty($alist)){continue;}
 	                			?>
+	                			<?php if (!$is_self){//Hiding headings with empty data by others view.
+	                				$isempty=true;
+	                				foreach ($alist as $list){
+	                					if (!empty($abouts[$list])){
+	                						$isempty=false;
+	                						break;
+	                					}
+	                				}
+	                				if ($isempty){
+	                					continue;
+	                				}
+	                			}?>
 	                				<h4><?=$key ?></h4>
 		                			<div class="row">
 		                				
