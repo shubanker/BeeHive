@@ -323,6 +323,7 @@ function make_chat_msg_html(ob,friendid){
 }
 /*========== Notification count ========*/
 notification_count_timer=0;
+default_title=$('title').html();
 function get_notification_count(refresh_notification){
 	if(refresh_notification === undefined){refresh_notification=true}
 	$.post('ajax-req.php',{req_type:'notification_count',access_key:access_key}).done(function(d){
@@ -330,6 +331,11 @@ function get_notification_count(refresh_notification){
 		$('.notification_count').remove();
 		$('#notifications').append(get_notification_count_html(ob.notification_count));
 		$('#messages').append(get_notification_count_html(ob.message_count));
+		
+		total_notification=Number(ob.notification_count)+Number(ob.message_count);
+		title=(total_notification>0?"("+total_notification+") ":"")+default_title;
+		$('title').html(title);
+		
 		if(Number(ob.notification_count)>0 && refresh_notification){
 			try{//This should work only in notifications page.
 //				load_notifications(0,null);
