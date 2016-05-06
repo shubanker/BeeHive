@@ -99,7 +99,7 @@ EOS;
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="profile.php"><img src="image.php?user=$user_id&s=m" class="img-nav"></a>
                     </li>
-                    <li class="active"><a href="index.php"><i class="fa fa-bars"></i>&nbsp;Home</a>
+                    <li><a href="index.php"><i class="fa fa-bars"></i>&nbsp;Home</a>
                     </li>
                     <li><a href="messages.php" id="messages"><i class="fa fa-envelope"></i></a>
                     </li>
