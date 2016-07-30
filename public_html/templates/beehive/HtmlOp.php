@@ -206,7 +206,7 @@ EOT;
 			$default=array(
 					"https://code.jquery.com/jquery-2.1.1.min.js",
 					"http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js",
-					"http://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"
+					"https://cdn.jsdelivr.net/bootbox/4.4.0/bootbox.min.js"
 			);
 		}
 		$default[]=TEMPLATE."_js/custom.js";
