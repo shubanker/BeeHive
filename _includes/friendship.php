@@ -98,8 +98,11 @@ class Friendship{
 	}
 	static function get_friend_count($user_id,$db){
 		$sql=Db::create_sql("count(*)count", self::$table,"(`user_one`='$user_id' OR `user_two`='$user_id') AND status=2");
-		
-		return empty($db)?$sql:Db::qnfetch($sql, $db)['count'];
+		if (empty($db)) {
+			return $sql;
+		}
+		$result =Db::qnfetch($sql, $db);
+		return $result['count'];
 	}
 	static function get_mutuals($user_one,$user_two,$db,$start=NULL,$limit=NULL){
 		$friend_code=2;//status code of friendship
@@ -145,7 +148,8 @@ class Friendship{
 				"((`user_one`='$user_two' AND `user_two`='$user_one') OR 
 				(`user_one`='$user_one' AND `user_two`='$user_two')) AND status>0"
 				);
-		if (Db::qnfetch($sql, $db)['count']>0){
+		$temresult=Db::qnfetch($sql, $db);
+		if ($temresult['count']>0){
 			return false;//Friendship can not be sent because either both are already friends or user is blocked.
 		}
 		$sql=Db::create_sql_insert(self::$table, array(

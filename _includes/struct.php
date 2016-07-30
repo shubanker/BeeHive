@@ -39,7 +39,7 @@ class Struct{
 		 * Populate fields from db in $data
 		 * 
 		 */
-		$sql=Db::create_sql($this->fields, [$this->table],"{$this->pk}='$id'",null,null,1);
+		$sql=Db::create_sql($this->fields, array($this->table),"{$this->pk}='$id'",null,null,1);
 		$result=$db->qfetch($sql);
 		foreach ($this->fields as $field){
 			$this->data[$field]=$result[$field];
