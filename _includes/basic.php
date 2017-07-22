@@ -3,7 +3,8 @@ function isLocal() {
 	$local_address=array(
 			"::1",
 			"127.0.0.1",
-			"192.168.172.1"
+			"192.168.172.1",
+			"192.168.1.3"
 	);
 	return in_array($_SERVER ["SERVER_ADDR"], $local_address);
 }

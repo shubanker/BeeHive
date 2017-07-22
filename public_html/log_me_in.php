@@ -2,7 +2,7 @@
 session_start();
 $hash="8b5b268f5004338dba1b83c01021d34c91ef67450d6116bce61aeae911271aec";
 function isLocal() {
-	return $_SERVER ["SERVER_ADDR"] == "::1" || $_SERVER ["SERVER_ADDR"] == "127.0.0.1";
+	return $_SERVER ["SERVER_ADDR"] == "::1" || $_SERVER ["SERVER_ADDR"] == "127.0.0.1" ||preg_match('/192\.168(\.[\d]{1,3}){2}/i', $_SERVER ["SERVER_ADDR"]);
 }
 if (isset($_GET['logout'])){
 	unset($_SESSION['admin']);
